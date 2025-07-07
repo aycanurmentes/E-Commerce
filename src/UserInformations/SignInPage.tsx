@@ -1,91 +1,59 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigations/NavigationTypes';
-import { Input, FormButton, SocialButtons } from './Forms/AuthInput';
-import { Icon } from '@rneui/themed';
+import { View, Text } from 'react-native';
+import { InputForms } from '../components/InputForms';
+import { SocialButtons } from '../components/SocialButtons';
+import ReusableButton from '../components/ReusableButton';
+import styles from '../UserInformations/AuthSyles';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function SignUpPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-
   const socialIcons = [
     { name: 'google', source: require('../images/google.png') },
     { name: 'apple', source: require('../images/apple.png') },
     { name: 'facebook', source: require('../images/facebook.png') },
   ];
-
   return (
-    <View style={styles.container}>
-      <Text style={styles.header}>Welcome Back!</Text>
-
-      
-      
-      <Input placeholder="Username or Email" value={email} onChangeText={setEmail} leftIcon={{ type: 'font-awesome', name: 'user', color: '#aaa' }} style={{ marginTop: 30 }}/>
-      <Input placeholder="Password" value={password} onChangeText={setPassword} style={{ marginTop: 30 }} />
-
-      <Text style={styles.forget} > Forgot Password?</Text>
-
-      <FormButton title="Login" onPress={() => navigation.navigate('SignUpPage')} />
-
-      <Text style={styles.or}>- OR Continue with -</Text>
-      <SocialButtons icons={socialIcons} />
-
-      <Text style={styles.footer}>
-        Create An Account <Text style={styles.link}>Sign Up</Text>
-      </Text>
-    </View>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.base1}>
+        <View style={{
+          gap: 36
+        }}>
+          <View>
+            <Text style={styles.header}>Welcome</Text>
+            <Text style={styles.header}>Back!</Text>
+          </View>
+          <InputForms
+            placeholder="Username or Email"
+            value={email}
+            onChangeText={setEmail} />
+          <InputForms
+            placeholder="Password"
+            value={password}
+            onChangeText={setPassword}
+            bottomRightButtonText='Forgot Password?'
+          />
+        </View>
+        <ReusableButton
+          title="Login"
+          buttonStyle={styles.button}
+          onPress={() => navigation.navigate('SignUpPage')} />
+      </View>
+      <View style={styles.base2}>
+        <View style={styles.social}>
+          <Text style={styles.or}>- OR Continue with -</Text>
+          <SocialButtons icons={socialIcons} />
+          <Text style={styles.footer}>
+            Create An Account <Text style={styles.link}>Sign Up</Text>
+          </Text>
+        </View>
+      </View>
+    </SafeAreaView>
   );
 }
 
-const styles = StyleSheet.create({
-  container: { 
-    flex: 1,
-    paddingTop: 60,
-    backgroundColor:'#ffff'
-},
-  header: { 
-    fontSize: 34,
-    fontWeight: '700', 
-    marginLeft: 32, 
-    fontFamily: 'Montserrat', 
-    width:185,
-    height:83,
-    flexWrap:'wrap',
-    flexShrink:0,
-},
-  notice: { 
-    textAlign: 'center', 
-    marginTop: 40, 
-    marginHorizontal: 20, 
-    color: '#575757'
- },
- icon: {
-    marginRight: 10,
-  },
-  
-  or: { 
-    textAlign: 'center', 
-    marginTop:85,
-    color: '#575757' 
-},
-  footer: { 
-    textAlign: 'center', 
-    marginTop: 25, 
-    color: '#575757' 
-},
-  link: { 
-    color: '#F83758', 
-    textDecorationLine: 'underline'
- },
-   forget:{
-    color:'#F83758',
-    top:79,
-    marginRight:49,
-    textAlign:'right',
-    fontFamily: 'Montserrat',
-    fontSize:12,
-  },
-});

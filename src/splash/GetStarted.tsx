@@ -3,12 +3,10 @@ import { View, Text, StyleSheet, ImageBackground } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigations/NavigationTypes.ts';
-import { Button } from '@rneui/base';
+import ReusableButton from '../components/ReusableButton';
 export default function GetStarted() {
 
     const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'SecondSplash'>>();
-    
-
   return (
     <View style={styles.container}>
     <ImageBackground 
@@ -21,21 +19,17 @@ export default function GetStarted() {
                 <Text style={styles.cap}>Authentic, here </Text>
                 <Text style={styles.cap}>you go!</Text>
                 <Text style={styles.txt}> Find it here,buy it now!</Text>
-
-
             </View>
-            <Button
-            title="Get Started"
-            type="clear"
-            onPress={() => navigation.navigate('HomePage')}
-            titleStyle={styles.nextBtnText}/>
+       <ReusableButton
+        title="Get Started"
+        titleStyle={styles.title}
+        buttonStyle={styles.button}
+        onPress={() => navigation.navigate('HomePage')}/>
         </View>
-
     </ImageBackground>
     </View>
   );
 }
-
 const styles = StyleSheet.create({
   container: { 
     flex: 1,
@@ -54,32 +48,28 @@ const styles = StyleSheet.create({
   },
   cap: {
     fontSize: 34,
-    fontWeight: '600',
-    color: 'white',
+    fontWeight: 600,
+    color: '#fff',
     fontFamily: 'Montserrat',
-    lineHeight: 40,
     textAlign:'center',
   },
   txt: {
     fontSize: 14,
     color: '#F2F2F2',
     textAlign:'center',
-    fontWeight: '400',
+    fontWeight: 400,
     marginTop: 12,
     fontFamily: 'Montserrat',
-
   },
-  nextBtnText: {
-    width:279,
-    height:55,
-    fontSize: 23,
-    color: '#fff',
-    fontWeight: 'bold',
-    backgroundColor: '#F83758',
-    paddingVertical: 12,
-    paddingHorizontal: 32,
+  title:{
+    fontSize:23,
+    fontWeight:600,
+    fontFamily: 'Montserrat',
+  },
+   button: {
+    padding: 21,
+    justifyContent: 'center',
+    alignItems: 'center',
     borderRadius: 4,
-    overflow: 'hidden',
-    textAlign: 'center',
   },
 });

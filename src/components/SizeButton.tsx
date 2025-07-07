@@ -1,10 +1,10 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
-export default function Wishlistpage() {
+export default function SizeButton() {
   return (
     <View>
-      <Text>Wishlistpage</Text>
+      <Text>SizeButton</Text>
     </View>
   )
 }
