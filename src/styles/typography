@@ -1,0 +1,35 @@
+
+import { StyleSheet } from 'react-native'; 
+
+const styles = StyleSheet.create({
+  bottomBar: {
+   fontFamily: 'Roboto',
+   fontWeight: 500,
+   fontSize: 12,
+  },
+  icons: {
+    width:23.08,
+    height:24,
+  },
+  logo: {
+    width:111.78,
+    height:31.03,
+    gap:9,
+  },
+  productInfoTitle: {
+    fontFamily:'Montserrat',
+   fontWeight:500,
+    fontSize:16,
+  }, 
+  productInfoText: {
+    fontFamily:'Montserrat',
+    fontWeight:400,
+    fontSize:10,
+  }, 
+  productPrice: {
+    fontFamily:'Montserrat',
+    fontWeight:500,
+    fontSize:12,
+  },
+
+});
