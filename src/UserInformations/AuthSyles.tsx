@@ -1,7 +1,6 @@
 import { StyleSheet } from 'react-native';
-
 const AuthStyles = StyleSheet.create({
-  container: { 
+  container: {
     flex: 1,
     backgroundColor: '#fff',
   },
@@ -15,7 +14,7 @@ const AuthStyles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop:90   
+    paddingTop: 90
   },
   header: {
     fontSize: 36,
@@ -30,10 +29,9 @@ const AuthStyles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 4,
-    backgroundColor:'#F83758',
-    color:'#fff',
-    fontSize:17,
-    
+    backgroundColor: '#F83758',
+    color: '#fff',
+    fontSize: 17,
   },
   social: {
     flexDirection: 'column',
@@ -54,5 +52,8 @@ const AuthStyles = StyleSheet.create({
     color: '#F83758',
     textDecorationLine: 'underline',
   },
+  textToInput: {
+    gap: 36
+  }
 });
 export default AuthStyles;

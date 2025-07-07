@@ -1,37 +1,37 @@
-import React from 'react';
-import { View, Text, StyleSheet, ImageBackground } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../navigations/NavigationTypes.ts';
+import React from 'react';
+import { ImageBackground, StyleSheet, Text, View } from 'react-native';
 import ReusableButton from '../components/ReusableButton';
+import { RootStackParamList } from '../navigations/NavigationTypes.ts';
 export default function GetStarted() {
 
-    const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'SecondSplash'>>();
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'SecondSplash'>>();
   return (
     <View style={styles.container}>
-    <ImageBackground 
-    source={require('../images/getStarted.png')}
-    style={styles.background}
-    resizeMode='cover'>
+      <ImageBackground
+        source={require('../images/getStarted.png')}
+        style={styles.background}
+        resizeMode='cover'>
         <View style={styles.overlay}>
-            <View style={styles.content}>
-                <Text style={styles.cap}>You want </Text>
-                <Text style={styles.cap}>Authentic, here </Text>
-                <Text style={styles.cap}>you go!</Text>
-                <Text style={styles.txt}> Find it here,buy it now!</Text>
-            </View>
-       <ReusableButton
-        title="Get Started"
-        titleStyle={styles.title}
-        buttonStyle={styles.button}
-        onPress={() => navigation.navigate('HomePage')}/>
+          <View style={styles.content}>
+            <Text style={styles.cap}>You want </Text>
+            <Text style={styles.cap}>Authentic, here </Text>
+            <Text style={styles.cap}>you go!</Text>
+            <Text style={styles.txt}> Find it here,buy it now!</Text>
+          </View>
+          <ReusableButton
+            title="Get Started"
+            titleStyle={styles.title}
+            buttonStyle={styles.button}
+            onPress={() => navigation.navigate('HomePage')} />
         </View>
-    </ImageBackground>
+      </ImageBackground>
     </View>
   );
 }
 const styles = StyleSheet.create({
-  container: { 
+  container: {
     flex: 1,
   },
   background: {
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   overlay: {
-    backgroundColor: 'rgba(0,0,0,0.3)', 
+    backgroundColor: 'rgba(0,0,0,0.3)',
     paddingHorizontal: 24,
     paddingBottom: 60,
   },
@@ -51,22 +51,22 @@ const styles = StyleSheet.create({
     fontWeight: 600,
     color: '#fff',
     fontFamily: 'Montserrat',
-    textAlign:'center',
+    textAlign: 'center',
   },
   txt: {
     fontSize: 14,
     color: '#F2F2F2',
-    textAlign:'center',
+    textAlign: 'center',
     fontWeight: 400,
     marginTop: 12,
     fontFamily: 'Montserrat',
   },
-  title:{
-    fontSize:23,
-    fontWeight:600,
+  title: {
+    fontSize: 23,
+    fontWeight: 600,
     fontFamily: 'Montserrat',
   },
-   button: {
+  button: {
     padding: 21,
     justifyContent: 'center',
     alignItems: 'center',

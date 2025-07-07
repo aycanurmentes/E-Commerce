@@ -1,19 +1,18 @@
-import React from 'react';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../navigations/NavigationTypes.ts';
-import { View, Text } from 'react-native';
-import { Image } from '@rneui/base';
+import React from 'react';
+import { Image, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import PaginationDots from '../components/PaginationDots.tsx';
 import ReusableButton from '../components/ReusableButton';
-import {StepIndicator} from '../components/StepIndicator.tsx';
+import { StepIndicator } from '../components/StepIndicator.tsx';
+import { RootStackParamList } from '../navigations/NavigationTypes.ts';
 import styles from '../splash/SplashStyles.tsx';
 
 export default function FirstSplash() {
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList,'FirstSplash'>>();
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'FirstSplash'>>();
   return (
-  <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.topRow}>
         <StepIndicator step={1} />
         <ReusableButton
@@ -21,7 +20,7 @@ export default function FirstSplash() {
           backgroundColor="clear"
           textColor="#000"
           fontSize={17}
-          onPress={() => navigation.navigate('HomePage')}/>
+          onPress={() => navigation.navigate('HomePage')} />
       </View>
       <View style={styles.imageContainer}>
         <Image
@@ -36,21 +35,21 @@ export default function FirstSplash() {
         </Text>
       </View>
       <View style={styles.bottomContainer}>
-         <View style={styles.bottomRow}>
+        <View style={styles.bottomRow}>
           <ReusableButton
-          backgroundColor='clear'
-          title=''
-           onPress={() => navigation.navigate('FirstSplash')} />
-    <View style={styles.pagination}>
-     <PaginationDots activeIndex={0} />
-    </View>   
-       <ReusableButton
-        title="Next"
-        backgroundColor='clear'
-        textColor="#F83758"
-        fontSize={17}
-        onPress={() => navigation.navigate('SecondSplash')}/>
-      </View>
+            backgroundColor='clear'
+            title=''
+            onPress={() => navigation.navigate('FirstSplash')} />
+          <View style={styles.pagination}>
+            <PaginationDots activeIndex={0} />
+          </View>
+          <ReusableButton
+            title="Next"
+            backgroundColor='clear'
+            textColor="#F83758"
+            fontSize={17}
+            onPress={() => navigation.navigate('SecondSplash')} />
+        </View>
       </View>
     </SafeAreaView>
   );

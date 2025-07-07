@@ -1,7 +1,4 @@
-// src/styles/splashStyles.ts
-
 import { StyleSheet } from 'react-native';
-
 const SplashStyles = StyleSheet.create({
     container: {
     flex: 1,
@@ -24,7 +21,6 @@ const SplashStyles = StyleSheet.create({
     width: 220,
     height: 220,
     resizeMode: 'contain',
-   
   },
   textContainer: {
     flex: 2,
@@ -67,5 +63,4 @@ const SplashStyles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
-
 export default SplashStyles;

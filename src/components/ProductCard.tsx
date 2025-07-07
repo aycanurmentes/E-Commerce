@@ -19,7 +19,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 }) => {
   return (
     <View style={[styles.card, style]}>
-      <Image source={image} style={styles.image} resizeMode="cover" />
+      <Image source={image} style={styles.image} />
       <View style={styles.infoContainer}>
         <Text numberOfLines={1} style={styles.title}>{title}</Text>
         <Text numberOfLines={2} style={styles.description}>{description}</Text>
@@ -45,6 +45,7 @@ const styles = StyleSheet.create({
   image: {
     width: '100%',
     aspectRatio: 1.2,
+    resizeMode:'cover'
   },
   infoContainer: {
     padding: 10,

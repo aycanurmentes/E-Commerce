@@ -5,6 +5,7 @@ type StepIndicatorProps = {
   step: number;
   total?: number; 
 };
+
 export const StepIndicator = ({ step, total = 3 }: StepIndicatorProps) => (
   <Text style={styles.stepIndicator}>{`${step}/${total}`}</Text>
 );

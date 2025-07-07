@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 
 interface InputFormsProps extends TextInputProps {
-  style?: StyleProp<ViewStyle>;  // RN style array desteklediği için StyleProp kullanılır
+  style?: StyleProp<ViewStyle>;
   bottomRightButtonText?: string;
   onBottomRightPress?: () => void;
 }
@@ -22,11 +22,11 @@ export const InputForms: React.FC<InputFormsProps> = ({
   ...textInputProps
 }) => {
   return (
-    <View style={[{ position: 'relative' }, style]}>
+    <View style={[styles.position, style]}>
       <TextInput
         style={[styles.input]}
         placeholderTextColor="#aaa"
-        {...textInputProps}/>
+        {...textInputProps} />
       {bottomRightButtonText && (
         <TouchableOpacity
           style={styles.bottomRightButton}
@@ -58,5 +58,8 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontFamily: 'Montserrat',
     fontWeight: 400,
+  },
+  position: {
+    position: 'relative'
   },
 });

@@ -1,4 +1,3 @@
-
 export type RootStackParamList = {
   FirstSplash: undefined;
   SecondSplash: undefined;
@@ -6,6 +5,4 @@ export type RootStackParamList = {
   HomePage: undefined;
   SignInPage: undefined;
   SignUpPage: undefined;
-  
-
 };

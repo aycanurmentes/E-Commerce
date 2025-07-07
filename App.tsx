@@ -10,9 +10,10 @@ import SignUpPage from './src/UserInformations/SignUpPage';
 import ForgotPassword from './src/UserInformations/ForgotPassword';
 import GetStarted from './src/splash/GetStarted';
 import TabNavigator from './src/navigations/TabNavigation';
+import BasketPage from './src/screens/BasketPage';
+import WishlistPage from './src/screens/WishlistPage';
 
 const Stack = createNativeStackNavigator();
-
 export default function App() {
   return (
     <NavigationContainer >
@@ -25,6 +26,8 @@ export default function App() {
         <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
         <Stack.Screen name='GetStarted' component={GetStarted}/>
         <Stack.Screen name="HomePage" component={HomePage} />
+        <Stack.Screen name="BasketPage" component={BasketPage} />
+        <Stack.Screen name="WishlistPage" component={WishlistPage} />
         <Stack.Screen name="Main" component={TabNavigator} />
       </Stack.Navigator>
     </NavigationContainer>

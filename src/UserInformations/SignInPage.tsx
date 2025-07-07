@@ -1,13 +1,12 @@
-import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../navigations/NavigationTypes';
-import { View, Text } from 'react-native';
+import React, { useState } from 'react';
+import { SafeAreaView, Text, View } from 'react-native';
 import { InputForms } from '../components/InputForms';
-import { SocialButtons } from '../components/SocialButtons';
 import ReusableButton from '../components/ReusableButton';
+import { SocialButtons } from '../components/SocialButtons';
+import { RootStackParamList } from '../navigations/NavigationTypes';
 import styles from '../UserInformations/AuthSyles';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function SignUpPage() {
   const [email, setEmail] = useState<string>('');
@@ -21,9 +20,7 @@ export default function SignUpPage() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.base1}>
-        <View style={{
-          gap: 36
-        }}>
+        <View style={styles.textToInput}>
           <View>
             <Text style={styles.header}>Welcome</Text>
             <Text style={styles.header}>Back!</Text>
@@ -36,8 +33,7 @@ export default function SignUpPage() {
             placeholder="Password"
             value={password}
             onChangeText={setPassword}
-            bottomRightButtonText='Forgot Password?'
-          />
+            bottomRightButtonText='Forgot Password?' />
         </View>
         <ReusableButton
           title="Login"
