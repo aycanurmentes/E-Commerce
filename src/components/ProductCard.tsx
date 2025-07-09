@@ -1,21 +1,29 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, ViewStyle } from 'react-native';
-import StarRating from './StarRating'; 
+import StarRating from './StarRating';
+
 interface ProductCardProps {
   image: any;
   title: string;
   description: string;
   price: string;
+  discount?: string;
+  ratio?: string;
   rating: number;
+  voteCount?: number;
   style?: ViewStyle;
 }
+
 const ProductCard: React.FC<ProductCardProps> = ({
   image,
   title,
   description,
   price,
+  discount,
+  ratio,
   rating,
-  style
+  voteCount,
+  style,
 }) => {
   return (
     <View style={[styles.card, style]}>
@@ -23,35 +31,45 @@ const ProductCard: React.FC<ProductCardProps> = ({
       <View style={styles.infoContainer}>
         <Text numberOfLines={1} style={styles.title}>{title}</Text>
         <Text numberOfLines={2} style={styles.description}>{description}</Text>
-        <Text style={styles.price}>{price}</Text>
-        <StarRating rating={rating} />
+        <View style={styles.priceRow}>
+          <Text style={styles.price}>{price}</Text>
+          {discount && <Text style={styles.discount}>{discount}
+            <Text style={styles.ratio}>
+              {ratio}
+            </Text>
+          </Text>}
+        </View>
+        <View style={styles.ratingRow}>
+          <StarRating rating={rating} />
+          <Text style={styles.voteCount}>{voteCount}</Text>
+        </View>
       </View>
     </View>
   );
 };
+
 export default ProductCard;
+
 const styles = StyleSheet.create({
   card: {
     backgroundColor: '#fff',
     borderRadius: 12,
     overflow: 'hidden',
     flex: 1,
-    elevation: 3,
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 6,
+    width: 170,
+    height: 241
   },
   image: {
     width: '100%',
-    aspectRatio: 1.2,
-    resizeMode:'cover'
+    resizeMode: 'cover',
+    borderRadius: 4,
   },
   infoContainer: {
+    flex: 1,
     padding: 10,
   },
   title: {
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: '500',
     fontFamily: 'Montserrat',
     color: '#000',
@@ -62,12 +80,45 @@ const styles = StyleSheet.create({
     fontFamily: 'Montserrat',
     fontWeight: '400',
     marginVertical: 4,
+    lineHeight: 16
+  },
+  priceRow: {
+    flexDirection: 'column',
+    alignSelf: 'flex-start',
+    gap: 2,
+    alignItems: 'center',
+    flex: 1,
   },
   price: {
     fontSize: 12,
     color: '#000',
-    fontWeight: '500',
+    fontWeight: '600',
     fontFamily: 'Montserrat',
-    marginBottom: 4,
+    alignSelf: 'flex-start',
   },
+  discount: {
+    fontSize: 12,
+    color: '#888',
+    textDecorationLine: 'line-through',
+    fontFamily: 'Montserrat',
+  },
+  ratingRow: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    justifyContent: 'flex-start',
+  },
+  voteCount: {
+    fontSize: 10,
+    color: '#777',
+    fontWeight: '400',
+    marginLeft: 2,
+    fontFamily: 'Montserrat',
+  },
+  ratio: {
+    color: '#FE735C',
+    textDecorationLine: 'none',
+    fontSize: 10,
+    fontWeight: '400',
+  }
 });

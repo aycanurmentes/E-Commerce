@@ -16,6 +16,7 @@ interface SlideData {
   image: any;
   title: string;
   subtitle: string;
+  subtitle2: string;
   buttonText: string;
   onPress: () => void;
 }
@@ -49,6 +50,7 @@ const ImageSlider: React.FC<SliderProps> = ({ slides }) => {
             <View style={styles.overlay}>
               <Text style={styles.title}>{slide.title}</Text>
               <Text style={styles.subtitle}>{slide.subtitle}</Text>
+              <Text style={styles.subtitle2}>{slide.subtitle2}</Text>
               <TouchableOpacity style={styles.button} onPress={slide.onPress}>
                 <Text style={styles.buttonText}>{slide.buttonText}</Text>
               </TouchableOpacity>
@@ -60,7 +62,7 @@ const ImageSlider: React.FC<SliderProps> = ({ slides }) => {
         {slides.map((_, i) => (
           <View
             key={i}
-            style={[styles.dot, activeIndex === i && styles.activeDot]}/>
+            style={[styles.dot, activeIndex === i && styles.activeDot]} />
         ))}
       </View>
     </View>
@@ -71,6 +73,7 @@ const styles = StyleSheet.create({
   wrapper: {
     marginTop: 20,
     alignItems: 'center',
+    marginBottom: 15,
   },
   scrollView: {
     flexGrow: 0,
@@ -99,9 +102,16 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: 12,
-    fontWeight:'400',
+    fontWeight: '400',
     color: '#fff',
     marginBottom: 10,
+    fontFamily: 'Montserrat',
+  },
+  subtitle2: {
+    fontSize: 12,
+    fontWeight: '400',
+    color: '#fff',
+    marginBottom: 13,
     fontFamily: 'Montserrat',
   },
   button: {
@@ -109,17 +119,19 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 5,
     borderRadius: 6,
+    borderWidth: 1,
+    borderColor: '#fff',
     alignSelf: 'flex-start',
   },
   buttonText: {
     color: '#fff',
-    fontSize:12,
+    fontSize: 12,
     fontWeight: '600',
     fontFamily: 'Montserrat',
   },
   dots: {
     flexDirection: 'row',
-    marginTop: 10,
+    marginTop: 18,
   },
   dot: {
     width: 9,

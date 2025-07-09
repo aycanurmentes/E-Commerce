@@ -5,9 +5,16 @@ import ImageSlider from '../components/ImageSlider.tsx';
 import ScrollingCategories from '../components/ScrollingCategories';
 import SearchBar from '../components/SearchBar';
 import TopBar from '../components/TopBar';
+import DealsTrendsContainer from '../components/DealsTrendsContainer.tsx';
+import ScrollingProductsWithoutRating from '../components/ScrollingProductsWithoutRating.tsx';
+import SpecialOfferComponent from '../components/SpecialOfferComponent.tsx';
+import FlatAndHeels from '../components/FlatAndHeels.tsx';
+import NewArrivalsContainer from '../components/NewArrivalsContainer.tsx';
+import SponsoredContainer from '../components/SponsoredContainer.tsx';
+import ScrollingProductsWithRating from '../components/ScrollingProductsWithRating.tsx';
 
 const HomePage = () => {
-  function alert(arg0: string): void {
+  function alert(_arg0: string): void {
     throw new Error('Function not implemented.');
   }
   return (
@@ -39,6 +46,7 @@ const HomePage = () => {
               image: require('../images/sliderHome.png'),
               title: '50-40% OFF',
               subtitle: 'Now in (product)',
+              subtitle2: 'All colours',
               buttonText: 'Shop Now ->',
               onPress: () => alert(''),
             }
@@ -46,17 +54,38 @@ const HomePage = () => {
               image: require('../images/sliderHome.png'),
               title: '50-40% OFF',
               subtitle: 'Now in (product)',
+              subtitle2: 'All colours',
               buttonText: 'Shop Now ->',
               onPress: () => alert(''),
             }, {
               image: require('../images/sliderHome.png'),
               title: '50-40% OFF',
               subtitle: 'Now in (product)',
+              subtitle2: 'All colours',
               buttonText: 'Shop Now ->',
               onPress: () => alert(''),
             }
-          ]}
-        />
+          ]} />
+        <DealsTrendsContainer
+          title="Deal of the Day"
+          subtitle="22h 55m 20s remaining "
+          buttonText="View All -->"
+          onPress={() => console.log('View All ->')}
+          backgroundColor="#4392F9"
+          textColor="#fff" />
+        <ScrollingProductsWithRating />
+        <SpecialOfferComponent />
+        <FlatAndHeels />
+        <DealsTrendsContainer
+          title="Trending Products "
+          subtitle="Last Date 29/02/22"
+          buttonText="View All -->"
+          onPress={() => console.log('View All ->')}
+          backgroundColor="#FD6E87"
+          textColor="#fff" />
+        <ScrollingProductsWithoutRating />
+        <NewArrivalsContainer />
+        <SponsoredContainer />
       </ScrollView>
     </SafeAreaView>
   );
@@ -66,6 +95,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F9F9F9',
+    margin: 8,
   },
   center: {
     flexDirection: 'row',

@@ -13,7 +13,7 @@ const PaginationDots = ({ activeIndex, total = 3 }: PaginationDotsProps) => {
 };
 export default PaginationDots;
 const styles = StyleSheet.create({
-    dot: {
+  dot: {
     width: 8,
     height: 8,
     borderRadius: 4,
@@ -22,10 +22,10 @@ const styles = StyleSheet.create({
   },
   activeDot: {
     backgroundColor: '#000',
-    width:40,
-    height:8,
+    width: 40,
+    height: 8,
   },
-     pagination: {
+  pagination: {
     flexDirection: 'row',
     justifyContent: 'center',
     marginTop: 20,
