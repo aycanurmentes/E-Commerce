@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
   },
   leftSide: {
     width: 24,
-    height:24,
+    height: 24,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -36,11 +36,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  rightSide:{
+  rightSide: {
     alignItems: 'center',
     justifyContent: 'center',
-    width:40,
-    height:40
+    width: 40,
+    height: 40
   }
 });
 export default TopBar;

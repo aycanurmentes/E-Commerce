@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, Image } from 'react-native';
 
-const categories = ['beauty', 'fashion', 'kids', 'mens', 'womens','gift'];
+const categories = ['beauty', 'fashion', 'kids', 'mens', 'womens', 'gift'];
 const categoryImages: Record<string, any> = {
   beauty: require('../images/beauty.png'),
   fashion: require('../images/fashion.png'),
@@ -15,8 +15,7 @@ const ScrollingCategories = () => {
     <ScrollView
       horizontal
       showsHorizontalScrollIndicator={false}
-      style={styles.categories}
-    >
+      style={styles.categories}  >
       {categories.map((item, index) => (
         <View style={styles.categoryItem} key={index}>
           <Image

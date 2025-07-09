@@ -8,13 +8,11 @@ import {
   Image,
   ScrollView,
 } from 'react-native';
-
 import ProductCard from '../components/ProductCard';
 import TopBar from '../components/TopBar';
 import SearchBar from '../components/SearchBar';
 import HeaderWithSortFilter from '../components/HeaderWithSortFilter';
 import { wishlistProducts } from '../data/products';
-
 //TODO:cardların alt kısmına gölge ekle  #BBB;
 
 export default function Wishlistpage() {
@@ -25,7 +23,7 @@ export default function Wishlistpage() {
     <SafeAreaView style={styles.container}>
       <TopBar
         left={
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity onPress={() => { }}>
             <Image source={require('../images/openup.png')} />
           </TouchableOpacity>
         }
@@ -36,7 +34,7 @@ export default function Wishlistpage() {
           </View>
         }
         right={
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity onPress={() => { }}>
             <Image
               source={require('../images/profilePicture.png')}
               style={styles.profilePic}
@@ -44,15 +42,12 @@ export default function Wishlistpage() {
           </TouchableOpacity>
         }
       />
-
       <SearchBar />
-
       <HeaderWithSortFilter
         title="52,082+ Items"
         onSortPress={() => console.log('Sort')}
         onFilterPress={() => console.log('Filter')}
       />
-
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.columnsWrapper}>
           <View style={styles.column}>
@@ -78,11 +73,10 @@ export default function Wishlistpage() {
     </SafeAreaView>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     borderRadius: 12,
-   // overflow: 'hidden',
+    // overflow: 'hidden',
     margin: 8,
     backgroundColor: '#F9F9F9',
     flex: 1,
@@ -105,7 +99,6 @@ const styles = StyleSheet.create({
   scrollContainer: {
     paddingHorizontal: 12,
     paddingBottom: 24,
-    
   },
   columnsWrapper: {
     flexDirection: 'row',

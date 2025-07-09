@@ -31,12 +31,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
       <View style={styles.infoContainer}>
         <Text numberOfLines={1} style={styles.title}>{title}</Text>
         <Text numberOfLines={2} style={styles.description}>{description}</Text>
-
         <View style={styles.priceRow}>
           <Text style={styles.price}>{price}</Text>
           {discount && <Text style={styles.discount}>{discount}
             <Text style={styles.ratio}>
-             {ratio}
+              {ratio}
             </Text>
           </Text>}
         </View>
@@ -56,17 +55,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 12,
     overflow: 'hidden',
-    flex: 1, 
-    width:170,
-    height:241
+    flex: 1,
+    width: 170,
+    height: 241
   },
   image: {
     width: '100%',
     resizeMode: 'cover',
-    borderRadius:4,
+    borderRadius: 4,
   },
   infoContainer: {
-    flex:1,
+    flex: 1,
     padding: 10,
   },
   title: {
@@ -84,18 +83,18 @@ const styles = StyleSheet.create({
     lineHeight: 16
   },
   priceRow: {
-    flexDirection:'column',
+    flexDirection: 'column',
     alignSelf: 'flex-start',
     gap: 2,
     alignItems: 'center',
-    flex:1,
+    flex: 1,
   },
   price: {
     fontSize: 12,
     color: '#000',
     fontWeight: '600',
     fontFamily: 'Montserrat',
-     alignSelf: 'flex-start',
+    alignSelf: 'flex-start',
   },
   discount: {
     fontSize: 12,
@@ -104,22 +103,22 @@ const styles = StyleSheet.create({
     fontFamily: 'Montserrat',
   },
   ratingRow: {
-    flex:1,
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'flex-end',
-    justifyContent:'flex-start',
+    justifyContent: 'flex-start',
   },
   voteCount: {
     fontSize: 10,
     color: '#777',
-    fontWeight:'400',
+    fontWeight: '400',
     marginLeft: 2,
     fontFamily: 'Montserrat',
   },
-  ratio:{
-    color:'#FE735C',
-     textDecorationLine: 'none',
-     fontSize:10,
-     fontWeight:'400',
+  ratio: {
+    color: '#FE735C',
+    textDecorationLine: 'none',
+    fontSize: 10,
+    fontWeight: '400',
   }
 });

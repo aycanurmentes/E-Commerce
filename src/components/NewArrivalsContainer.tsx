@@ -1,55 +1,54 @@
-import { StyleSheet, Text, View, TouchableOpacity  } from 'react-native';
-import React from 'react';
 import { Image } from '@rneui/base';
+import React from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 const NewArrivalsContainer = () => {
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
-      <Image source={require('../images/hotSummerSale.png')} style={styles.image}/>
+        <Image source={require('../images/hotSummerSale.png')} style={styles.image} />
       </View>
       <Text style={styles.title}>New Arrivals</Text>
       <View style={styles.bottom}>
         <Text style={styles.subtitle}>Summer’ 25 Collections</Text>
-         <TouchableOpacity style={styles.button}>
-                  <Text style={styles.buttonText}>View All →</Text>
-         </TouchableOpacity>
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.buttonText}>View All →</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
 };
-
 export default NewArrivalsContainer;
 const styles = StyleSheet.create({
   container: {
-    flex:1,
-    backgroundColor:'#fff',
-    marginTop:16,
+    flex: 1,
+    backgroundColor: '#fff',
+    marginTop: 16,
   },
   imageContainer: {
     width: '90%',
     height: 180,
-    overflow: 'hidden', 
+    overflow: 'hidden',
     alignSelf: 'center',
-    borderTopEndRadius:8,
-    borderTopStartRadius:8,
+    borderTopEndRadius: 8,
+    borderTopStartRadius: 8,
   },
   image: {
     width: '100%',
     height: '100%',
     resizeMode: 'cover',
   },
-  bottom:{
-    flexDirection:'row',
-    justifyContent:'space-around',
-    alignItems:'center',
+  bottom: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
   },
   title: {
     fontSize: 20,
     fontWeight: '500',
     fontFamily: 'Montserrat',
     color: '#000',
-    left:30,
+    left: 30,
   },
   subtitle: {
     fontSize: 16,

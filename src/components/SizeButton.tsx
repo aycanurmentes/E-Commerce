@@ -12,8 +12,7 @@ const SizeButtons = () => {
         <TouchableOpacity
           key={index}
           style={[styles.button, index === activeIndex && styles.activeButton]}
-          onPress={() => setActiveIndex(index)}
-        >
+          onPress={() => setActiveIndex(index)} >
           <Text style={[styles.text, index === activeIndex && styles.activeText]}>
             {title}
           </Text>

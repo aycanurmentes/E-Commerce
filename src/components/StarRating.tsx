@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
 interface StarRatingProps {
-  rating: number; 
+  rating: number;
   maxStars?: number;
 }
 
@@ -10,7 +10,7 @@ const StarRating: React.FC<StarRatingProps> = ({ rating, maxStars = 5 }) => {
   const stars = [];
 
   for (let i = 0; i < maxStars; i++) {
-    const fill = Math.min(Math.max(rating - i, 0), 1); 
+    const fill = Math.min(Math.max(rating - i, 0), 1);
 
     stars.push(
       <View key={i} style={styles.starWrapper}>
@@ -36,7 +36,6 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
     marginRight: 0,
-   
   },
   star: {
     fontSize: 18,

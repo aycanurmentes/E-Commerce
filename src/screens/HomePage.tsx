@@ -65,34 +65,26 @@ const HomePage = () => {
               buttonText: 'Shop Now ->',
               onPress: () => alert(''),
             }
-          ]}
-        />
+          ]} />
         <DealsTrendsContainer
           title="Deal of the Day"
           subtitle="22h 55m 20s remaining "
           buttonText="View All -->"
           onPress={() => console.log('View All ->')}
           backgroundColor="#4392F9"
-          textColor="#fff"
-        />
-
+          textColor="#fff" />
         <ScrollingProductsWithRating />
         <SpecialOfferComponent />
         <FlatAndHeels />
-
         <DealsTrendsContainer
           title="Trending Products "
           subtitle="Last Date 29/02/22"
           buttonText="View All -->"
           onPress={() => console.log('View All ->')}
           backgroundColor="#FD6E87"
-          textColor="#fff"
-        />
-
+          textColor="#fff" />
         <ScrollingProductsWithoutRating />
         <NewArrivalsContainer />
-
-
         <SponsoredContainer />
       </ScrollView>
     </SafeAreaView>
@@ -103,7 +95,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F9F9F9',
-    margin:8,
+    margin: 8,
   },
   center: {
     flexDirection: 'row',

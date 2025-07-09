@@ -10,7 +10,6 @@ const FlatAndHeels = () => {
         <Image source={require('../images/stars.png')} style={styles.stars} />
         <Image source={require('../images/heels.png')} style={styles.heels} />
       </View>
-
       <View style={styles.content}>
         <Text style={styles.title}>Flat and Heels</Text>
         <Text style={styles.subtitle}>Stand a chance to get rewarded</Text>
@@ -23,7 +22,6 @@ const FlatAndHeels = () => {
 };
 
 export default FlatAndHeels;
-
 
 const styles = StyleSheet.create({
   container: {

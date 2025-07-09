@@ -7,9 +7,7 @@ interface WithoutRatingProps {
   price: string;
   discount: string;
   ratio: string;
-  
 }
-
 const products: WithoutRatingProps[] = [
   {
     image: require('../images/scrollingp3.png'),
@@ -58,8 +56,8 @@ const ProductCard: React.FC<WithoutRatingProps> = ({ image, title, price, discou
           <Text style={styles.price}>{price}</Text>
           {discount && <Text style={styles.discount}>{discount}
             <Text style={styles.ratio}>
-            {ratio}</Text>
-            </Text>}
+              {ratio}</Text>
+          </Text>}
         </View>
       </View>
     </View>
@@ -92,20 +90,20 @@ export default ScrollingProductsWithoutRating;
 
 const styles = StyleSheet.create({
   card: {
-    flex:1,
+    flex: 1,
     backgroundColor: '#fff',
     borderRadius: 8,
     overflow: 'hidden',
     width: 142,
-    height:186,
-    marginTop:9,
+    height: 186,
+    marginTop: 9,
   },
   image: {
     width: '100%',
     resizeMode: 'cover',
   },
   infoContainer: {
-    flex:1,
+    flex: 1,
     padding: 10,
   },
   title: {
@@ -128,15 +126,15 @@ const styles = StyleSheet.create({
   },
   discount: {
     fontSize: 12,
-    fontWeight:'300',
+    fontWeight: '300',
     color: '#808488',
     textDecorationLine: 'line-through',
     fontFamily: 'Montserrat',
   },
-  ratio:{
-    color:'#FE735C',
-     textDecorationLine: 'none',
-     fontSize:10,
-     fontWeight:'400',
+  ratio: {
+    color: '#FE735C',
+    textDecorationLine: 'none',
+    fontSize: 10,
+    fontWeight: '400',
   }
 });

@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 12,
     marginBottom: 20,
-    marginTop:15,
+    marginTop: 15,
   },
   cardWrapper: {
     marginRight: 25,
