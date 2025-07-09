@@ -7,7 +7,7 @@ import PaginationDots from '../components/PaginationDots.tsx';
 import ReusableButton from '../components/ReusableButton';
 import { StepIndicator } from '../components/StepIndicator.tsx';
 import { RootStackParamList } from '../navigations/NavigationTypes.ts';
-import styles from '../splash/SplashStyles.tsx';
+import styles from './SplashStyles.ts';
 
 export default function SecondSplash() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'SecondSplash'>>();

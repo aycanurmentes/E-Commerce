@@ -8,8 +8,8 @@ interface ProductCardProps {
   description: string;
   price: string;
   discount?: string;
-  ratio?:string;
-  rating?: number;
+  ratio?: string;
+  rating: number;
   voteCount?: number;
   style?: ViewStyle;
 }
@@ -81,6 +81,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Montserrat',
     fontWeight: '400',
     marginVertical: 4,
+    lineHeight: 16
   },
   priceRow: {
     flexDirection:'column',
