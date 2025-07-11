@@ -12,11 +12,13 @@ import FlatAndHeels from '../components/FlatAndHeels.tsx';
 import NewArrivalsContainer from '../components/NewArrivalsContainer.tsx';
 import SponsoredContainer from '../components/SponsoredContainer.tsx';
 import ScrollingProductsWithRating from '../components/ScrollingProductsWithRating.tsx';
+import { homeSliderData } from '../data/sliders.ts';
+import { WithRatingProps  } from '../data/homePageProducts.ts';
+import { WithoutRatingProps  } from '../data/homePageProducts.ts';
+
 
 const HomePage = () => {
-  function alert(_arg0: string): void {
-    throw new Error('Function not implemented.');
-  }
+  
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -41,31 +43,10 @@ const HomePage = () => {
           onFilterPress={() => console.log('Filter')} />
         <ScrollingCategories />
         <ImageSlider
-          slides={[
-            {
-              image: require('../images/sliderHome.png'),
-              title: '50-40% OFF',
-              subtitle: 'Now in (product)',
-              subtitle2: 'All colours',
-              buttonText: 'Shop Now ->',
-              onPress: () => alert(''),
-            }
-            , {
-              image: require('../images/sliderHome.png'),
-              title: '50-40% OFF',
-              subtitle: 'Now in (product)',
-              subtitle2: 'All colours',
-              buttonText: 'Shop Now ->',
-              onPress: () => alert(''),
-            }, {
-              image: require('../images/sliderHome.png'),
-              title: '50-40% OFF',
-              subtitle: 'Now in (product)',
-              subtitle2: 'All colours',
-              buttonText: 'Shop Now ->',
-              onPress: () => alert(''),
-            }
-          ]} />
+          slides={homeSliderData}
+          sliderHeight={213}
+          activeDotColor="#FFA3B3"
+        />
         <DealsTrendsContainer
           title="Deal of the Day"
           subtitle="22h 55m 20s remaining "
@@ -73,7 +54,7 @@ const HomePage = () => {
           onPress={() => console.log('View All ->')}
           backgroundColor="#4392F9"
           textColor="#fff" />
-        <ScrollingProductsWithRating />
+        <ScrollingProductsWithRating products={WithRatingProps}/>
         <SpecialOfferComponent />
         <FlatAndHeels />
         <DealsTrendsContainer
@@ -83,7 +64,7 @@ const HomePage = () => {
           onPress={() => console.log('View All ->')}
           backgroundColor="#FD6E87"
           textColor="#fff" />
-        <ScrollingProductsWithoutRating />
+        <ScrollingProductsWithoutRating products={WithoutRatingProps}/>
         <NewArrivalsContainer />
         <SponsoredContainer />
       </ScrollView>

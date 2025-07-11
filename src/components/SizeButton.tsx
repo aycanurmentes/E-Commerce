@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     padding: 12,
   },
   button: {
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: '#FA7189',
     borderRadius: 6,
     paddingVertical: 6,
