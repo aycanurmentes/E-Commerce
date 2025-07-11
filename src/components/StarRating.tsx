@@ -30,15 +30,17 @@ export default StarRating;
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
+
   },
   starWrapper: {
     position: 'relative',
     width: 20,
     height: 20,
     marginRight: 0,
+    top: 5
   },
   star: {
-    fontSize: 18,
+    fontSize: 16,
     lineHeight: 20,
   },
   emptyStar: {

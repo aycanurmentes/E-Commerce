@@ -17,7 +17,7 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   return (
     <NavigationContainer >
-      <Stack.Navigator initialRouteName='WishlistPage' screenOptions={{ headerShown: false }}>
+      <Stack.Navigator initialRouteName='BasketPage' screenOptions={{ headerShown: false }}>
         <Stack.Screen name="FirstSplash" component={FirstSplash} />
         <Stack.Screen name="SecondSplash" component={SecondSplash} />
         <Stack.Screen name="ThirdSplash" component={ThirdSplash} />
@@ -33,3 +33,4 @@ export default function App() {
     </NavigationContainer>
   );
 }
+//initialRouteName='WishlistPage'
