@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 
 const { width } = Dimensions.get('window');
+
 interface SlideData {
   image: any;
   title: string;
@@ -20,16 +21,30 @@ interface SlideData {
   buttonText: string;
   onPress: () => void;
 }
+
 interface SliderProps {
   slides: SlideData[];
+  sliderHeight?: number;
+  activeDotColor?: string;
+  buttonStyle?: ViewStyle;
+  buttonTextStyle?: TextStyle;
 }
-const ImageSlider: React.FC<SliderProps> = ({ slides }) => {
+
+const ImageSlider: React.FC<SliderProps> = ({
+  slides,
+  sliderHeight,
+  activeDotColor,
+  buttonStyle,
+  buttonTextStyle,
+}) => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const scrollRef = useRef<ScrollView>(null);
+
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const index = Math.round(event.nativeEvent.contentOffset.x / width);
     setActiveIndex(index);
   };
+
   return (
     <View style={styles.wrapper}>
       <ScrollView
@@ -39,20 +54,26 @@ const ImageSlider: React.FC<SliderProps> = ({ slides }) => {
         onScroll={handleScroll}
         scrollEventThrottle={16}
         showsHorizontalScrollIndicator={false}
-        style={styles.scrollView}>
+        style={styles.scrollView}
+      >
         {slides.map((slide, index) => (
           <ImageBackground
             key={index}
             source={slide.image}
-            style={styles.slide}
+            style={[styles.slide, { height: sliderHeight ?? 200 }]}
             imageStyle={styles.image}
             resizeMode="cover">
             <View style={styles.overlay}>
               <Text style={styles.title}>{slide.title}</Text>
               <Text style={styles.subtitle}>{slide.subtitle}</Text>
               <Text style={styles.subtitle2}>{slide.subtitle2}</Text>
-              <TouchableOpacity style={styles.button} onPress={slide.onPress}>
-                <Text style={styles.buttonText}>{slide.buttonText}</Text>
+              <TouchableOpacity
+                style={[styles.button, buttonStyle]}
+                onPress={slide.onPress}
+              >
+                <Text style={[styles.buttonText, buttonTextStyle]}>
+                  {slide.buttonText}
+                </Text>
               </TouchableOpacity>
             </View>
           </ImageBackground>
@@ -62,12 +83,19 @@ const ImageSlider: React.FC<SliderProps> = ({ slides }) => {
         {slides.map((_, i) => (
           <View
             key={i}
-            style={[styles.dot, activeIndex === i && styles.activeDot]} />
+            style={[
+              styles.dot,
+              activeIndex === i && {
+                backgroundColor: activeDotColor ?? '#FFA3B3'
+              }
+            ]}
+          />
         ))}
       </View>
     </View>
   );
 };
+
 export default ImageSlider;
 const styles = StyleSheet.create({
   wrapper: {
@@ -80,7 +108,6 @@ const styles = StyleSheet.create({
   },
   slide: {
     width: width * 0.9,
-    height: 200,
     marginHorizontal: width * 0.05,
     borderRadius: 16,
     overflow: 'hidden',
@@ -139,8 +166,5 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     backgroundColor: '#DEDBDB',
     marginHorizontal: 4,
-  },
-  activeDot: {
-    backgroundColor: '#FFA3B3',
   },
 });

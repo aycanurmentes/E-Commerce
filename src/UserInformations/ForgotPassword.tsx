@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { InputForms } from '../components/InputForms';
 import ReusableButton from '../components/ReusableButton';
-import styles from './AuthSyles';
+import styles from './AuthStyles';
 
 export default function SignUpPage() {
   const [email, setEmail] = useState<string>('');

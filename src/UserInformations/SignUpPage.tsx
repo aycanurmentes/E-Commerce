@@ -6,7 +6,7 @@ import { InputForms } from '../components/InputForms';
 import ReusableButton from '../components/ReusableButton';
 import { SocialButtons } from '../components/SocialButtons';
 import { RootStackParamList } from '../navigations/NavigationTypes';
-import styles from './AuthSyles';
+import styles from './AuthStyles';
 
 export default function SignUpPage() {
   const [email, setEmail] = useState<string>('');

@@ -1,6 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { Icon } from '@rneui/themed';
+import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 
 type Props = {
   title: string;
@@ -18,11 +17,11 @@ const HeaderWithSortFilter = ({ title, showItemCount, itemCount, onSortPress, on
       <View style={styles.buttons}>
         <TouchableOpacity onPress={onSortPress} style={styles.button}>
           <Text style={styles.btnText}>Sort</Text>
-          <Icon name="sort" type="material-community" size={18} />
+          <Image source={require('../images/sort.png')} style={styles.image} />
         </TouchableOpacity>
         <TouchableOpacity onPress={onFilterPress} style={styles.button}>
           <Text style={styles.btnText}>Filter</Text>
-          <Icon name="filter" type="font-awesome" size={18} />
+          <Image source={require('../images/filter.png')} style={styles.image} />
         </TouchableOpacity>
       </View>
     </View>
@@ -40,8 +39,8 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     fontWeight: '600',
-    fontFamily:'Montserrat',
-    textAlign:'center',
+    fontFamily: 'Montserrat',
+    textAlign: 'center',
   },
   buttons: {
     flexDirection: 'row',
@@ -58,6 +57,10 @@ const styles = StyleSheet.create({
   btnText: {
     marginLeft: 4,
     fontSize: 12,
-    fontWeight:400
+    fontWeight: 400
   },
+  image: {
+    width: 16,
+    height: 16
+  }
 });

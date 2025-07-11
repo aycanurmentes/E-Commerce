@@ -36,3 +36,4 @@ export default function App() {
     </NavigationContainer>
   );
 }
+//initialRouteName='WishlistPage'

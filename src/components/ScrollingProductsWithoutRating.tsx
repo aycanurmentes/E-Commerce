@@ -5,46 +5,13 @@ interface WithoutRatingProps {
   image: any;
   title: string;
   price: string;
-  discount: string;
-  ratio: string;
+  discount?: string;
+  ratio?: string;
 }
-const products: WithoutRatingProps[] = [
-  {
-    image: require('../images/scrollingp3.png'),
-    title: 'IWC Schaffhausen 2021 Pilots Watch SIHH 2019 44mm',
-    price: '₹650',
-    discount: '₹1599',
-    ratio: '  60%Off',
-  },
-  {
-    image: require('../images/scrollingp4.png'),
-    title: 'Labbin White Sneakers For Men and Female',
-    price: '₹650',
-    discount: '₹1250',
-    ratio: '  70%Off',
-  },
-  {
-    image: require('../images/scrollingp3.png'),
-    title: 'IWC Schaffhausen 2021 Pilots Watch SIHH 2019 44mm',
-    price: '₹650',
-    discount: '₹1599',
-    ratio: '  60%Off',
-  },
-  {
-    image: require('../images/scrollingp4.png'),
-    title: 'Labbin White Sneakers For Men and Female',
-    price: '₹650',
-    discount: '₹1250',
-    ratio: '  50%Off',
-  },
-  {
-    image: require('../images/scrollingp3.png'),
-    title: 'IWC Schaffhausen 2021 Pilots Watch SIHH 2019 44mm',
-    price: '₹650',
-    discount: '₹1599',
-    ratio: '  60%Off',
-  },
-];
+
+interface ScrollingProps {
+  products: WithoutRatingProps[];
+}
 
 const ProductCard: React.FC<WithoutRatingProps> = ({ image, title, price, discount, ratio }) => {
   return (
@@ -54,17 +21,19 @@ const ProductCard: React.FC<WithoutRatingProps> = ({ image, title, price, discou
         <Text numberOfLines={2} style={styles.title}>{title}</Text>
         <View style={styles.priceRow}>
           <Text style={styles.price}>{price}</Text>
-          {discount && <Text style={styles.discount}>{discount}
-            <Text style={styles.ratio}>
-              {ratio}</Text>
-          </Text>}
+          {discount && (
+            <Text style={styles.discount}>
+              {discount}
+              <Text style={styles.ratio}>{ratio}</Text>
+            </Text>
+          )}
         </View>
       </View>
     </View>
   );
 };
 
-const ScrollingProductsWithoutRating = () => {
+const ScrollingProductsWithoutRating: React.FC<ScrollingProps> = ({ products }) => {
   return (
     <FlatList
       horizontal
@@ -75,19 +44,17 @@ const ScrollingProductsWithoutRating = () => {
           title={item.title}
           price={item.price}
           discount={item.discount}
-          ratio={item.ratio}
-        />
+          ratio={item.ratio} />
       )}
       keyExtractor={(_, index) => index.toString()}
       showsHorizontalScrollIndicator={false}
-      contentContainerStyle={{ paddingHorizontal: 12 }}
-      ItemSeparatorComponent={() => <View style={{ width: 12 }} />}
+      contentContainerStyle={styles.contentContainer}
+      ItemSeparatorComponent={() => <View style={styles.item} />}
     />
   );
 };
 
 export default ScrollingProductsWithoutRating;
-
 const styles = StyleSheet.create({
   card: {
     flex: 1,
@@ -100,6 +67,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: '100%',
+    height: 100,
     resizeMode: 'cover',
   },
   infoContainer: {
@@ -136,5 +104,11 @@ const styles = StyleSheet.create({
     textDecorationLine: 'none',
     fontSize: 10,
     fontWeight: '400',
+  },
+  contentContainer: {
+    paddingHorizontal: 12
+  },
+  item: {
+    width: 12
   }
 });
