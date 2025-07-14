@@ -8,14 +8,12 @@ export default function Checkout() {
   return (
     <SafeAreaView style={styles.container}>
       <DeliveryAddressSection />
-
       <Text style={styles.header}>Shopping List</Text>
       <FlatList
         data={shoppingList}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => <ShoppingList {...item} />}
-        contentContainerStyle={styles.list}
-      />
+        contentContainerStyle={styles.list}/>
     </SafeAreaView>
   )
 }
@@ -28,9 +26,9 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 14,
     fontWeight: '600',
-    marginLeft:22,
-   padding:2,
-   marginTop:24
+    marginLeft: 22,
+    padding: 2,
+    marginTop: 24
   },
   list: {
     paddingBottom: 20,

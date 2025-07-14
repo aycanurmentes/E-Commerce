@@ -35,9 +35,8 @@ export default function ShoppingList({
             ))}
           </View>
           <View style={styles.starRating}>
-    <StarRating rating={rating} />
+            <StarRating rating={rating} />
           </View>
-      
           <View style={styles.priceRow}>
             <Text style={styles.price}>${price.toFixed(2)}</Text>
             <View style={styles.priceRight}>
@@ -92,8 +91,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-between',
   },
-  starRating:{
-flexDirection:'row'
+  starRating: {
+    flexDirection: 'row'
   },
   title: {
     fontSize: 14,
