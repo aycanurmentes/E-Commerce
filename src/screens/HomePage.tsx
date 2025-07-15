@@ -13,12 +13,11 @@ import NewArrivalsContainer from '../components/NewArrivalsContainer.tsx';
 import SponsoredContainer from '../components/SponsoredContainer.tsx';
 import ScrollingProductsWithRating from '../components/ScrollingProductsWithRating.tsx';
 import { homeSliderData } from '../data/sliders.ts';
-import { WithRatingProps  } from '../data/homePageProducts.ts';
-import { WithoutRatingProps  } from '../data/homePageProducts.ts';
-
+import { WithRatingProps } from '../data/homePageProducts.ts';
+import { WithoutRatingProps } from '../data/homePageProducts.ts';
 
 const HomePage = () => {
-  
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -54,7 +53,7 @@ const HomePage = () => {
           onPress={() => console.log('View All ->')}
           backgroundColor="#4392F9"
           textColor="#fff" />
-        <ScrollingProductsWithRating products={WithRatingProps}/>
+        <ScrollingProductsWithRating products={WithRatingProps} />
         <SpecialOfferComponent />
         <FlatAndHeels />
         <DealsTrendsContainer
@@ -64,7 +63,7 @@ const HomePage = () => {
           onPress={() => console.log('View All ->')}
           backgroundColor="#FD6E87"
           textColor="#fff" />
-        <ScrollingProductsWithoutRating products={WithoutRatingProps}/>
+        <ScrollingProductsWithoutRating products={WithoutRatingProps} />
         <NewArrivalsContainer />
         <SponsoredContainer />
       </ScrollView>
@@ -92,5 +91,4 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
   },
-
 });

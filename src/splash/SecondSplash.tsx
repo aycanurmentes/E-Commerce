@@ -20,7 +20,7 @@ export default function SecondSplash() {
           backgroundColor='clear'
           textColor="#000"
           fontSize={17}
-          onPress={() => navigation.navigate('HomePage')} />
+          onPress={() => navigation.replace('Main')} />
       </View>
       <View style={styles.imageContainer}>
         <Image
