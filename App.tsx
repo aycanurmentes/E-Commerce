@@ -11,8 +11,9 @@ import ForgotPassword from './src/UserInformations/ForgotPassword';
 import GetStarted from './src/splash/GetStarted';
 import TabNavigator from './src/navigations/TabNavigation';
 import BasketPage from './src/screens/BasketPage';
-import WishlistPage from './src/screens/WishlistPage';
+import Wishlistpage from './src/screens/Wishlistpage';
 import ProfileSection from './src/screens/ProfileSection';
+import Checkout from './src/screens/Checkout';
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -28,12 +29,11 @@ export default function App() {
         <Stack.Screen name='GetStarted' component={GetStarted}/>
         <Stack.Screen name="HomePage" component={HomePage} />
         <Stack.Screen name="BasketPage" component={BasketPage} />
-        <Stack.Screen name="WishlistPage" component={WishlistPage} />
+        <Stack.Screen name="Wishlistpage" component={Wishlistpage} />
         <Stack.Screen name="Main" component={TabNavigator} />
         <Stack.Screen name="ProfileSection" component={ProfileSection} />
-
+        <Stack.Screen name='Checkout' component={Checkout}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
-//initialRouteName='WishlistPage'

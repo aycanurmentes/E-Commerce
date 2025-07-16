@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomePage from '../screens/HomePage';
 import SearchPage from '../screens/SearchPage';
 import BasketPage from '../screens/BasketPage';
-import Wishlistpage from '../screens/WishlistPage';
+import Wishlistpage from '../screens/Wishlistpage';
 import SettingPage from '../screens/SettingPage';
 import { Image } from 'react-native';
 

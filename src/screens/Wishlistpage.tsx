@@ -15,7 +15,8 @@ import HeaderWithSortFilter from '../components/HeaderWithSortFilter';
 import { wishlistProducts } from '../data/products';
 //TODO:cardların alt kısmına gölge ekle  #BBB;
 
-export default function Wishlistpage() {
+export default function Wishlistpage
+() {
   const leftColumn = wishlistProducts.filter((_, index) => index % 2 === 0);
   const rightColumn = wishlistProducts.filter((_, index) => index % 2 !== 0);
 
