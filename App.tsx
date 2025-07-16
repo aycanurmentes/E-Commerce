@@ -10,15 +10,18 @@ import SignUpPage from './src/UserInformations/ForgotPassword';
 import ForgotPassword from './src/UserInformations/ForgotPassword';
 import GetStarted from './src/splash/GetStarted';
 import HomePage from './src/screens/HomePage';
+import TabNavigator from './src/navigations/TabNavigation';
+import BasketPage from './src/screens/BasketPage';
+import Wishlistpage from './src/screens/Wishlistpage';
+import ProfileSection from './src/screens/ProfileSection';
+import Checkout from './src/screens/Checkout';
 
 const Stack = createNativeStackNavigator();
 
 export default function AppNavigator() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName="FirstSplash"
-        screenOptions={{ headerShown: false }}>
+    <NavigationContainer >
+      <Stack.Navigator initialRouteName='FirstSplash' screenOptions={{ headerShown: false }}>
         <Stack.Screen name="FirstSplash" component={FirstSplash} />
         <Stack.Screen name="SecondSplash" component={SecondSplash} />
         <Stack.Screen name="ThirdSplash" component={ThirdSplash} />
@@ -28,6 +31,11 @@ export default function AppNavigator() {
         <Stack.Screen name="GetStarted" component={GetStarted} />
         <Stack.Screen name="HomePage" component={HomePage} />
         <Stack.Screen name="Main" component={TabNavigation} />
+        <Stack.Screen name="BasketPage" component={BasketPage} />
+        <Stack.Screen name="Wishlistpage" component={Wishlistpage} />
+        <Stack.Screen name="Main" component={TabNavigator} />
+        <Stack.Screen name="ProfileSection" component={ProfileSection} />
+        <Stack.Screen name='Checkout' component={Checkout}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
