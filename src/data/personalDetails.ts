@@ -40,6 +40,11 @@ export const personalDetailsFields = [
     keyboardType: 'default',
   },
   {
+    label: 'Country',
+    placeholder: 'United Kingdom',
+    keyboardType: 'default',
+  },
+  {
     label: 'Bank Account Number',
     placeholder: '204356XXXXXXX',
     keyboardType: 'numeric',
