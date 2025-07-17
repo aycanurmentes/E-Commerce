@@ -61,7 +61,7 @@ export default function OrderSection({ price }: OrderProps) {
             textColor="#fff"
             borderRadius={5}
             fontSize={17}
-            onPress={() => navigation.navigate('HomePage')}
+            onPress={() => navigation.navigate('Shipping')}
           />
         </View>
       </View>

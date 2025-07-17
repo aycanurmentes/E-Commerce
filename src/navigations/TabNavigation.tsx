@@ -16,7 +16,7 @@ export default function TabNavigator() {
         tabBarShowLabel: true,
         tabBarActiveTintColor: '#EB3030',
         tabBarInactiveTintColor: '#000',
-        tabBarStyle: { height: 70, paddingBottom: 8, paddingTop: 8 },
+        tabBarStyle: { height: 76, paddingBottom: 8, paddingTop: 8 },
         tabBarIcon: ({ color }) => {
           let icon;
           if (route.name === 'HomePage') icon = require('../images/home1.png');
@@ -24,7 +24,7 @@ export default function TabNavigator() {
           else if (route.name === 'BasketPage') icon = require('../images/basket.png');
           else if (route.name === 'SearchPage') icon = require('../images/search.png');
           else if (route.name === 'SettingPage') icon = require('../images/settings.png');
-          return <Image source={icon} style={{ width: 28, height: 28, tintColor: color, resizeMode: 'contain' }} />;
+          return <Image source={icon} style={{ width: 24, height: 24, tintColor: color, resizeMode: 'contain' }} />;
         },
       })}>
       <Tab.Screen name="Home" component={HomePage} />

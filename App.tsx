@@ -1,7 +1,6 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import TabNavigation from './src/navigations/TabNavigation'; // ← Burada tabbar'lı yapıyı tanımladın
 import FirstSplash from './src/splash/FirstSplash';
 import SecondSplash from './src/splash/SecondSplash';
 import ThirdSplash from './src/splash/ThirdSplash';
@@ -10,11 +9,13 @@ import SignUpPage from './src/UserInformations/ForgotPassword';
 import ForgotPassword from './src/UserInformations/ForgotPassword';
 import GetStarted from './src/splash/GetStarted';
 import HomePage from './src/screens/HomePage';
-import TabNavigator from './src/navigations/TabNavigation';
 import BasketPage from './src/screens/BasketPage';
 import Wishlistpage from './src/screens/Wishlistpage';
 import ProfileSection from './src/screens/ProfileSection';
+import TabNavigation from './src/navigations/TabNavigation';
 import Checkout from './src/screens/Checkout';
+import Shipping from './src/screens/Shipping';
+import PlaceOrder from './src/screens/PlaceOrder';
 
 const Stack = createNativeStackNavigator();
 
@@ -33,9 +34,10 @@ export default function AppNavigator() {
         <Stack.Screen name="Main" component={TabNavigation} />
         <Stack.Screen name="BasketPage" component={BasketPage} />
         <Stack.Screen name="Wishlistpage" component={Wishlistpage} />
-        <Stack.Screen name="Main" component={TabNavigator} />
         <Stack.Screen name="ProfileSection" component={ProfileSection} />
-        <Stack.Screen name='Checkout' component={Checkout}/>
+        <Stack.Screen name='Checkout' component={Checkout} />
+        <Stack.Screen name='Shipping' component={Shipping} />
+        <Stack.Screen name='PlaceOrder' component={PlaceOrder} />
       </Stack.Navigator>
     </NavigationContainer>
   );
