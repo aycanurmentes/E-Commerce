@@ -1,4 +1,4 @@
-import { StyleSheet, SafeAreaView, View, Text, ScrollView } from 'react-native'
+import { StyleSheet, SafeAreaView, View, Text, ScrollView, TouchableOpacity, Image } from 'react-native'
 import React from 'react'
 import SizeButtons from '../components/SizeButton'
 import SimilarAndCompareButtons from '../components/SimilarAndCompareButtons.tsx'
@@ -10,11 +10,27 @@ import ScrollingProductsWithRating from '../components/ScrollingProductsWithRati
 import { basketProducts } from '../data/basketPageProducts';
 import CartAndBuyButtons from '../components/CartAndBuyButtons'
 import InfoButtons from '../components/InfoButtons.tsx'
+import TopBar from '../components/TopBar.tsx'
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+
 
 export default function BasketPage() {
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
+        <TopBar
+          left={
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Image source={require('../images/back.png')} style={styles.backImage} />
+            </TouchableOpacity>}
+          right={
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Image source={require('../images/baskett.png')} style={styles.basketImage} />
+            </TouchableOpacity>}
+        />
         <ImageSlider
           slides={basketSliderData}
           sliderHeight={250}
@@ -163,6 +179,24 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 20,
     borderRadius: 5,
+  },
+  center: {
+    flexDirection: 'row',
+  },
+  logoText: {
+    fontWeight: '600',
+    textAlign: 'center',
+    fontSize: 18,
+    color: '#000',
+  },
+  basketImage: {
+    width: 20,
+    height: 20,
+    color: '#000'
+  },
+  backImage: {
+    width: 9.5,
+    height: 19,
   }
 })
 

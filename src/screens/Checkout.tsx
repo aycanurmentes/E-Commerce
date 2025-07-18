@@ -1,19 +1,37 @@
-import { StyleSheet, SafeAreaView, Text, FlatList } from 'react-native'
+import { StyleSheet, SafeAreaView, Text, FlatList, TouchableOpacity, View, Image } from 'react-native'
 import React from 'react'
 import DeliveryAddressSection from '../components/DeliveryAddressSection'
 import ShoppingList from '../components/ShoppingList'
 import { shoppingList } from '../data/shoppingList'
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../navigations/NavigationTypes'
+import TopBar from '../components/TopBar'
+
 
 export default function Checkout() {
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
   return (
     <SafeAreaView style={styles.container}>
+      <TopBar
+        left={
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Image source={require('../images/back.png')} style={styles.backImage} />
+          </TouchableOpacity>}
+        center={
+          <View style={styles.center}>
+            <Text style={styles.logoText}>Checkout</Text>
+          </View>}
+      />
+      <View style={styles.line} />
       <DeliveryAddressSection />
       <Text style={styles.header}>Shopping List</Text>
       <FlatList
         data={shoppingList}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => <ShoppingList {...item} />}
-        contentContainerStyle={styles.list}/>
+        contentContainerStyle={styles.list} />
     </SafeAreaView>
   )
 }
@@ -28,9 +46,28 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     marginLeft: 22,
     padding: 2,
-    marginTop: 24
+    marginTop: 64
   },
   list: {
     paddingBottom: 20,
+  },
+  center: {
+    flexDirection: 'row',
+  },
+  logoText: {
+    fontWeight: '600',
+    textAlign: 'center',
+    fontSize: 18,
+    color: '#000',
+  },
+  line: {
+    borderBottomWidth: 1,
+    borderBottomColor: '#C4C4C4',
+    width: '100%',
+    height: 0.5
+  },
+  backImage: {
+    width: 9.5,
+    height: 19
   },
 })

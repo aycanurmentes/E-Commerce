@@ -1,5 +1,13 @@
 import React from 'react';
-import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  Image,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
+} from 'react-native';
 import HeaderWithSortFilter from '../components/HeaderWithSortFilter';
 import ImageSlider from '../components/ImageSlider.tsx';
 import ScrollingCategories from '../components/ScrollingCategories';
@@ -15,8 +23,11 @@ import ScrollingProductsWithRating from '../components/ScrollingProductsWithRati
 import { homeSliderData } from '../data/sliders.ts';
 import { WithRatingProps } from '../data/homePageProducts.ts';
 import { WithoutRatingProps } from '../data/homePageProducts.ts';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 const HomePage = () => {
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   return (
     <SafeAreaView style={styles.container}>
@@ -32,10 +43,12 @@ const HomePage = () => {
               <Text style={styles.logoText}>Stylish</Text>
             </View>}
           right={
-            <TouchableOpacity onPress={() => { }}>
+            <TouchableOpacity onPress={() => navigation.navigate('ProfileSection')}>
               <Image source={require('../images/profilePicture.png')} style={styles.profilePic} />
             </TouchableOpacity>} />
-        <SearchBar />
+        <SearchBar
+          leftIcon={<Image source={require('../images/searchInput.png')} />}
+          rightIcon={<Image source={require('../images/voice.png')} />} />
         <HeaderWithSortFilter
           title="All Featured"
           onSortPress={() => console.log('Sort')}

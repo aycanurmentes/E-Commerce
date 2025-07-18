@@ -32,7 +32,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    marginBottom:24
+    marginBottom: 24,
+    marginTop: 18
   },
   header: {
     flexDirection: 'row',
@@ -59,8 +60,8 @@ const styles = StyleSheet.create({
   },
   cardContainer: {
     flex: 1,
-    width:241,
-    height:79,
+    width: 241,
+    height: 79,
     backgroundColor: '#fff',
     borderRadius: 6,
     padding: 22,
@@ -69,7 +70,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 4,
     elevation: 2,
-    justifyContent:'center'
+    justifyContent: 'center'
   },
   first: {
     flexDirection: 'row',

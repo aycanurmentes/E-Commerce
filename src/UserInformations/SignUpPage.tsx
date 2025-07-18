@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useState } from 'react';
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { Image, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { InputForms } from '../components/InputForms';
 import ReusableButton from '../components/ReusableButton';
 import { SocialButtons } from '../components/SocialButtons';
@@ -27,14 +27,19 @@ export default function SignUpPage() {
           <InputForms
             placeholder="Username or Email"
             value={email}
+            leftIcon={<Image source={require('../images/user.png')} style={styles.inputImage} />}
             onChangeText={setEmail} />
           <InputForms
             placeholder="Password"
             value={password}
+            leftIcon={<Image source={require('../images/passwordLock.png')} style={styles.inputPassImage} />}
+            rightIcon={<Image source={require('../images/eye.png')} style={styles.inputImage} />}
             onChangeText={setPassword} />
           <InputForms
             placeholder="Confirm Password"
             value={password}
+            leftIcon={<Image source={require('../images/passwordLock.png')} style={styles.inputPassImage} />}
+            rightIcon={<Image source={require('../images/eye.png')} style={styles.inputImage} />}
             onChangeText={setPassword} />
         </View>
         <View style={styless.bottomTxt}>
@@ -71,6 +76,6 @@ const styless = StyleSheet.create({
   },
   bottomTxt: {
     marginTop: -32,
-    alignItems: 'flex-end'
+    alignItems: 'flex-start'
   }
 });
