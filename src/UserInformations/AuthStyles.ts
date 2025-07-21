@@ -22,8 +22,6 @@ const AuthStyles = StyleSheet.create({
     fontFamily: 'Montserrat',
     color: '#000',
   },
-  inputForm: {
-  },
   button: {
     padding: 21,
     justifyContent: 'center',
@@ -54,6 +52,18 @@ const AuthStyles = StyleSheet.create({
   },
   textToInput: {
     gap: 36
+  },
+  inputImage: {
+    width: 24,
+    height: 24
+  },
+  inputPassImage: {
+    width: 16,
+    height: 20
+  },
+  inputMailImage: {
+    width: 20,
+    height: 16
   }
 });
 export default AuthStyles;

@@ -5,7 +5,7 @@ import FirstSplash from './src/splash/FirstSplash';
 import SecondSplash from './src/splash/SecondSplash';
 import ThirdSplash from './src/splash/ThirdSplash';
 import SignInPage from './src/UserInformations/SignInPage';
-import SignUpPage from './src/UserInformations/ForgotPassword';
+import SignUpPage from './src/UserInformations/SignUpPage';
 import ForgotPassword from './src/UserInformations/ForgotPassword';
 import GetStarted from './src/splash/GetStarted';
 import HomePage from './src/screens/HomePage';

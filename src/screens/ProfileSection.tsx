@@ -1,4 +1,4 @@
-import { StyleSheet, Text, SafeAreaView, ScrollView, View } from 'react-native'
+import { StyleSheet, Text, SafeAreaView, ScrollView, View, TouchableOpacity } from 'react-native'
 import React from 'react';
 import ReusableButton from '../components/ReusableButton'
 import { useNavigation } from '@react-navigation/native';
@@ -6,6 +6,8 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigations/NavigationTypes';
 import { PersonalDetailsComponent } from '../components/PersonalDetailComponents';
 import { Image } from '@rneui/base';
+import TopBar from '../components/TopBar';
+
 
 export default function ProfileSection() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
@@ -13,33 +15,43 @@ export default function ProfileSection() {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
+        <TopBar
+          left={
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Image source={require('../images/back.png')} style={styles.backImage} />
+            </TouchableOpacity>}
+          center={
+            <View style={styles.center}>
+              <Text style={styles.logoText}>Checkout</Text>
+            </View>}
+        />
         <View style={styles.profileWrapper}>
           <Image
             source={require('../images/profilePicture.png')}
-            style={styles.imageProfile}/>
+            style={styles.imageProfile} />
           <View style={styles.editView}>
             <Image
               source={require('../images/edit.png')}
-              style={styles.imageEdit}/>
+              style={styles.imageEdit} />
           </View>
         </View>
         <View style={styles.inputContainer}>
           <Text style={styles.title}>Personal Details</Text>
           <PersonalDetailsComponent label={'Email Address'} placeholder='aashifa@gmail.com' />
-          <PersonalDetailsComponent label={'Password'}  placeholder= '***********' />
+          <PersonalDetailsComponent label={'Password'} placeholder='***********' />
           <Text style={styles.change}>Change Password</Text>
           <View style={styles.line} />
           <Text style={styles.title}>Business Address Details</Text>
           <PersonalDetailsComponent label={'Pin Code'} placeholder='450116' />
-          <PersonalDetailsComponent label={'Address'} placeholder='216 St Pauls Rd'/>
-          <PersonalDetailsComponent label={'City'} placeholder='London'/>
-          <PersonalDetailsComponent label={'State'} placeholder='N1 2LL,'/>
-          <PersonalDetailsComponent label={'Country'} placeholder='United Kingdom'/>
+          <PersonalDetailsComponent label={'Address'} placeholder='216 St Pauls Rd' />
+          <PersonalDetailsComponent label={'City'} placeholder='London' />
+          <PersonalDetailsComponent label={'State'} placeholder='N1 2LL,' />
+          <PersonalDetailsComponent label={'Country'} placeholder='United Kingdom' />
           <View style={styles.line} />
           <Text style={styles.title}>Bank Account Details</Text>
-          <PersonalDetailsComponent label={'Bank Account Number'} placeholder='204356XXXXXXX'/>
-          <PersonalDetailsComponent label={'Account Holder’s Name'} placeholder='Abhiraj Sisodiya'/>
-          <PersonalDetailsComponent label={'IFSC Code'} placeholder='SBIN00428'/>
+          <PersonalDetailsComponent label={'Bank Account Number'} placeholder='204356XXXXXXX' />
+          <PersonalDetailsComponent label={'Account Holder’s Name'} placeholder='Abhiraj Sisodiya' />
+          <PersonalDetailsComponent label={'IFSC Code'} placeholder='SBIN00428' />
         </View>
         <ReusableButton
           title="Save"
@@ -78,7 +90,7 @@ const styles = StyleSheet.create({
     width: 96,
     height: 96,
     alignSelf: 'center',
-    marginVertical: 24,
+    marginVertical: 6,
   },
   imageContainer: {
     flex: 1,
@@ -90,6 +102,10 @@ const styles = StyleSheet.create({
     height: 96,
     width: 96,
     borderRadius: 48,
+  },
+  backImage: {
+    width: 9.5,
+    height: 19
   },
   editView: {
     position: 'absolute',
@@ -123,7 +139,15 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#C4C4C4',
     width: 360,
-    height:0.5
-
+    height: 0.5
+  },
+  center: {
+    flexDirection: 'row',
+  },
+  logoText: {
+    fontWeight: '600',
+    textAlign: 'center',
+    fontSize: 18,
+    color: '#000',
   },
 });

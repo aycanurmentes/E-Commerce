@@ -1,14 +1,14 @@
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useState } from 'react';
-import { SafeAreaView, Text, View } from 'react-native';
+import { Image, SafeAreaView, Text, View } from 'react-native';
 import { InputForms } from '../components/InputForms';
 import ReusableButton from '../components/ReusableButton';
 import { SocialButtons } from '../components/SocialButtons';
 import { RootStackParamList } from '../navigations/NavigationTypes';
 import styles from './AuthStyles';
 
-export default function SignUpPage() {
+export default function SignInPage() {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
@@ -28,15 +28,18 @@ export default function SignUpPage() {
           <InputForms
             placeholder="Username or Email"
             value={email}
+            leftIcon={<Image source={require('../images/user.png')} style={styles.inputImage} />}
             onChangeText={setEmail} />
           <InputForms
             placeholder="Password"
             value={password}
+            leftIcon={<Image source={require('../images/passwordLock.png')} style={styles.inputPassImage} />}
             onChangeText={setPassword}
             bottomRightButtonText='Forgot Password?' />
         </View>
         <ReusableButton
           title="Login"
+          fontSize={20}
           buttonStyle={styles.button}
           onPress={() => navigation.navigate('SignUpPage')} />
       </View>

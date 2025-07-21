@@ -13,12 +13,15 @@ import TopBar from '../components/TopBar';
 import SearchBar from '../components/SearchBar';
 import HeaderWithSortFilter from '../components/HeaderWithSortFilter';
 import { wishlistProducts } from '../data/products';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 //TODO:cardların alt kısmına gölge ekle  #BBB;
 
 export default function Wishlistpage
-() {
+  () {
   const leftColumn = wishlistProducts.filter((_, index) => index % 2 === 0);
   const rightColumn = wishlistProducts.filter((_, index) => index % 2 !== 0);
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
 
   return (
     <SafeAreaView style={styles.container}>
@@ -35,7 +38,7 @@ export default function Wishlistpage
           </View>
         }
         right={
-          <TouchableOpacity onPress={() => { }}>
+          <TouchableOpacity onPress={() => navigation.navigate('ProfileSection')}>
             <Image
               source={require('../images/profilePicture.png')}
               style={styles.profilePic}
@@ -43,7 +46,9 @@ export default function Wishlistpage
           </TouchableOpacity>
         }
       />
-      <SearchBar />
+      <SearchBar
+        leftIcon={<Image source={require('../images/searchInput.png')} />}
+        rightIcon={<Image source={require('../images/voice.png')} />} />
       <HeaderWithSortFilter
         title="52,082+ Items"
         onSortPress={() => console.log('Sort')}

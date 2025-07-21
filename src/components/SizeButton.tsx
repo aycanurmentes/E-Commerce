@@ -8,16 +8,19 @@ const SizeButtons = () => {
 
   return (
     <View style={styles.container}>
-      {sizes.map((title, index) => (
-        <TouchableOpacity
-          key={index}
-          style={[styles.button, index === activeIndex && styles.activeButton]}
-          onPress={() => setActiveIndex(index)} >
-          <Text style={[styles.text, index === activeIndex && styles.activeText]}>
-            {title}
-          </Text>
-        </TouchableOpacity>
-      ))}
+      <Text style={styles.selectedText}>Size: {sizes[activeIndex]}</Text>
+      <View style={styles.rowCont}>
+        {sizes.map((title, index) => (
+          <TouchableOpacity
+            key={index}
+            style={[styles.button, index === activeIndex && styles.activeButton]}
+            onPress={() => setActiveIndex(index)} >
+            <Text style={[styles.text, index === activeIndex && styles.activeText]}>
+              {title}
+            </Text>
+          </TouchableOpacity>
+        ))}
+      </View>
     </View>
   );
 };
@@ -26,10 +29,20 @@ export default SizeButtons;
 
 const styles = StyleSheet.create({
   container: {
+    flexDirection: 'column',
+    gap: 8,
+    padding: 12,
+  },
+  selectedText: {
+    fontSize: 14,
+    fontWeight: '600',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start'
+  },
+  rowCont: {
     flexDirection: 'row',
     gap: 8,
     flexWrap: 'wrap',
-    padding: 12,
   },
   button: {
     borderWidth: 2,

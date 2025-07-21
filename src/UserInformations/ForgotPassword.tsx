@@ -1,12 +1,12 @@
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useState } from 'react';
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { Image, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { InputForms } from '../components/InputForms';
 import ReusableButton from '../components/ReusableButton';
 import styles from './AuthStyles';
 
-export default function SignUpPage() {
+export default function ForgotPassword() {
   const [email, setEmail] = useState<string>('');
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   return (
@@ -19,6 +19,7 @@ export default function SignUpPage() {
           <InputForms
             placeholder="Enter your email address"
             value={email}
+            leftIcon={<Image source={require('../images/mail.png')} style={styles.inputMailImage} />}
             onChangeText={setEmail} />
           <View style={styless.bottomTxt}>
             <Text style={styless.info}>
@@ -27,6 +28,7 @@ export default function SignUpPage() {
           </View>
           <ReusableButton
             title="Submit"
+            fontSize={20}
             buttonStyle={styles.button}
             onPress={() => navigation.navigate('GetStarted')} />
         </View>
@@ -44,11 +46,11 @@ const styless = StyleSheet.create({
     fontSize: 12,
     fontWeight: 400,
     marginTop: 15,
-    marginHorizontal: 40,
+    marginHorizontal: 4,
   },
   bottomTxt: {
     marginTop: -32,
-    alignItems: 'flex-end'
+    alignItems: 'flex-start',
   },
   link: {
     color: '#676767'

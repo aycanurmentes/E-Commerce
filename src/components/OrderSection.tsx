@@ -10,7 +10,7 @@ type OrderProps = {
 };
 
 export default function OrderSection({ price }: OrderProps) {
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'HomePage'>>();
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'Shipping'>>();
 
   return (
     <View>
