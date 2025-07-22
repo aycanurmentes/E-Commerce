@@ -87,7 +87,6 @@ export default function SignUpPage() {
                   By clicking the <Text style={styles.link}>Register</Text> button, you agree to the public offer.
                 </Text>
               </View>
-
               <ReusableButton
                 title="Create Account"
                 buttonStyle={styles.button}

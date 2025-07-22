@@ -55,7 +55,6 @@ export default function ForgotPassword() {
                   {touched.email && errors.email && (
                     <Text style={{ color: 'red', marginLeft: 8 }}>{errors.email}</Text>
                   )}
-
                   <View style={styles.bottomTxt}>
                     <Text style={styless.info}>
                       *{' '}
@@ -64,7 +63,6 @@ export default function ForgotPassword() {
                       </Text>
                     </Text>
                   </View>
-
                   <ReusableButton
                     title="Submit"
                     fontSize={20}
