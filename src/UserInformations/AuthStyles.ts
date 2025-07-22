@@ -64,6 +64,16 @@ const AuthStyles = StyleSheet.create({
   inputMailImage: {
     width: 20,
     height: 16
-  }
+  },
+  errorText: {
+  color: 'red',
+  marginLeft: 8,
+  fontSize: 12,
+  marginTop: 4,
+},
+  bottomTxt: {
+    marginTop: -32,
+    alignItems: 'flex-start',
+  },
 });
 export default AuthStyles;

@@ -5,7 +5,8 @@ export type RootStackParamList = {
   HomePage: undefined;
   SignInPage: undefined;
   SignUpPage: undefined;
-  Main: undefined;
+  ForgotPassword: undefined;
+  TabNavigation: undefined;
   Details: { id: string };
   ProfileSection: undefined;
   Shipping: undefined;

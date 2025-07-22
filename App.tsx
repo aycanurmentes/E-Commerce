@@ -8,9 +8,6 @@ import SignInPage from './src/UserInformations/SignInPage';
 import SignUpPage from './src/UserInformations/SignUpPage';
 import ForgotPassword from './src/UserInformations/ForgotPassword';
 import GetStarted from './src/splash/GetStarted';
-import HomePage from './src/screens/HomePage';
-import BasketPage from './src/screens/BasketPage';
-import Wishlistpage from './src/screens/Wishlistpage';
 import ProfileSection from './src/screens/ProfileSection';
 import TabNavigation from './src/navigations/TabNavigation';
 import Checkout from './src/screens/Checkout';
@@ -30,10 +27,7 @@ export default function AppNavigator() {
         <Stack.Screen name="SignUpPage" component={SignUpPage} />
         <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
         <Stack.Screen name="GetStarted" component={GetStarted} />
-        <Stack.Screen name="HomePage" component={HomePage} />
-        <Stack.Screen name="Main" component={TabNavigation} />
-        <Stack.Screen name="BasketPage" component={BasketPage} />
-        <Stack.Screen name="Wishlistpage" component={Wishlistpage} />
+        <Stack.Screen name="TabNavigation" component={TabNavigation} />
         <Stack.Screen name="ProfileSection" component={ProfileSection} />
         <Stack.Screen name='Checkout' component={Checkout} />
         <Stack.Screen name='Shipping' component={Shipping} />

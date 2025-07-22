@@ -24,7 +24,7 @@ export default function GetStarted() {
             title="Get Started"
             titleStyle={styles.title}
             buttonStyle={styles.button}
-            onPress={() => navigation.replace('Main')} />
+            onPress={() => navigation.replace('TabNavigation')} />
         </View>
       </ImageBackground>
     </View>

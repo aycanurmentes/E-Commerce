@@ -20,7 +20,7 @@ export default function ThirdSplash() {
           backgroundColor='clear'
           textColor="#000"
           fontSize={17}
-          onPress={() => navigation.replace('Main')} />
+          onPress={() => navigation.replace('TabNavigation')} />
       </View>
       <View style={styles.imageContainer}>
         <Image
