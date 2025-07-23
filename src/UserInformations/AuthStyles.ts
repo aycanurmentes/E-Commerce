@@ -14,7 +14,7 @@ const AuthStyles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: 90
+    paddingTop: 40
   },
   header: {
     fontSize: 36,
@@ -51,7 +51,10 @@ const AuthStyles = StyleSheet.create({
     textDecorationLine: 'underline',
   },
   textToInput: {
-    gap: 36
+    gap: 30
+  },
+  headerWrapper: {
+    gap: 4,
   },
   inputImage: {
     width: 24,
@@ -65,14 +68,9 @@ const AuthStyles = StyleSheet.create({
     width: 20,
     height: 16
   },
-  errorText: {
-  color: 'red',
-  marginLeft: 8,
-  fontSize: 12,
-  marginTop: 4,
-},
   bottomTxt: {
-    marginTop: -32,
+    marginTop:-20,
+    marginBottom: 0,
     alignItems: 'flex-start',
   },
 });

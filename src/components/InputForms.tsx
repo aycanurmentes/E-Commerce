@@ -16,6 +16,10 @@ interface InputFormsProps extends TextInputProps {
   rightIcon?: React.ReactNode;
   bottomRightButtonText?: string;
   onBottomRightPress?: () => void;
+  errorText?: string;
+  isPassword?: boolean;
+  showPassword?: boolean;
+  onTogglePasswordVisibility?: () => void;
 }
 
 export const InputForms: React.FC<InputFormsProps> = ({
@@ -24,29 +28,35 @@ export const InputForms: React.FC<InputFormsProps> = ({
   rightIcon,
   bottomRightButtonText,
   onBottomRightPress,
+  errorText,
+  isPassword = false,
+  showPassword = false,
+  onTogglePasswordVisibility,
   ...textInputProps
 }) => {
   const hasLeftIcon = !!leftIcon;
-  const hasRightIcon = !!rightIcon;
 
   return (
     <View style={[styles.wrapper, style]}>
       <View style={styles.inputContainer}>
         {hasLeftIcon && <View style={styles.leftIcon}>{leftIcon}</View>}
-
         <TextInput
           style={[
             styles.input,
             hasLeftIcon ? styles.inputWithLeftIcon : null,
-            hasRightIcon ? styles.inputWithRightIcon : null,
+            rightIcon || isPassword ? styles.inputWithRightIcon : null,
           ]}
+          secureTextEntry={isPassword && !showPassword}
           placeholderTextColor="#aaa"
           {...textInputProps}
         />
-
-        {hasRightIcon && <View style={styles.rightIcon}>{rightIcon}</View>}
+        {(rightIcon || isPassword) && (
+          <TouchableOpacity style={styles.rightIcon} onPress={onTogglePasswordVisibility}>
+            {rightIcon}
+          </TouchableOpacity>
+        )}
       </View>
-
+      {errorText ? <Text style={styles.errorText}>{errorText}</Text> : null}
       {bottomRightButtonText && (
         <TouchableOpacity
           style={styles.bottomRightButton}
@@ -57,6 +67,7 @@ export const InputForms: React.FC<InputFormsProps> = ({
     </View>
   );
 };
+
 const styles = StyleSheet.create({
   wrapper: {
     position: 'relative',
@@ -105,5 +116,11 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontFamily: 'Montserrat',
     fontWeight: '400',
+  },
+  errorText: {
+    color: 'red',
+    fontSize: 12,
+    marginTop: 4,
+    marginLeft: 4,
   },
 });

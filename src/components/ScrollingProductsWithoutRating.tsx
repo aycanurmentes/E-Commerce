@@ -49,12 +49,14 @@ const ScrollingProductsWithoutRating: React.FC<ScrollingProps> = ({ products }) 
       keyExtractor={(_, index) => index.toString()}
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={styles.contentContainer}
+      // eslint-disable-next-line react/no-unstable-nested-components
       ItemSeparatorComponent={() => <View style={styles.item} />}
     />
   );
 };
 
 export default ScrollingProductsWithoutRating;
+
 const styles = StyleSheet.create({
   card: {
     flex: 1,

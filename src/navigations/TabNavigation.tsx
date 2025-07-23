@@ -4,7 +4,7 @@ import { Image, View, StyleSheet, ViewStyle, ImageStyle } from 'react-native';
 import HomePage from '../screens/HomePage';
 import SearchPage from '../screens/SearchPage';
 import BasketPage from '../screens/BasketPage';
-import Wishlistpage from '../screens/Wishlistpage';
+import WishlistPage from '../screens/WishlistPage';
 import SettingPage from '../screens/SettingPage';
 
 const Tab = createBottomTabNavigator();
@@ -47,7 +47,7 @@ const basketIconImage = (focused: boolean): ImageStyle => ({
   resizeMode: 'contain',
 });
 
-const TabNavigator = () => {
+const TabNavigation = () => {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -60,6 +60,7 @@ const TabNavigator = () => {
           paddingBottom: 8,
           paddingTop: 8,
         },
+        // eslint-disable-next-line react/no-unstable-nested-components
         tabBarIcon: ({ color, focused }) => {
           const icon = getTabIcon(route.name);
 
@@ -82,13 +83,14 @@ const TabNavigator = () => {
         component={BasketPage}
         options={{ tabBarLabel: () => null }}
       />
-      <Tab.Screen name="Wishlist" component={Wishlistpage} />
+      <Tab.Screen name="Wishlist" component={WishlistPage} />
       <Tab.Screen name="Settings" component={SettingPage} />
     </Tab.Navigator>
   );
 };
 
-export default TabNavigator;
+export default TabNavigation;
+
 const styles = StyleSheet.create({
   tabIcon: {
     width: 24,

@@ -17,7 +17,7 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 //TODO:cardların alt kısmına gölge ekle  #BBB;
 
-export default function Wishlistpage
+export default function WishlistPage
   () {
   const leftColumn = wishlistProducts.filter((_, index) => index % 2 === 0);
   const rightColumn = wishlistProducts.filter((_, index) => index % 2 !== 0);
@@ -61,7 +61,6 @@ export default function Wishlistpage
               <ProductCard
                 key={item.id}
                 {...item}
-                style={[styles.card, { height: item.cardHeight }]}
               />
             ))}
           </View>
@@ -70,7 +69,6 @@ export default function Wishlistpage
               <ProductCard
                 key={item.id}
                 {...item}
-                style={[styles.card, { height: item.cardHeight }]}
               />
             ))}
           </View>

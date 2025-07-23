@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, ScrollView, Image } from 'react-native';
 
 const categories = ['beauty', 'fashion', 'kids', 'mens', 'womens', 'gift'];
+
 const categoryImages: Record<string, any> = {
   beauty: require('../images/beauty.png'),
   fashion: require('../images/fashion.png'),
@@ -10,6 +11,7 @@ const categoryImages: Record<string, any> = {
   womens: require('../images/womens.png'),
   gift: require('../images/beauty.png'),
 };
+
 const ScrollingCategories = () => {
   return (
     <ScrollView
@@ -30,7 +32,9 @@ const ScrollingCategories = () => {
     </ScrollView>
   );
 };
+
 export default ScrollingCategories;
+
 const styles = StyleSheet.create({
   categories: {
     flexDirection: 'row',

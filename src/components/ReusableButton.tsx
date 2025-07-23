@@ -12,6 +12,7 @@ type Props = {
   buttonStyle?: ViewStyle;
   titleStyle?: TextStyle;
 };
+
 const ReusableButton = ({
   title,
   onPress,
@@ -38,7 +39,9 @@ const ReusableButton = ({
       ]} />
   );
 };
+
 export default ReusableButton;
+
 const styles = StyleSheet.create({
   button: {
     justifyContent: 'center',

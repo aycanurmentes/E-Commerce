@@ -1,7 +1,7 @@
 import { StyleSheet, SafeAreaView, View, Text, ScrollView, TouchableOpacity, Image } from 'react-native'
 import React from 'react'
 import SizeButtons from '../components/SizeButton'
-import SimilarAndCompareButtons from '../components/SimilarAndCompareButtons.tsx'
+import SimilarAndCompareButtons from '../components/SimilarAndCompareButtons'
 import ImageSlider from '../components/ImageSlider'
 import { basketSliderData } from '../data/sliders'
 import StarRating from '../components/StarRating'
@@ -9,8 +9,8 @@ import HeaderWithSortFilter from '../components/HeaderWithSortFilter'
 import ScrollingProductsWithRating from '../components/ScrollingProductsWithRating'
 import { basketProducts } from '../data/basketPageProducts';
 import CartAndBuyButtons from '../components/CartAndBuyButtons'
-import InfoButtons from '../components/InfoButtons.tsx'
-import TopBar from '../components/TopBar.tsx'
+import InfoButtonGroup from '../components/InfoButtons'
+import TopBar from '../components/TopBar'
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
@@ -65,7 +65,7 @@ export default function BasketPage() {
                 <Text style={styles.innerSubtitle}> ...More</Text>
               </Text>
             </View>
-            <InfoButtons />
+            <InfoButtonGroup />
             <CartAndBuyButtons />
             <View style={styles.pinkContainer}>
               <Text style={styles.productTitle}>Delivery in </Text>

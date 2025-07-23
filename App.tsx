@@ -17,6 +17,7 @@ import PlaceOrder from './src/screens/PlaceOrder';
 const Stack = createNativeStackNavigator();
 
 export default function AppNavigator() {
+
   return (
     <NavigationContainer >
       <Stack.Navigator initialRouteName='FirstSplash' screenOptions={{ headerShown: false }}>

@@ -8,7 +8,9 @@ import {
   ImageBackground,
   TouchableOpacity,
   NativeSyntheticEvent,
-  NativeScrollEvent
+  NativeScrollEvent,
+  ViewStyle,
+  TextStyle
 } from 'react-native';
 
 const { width } = Dimensions.get('window');
