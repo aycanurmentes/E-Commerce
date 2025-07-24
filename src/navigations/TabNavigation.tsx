@@ -4,7 +4,7 @@ import { Image, View, StyleSheet, ViewStyle, ImageStyle } from 'react-native';
 import HomePage from '../screens/HomePage';
 import SearchPage from '../screens/SearchPage';
 import BasketPage from '../screens/BasketPage';
-import WishlistPage from '../screens/WishlistPage';
+import Wishlistpage from '../screens/Wishlistpage';
 import SettingPage from '../screens/SettingPage';
 
 const Tab = createBottomTabNavigator();
@@ -83,7 +83,7 @@ const TabNavigation = () => {
         component={BasketPage}
         options={{ tabBarLabel: () => null }}
       />
-      <Tab.Screen name="Wishlist" component={WishlistPage} />
+      <Tab.Screen name="Wishlist" component={Wishlistpage} />
       <Tab.Screen name="Settings" component={SettingPage} />
     </Tab.Navigator>
   );

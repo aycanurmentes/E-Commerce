@@ -30,6 +30,7 @@ interface SliderProps {
   activeDotColor?: string;
   buttonStyle?: ViewStyle;
   buttonTextStyle?: TextStyle;
+  showOverlay?: boolean;
 }
 
 const ImageSlider: React.FC<SliderProps> = ({
@@ -38,6 +39,7 @@ const ImageSlider: React.FC<SliderProps> = ({
   activeDotColor,
   buttonStyle,
   buttonTextStyle,
+  showOverlay = true,
 }) => {
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const scrollRef = useRef<ScrollView>(null);
@@ -65,19 +67,21 @@ const ImageSlider: React.FC<SliderProps> = ({
             style={[styles.slide, { height: sliderHeight ?? 200 }]}
             imageStyle={styles.image}
             resizeMode="cover">
-            <View style={styles.overlay}>
-              <Text style={styles.title}>{slide.title}</Text>
-              <Text style={styles.subtitle}>{slide.subtitle}</Text>
-              <Text style={styles.subtitle2}>{slide.subtitle2}</Text>
-              <TouchableOpacity
-                style={[styles.button, buttonStyle]}
-                onPress={slide.onPress}
-              >
-                <Text style={[styles.buttonText, buttonTextStyle]}>
-                  {slide.buttonText}
-                </Text>
-              </TouchableOpacity>
-            </View>
+            {showOverlay && (
+              <View style={styles.overlay}>
+                <Text style={styles.title}>{slide.title}</Text>
+                <Text style={styles.subtitle}>{slide.subtitle}</Text>
+                <Text style={styles.subtitle2}>{slide.subtitle2}</Text>
+                <TouchableOpacity
+                  style={[styles.button, buttonStyle]}
+                  onPress={slide.onPress}
+                >
+                  <Text style={[styles.buttonText, buttonTextStyle]}>
+                    {slide.buttonText}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            )}
           </ImageBackground>
         ))}
       </ScrollView>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { enableScreens } from 'react-native-screens';
 import FirstSplash from './src/splash/FirstSplash';
 import SecondSplash from './src/splash/SecondSplash';
 import ThirdSplash from './src/splash/ThirdSplash';
@@ -13,6 +14,7 @@ import TabNavigation from './src/navigations/TabNavigation';
 import Checkout from './src/screens/Checkout';
 import Shipping from './src/screens/Shipping';
 import PlaceOrder from './src/screens/PlaceOrder';
+import Details from './src/screens/Details';
 
 const Stack = createNativeStackNavigator();
 
@@ -33,6 +35,7 @@ export default function AppNavigator() {
         <Stack.Screen name='Checkout' component={Checkout} />
         <Stack.Screen name='Shipping' component={Shipping} />
         <Stack.Screen name='PlaceOrder' component={PlaceOrder} />
+        <Stack.Screen name='Details' component={Details}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

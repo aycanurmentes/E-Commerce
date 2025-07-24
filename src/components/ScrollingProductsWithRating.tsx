@@ -16,9 +16,10 @@ interface Product {
 
 interface Props {
   products: Product[];
+  fixedCardHeight?: number;
 }
 
-const ScrollingProductsWithRating: React.FC<Props> = ({ products }) => {
+const ScrollingProductsWithRating: React.FC<Props> = ({ products, fixedCardHeight }) => {
   return (
     <FlatList
       data={products}
@@ -32,7 +33,9 @@ const ScrollingProductsWithRating: React.FC<Props> = ({ products }) => {
           rating={item.rating}
           voteCount={item.voteCount}
           discount={item.discount}
-          ratio={item.ratio} />
+          ratio={item.ratio}
+          style={fixedCardHeight ? { height: fixedCardHeight } : undefined}
+        />
       )}
       horizontal
       showsHorizontalScrollIndicator={false}
@@ -43,6 +46,7 @@ const ScrollingProductsWithRating: React.FC<Props> = ({ products }) => {
 };
 
 export default ScrollingProductsWithRating;
+
 const styles = StyleSheet.create({
   listContainer: {
     paddingHorizontal: 12,
