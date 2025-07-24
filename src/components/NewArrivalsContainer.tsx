@@ -18,7 +18,9 @@ const NewArrivalsContainer = () => {
     </View>
   );
 };
+
 export default NewArrivalsContainer;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

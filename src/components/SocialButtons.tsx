@@ -2,15 +2,16 @@ import React from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Image } from '@rneui/base';
 
-export const SocialButtons = ({ icons }) => (
+export const SocialButtons = ({ icons }: any) => (
   <View style={styles.iconContainer}>
-    {icons.map((icon, i) => (
+    {icons.map((icon: any, i: any) => (
       <TouchableOpacity key={i} style={styles.iconWrapper}>
         <Image source={icon.source} style={styles.iconImage} resizeMode="contain" />
       </TouchableOpacity>
     ))}
   </View>
 );
+
 export const styles = StyleSheet.create({
   iconContainer: {
     flexDirection: 'row',

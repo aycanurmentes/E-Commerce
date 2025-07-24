@@ -1,11 +1,11 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Image, View, StyleSheet, ViewStyle, ImageStyle } from 'react-native';
 import HomePage from '../screens/HomePage';
 import SearchPage from '../screens/SearchPage';
 import BasketPage from '../screens/BasketPage';
-import Wishlistpage from '../screens/Wishlistpage';
+import WishlistPage from '../screens/WishlistPage';
 import SettingPage from '../screens/SettingPage';
-import { Image, ViewStyle, ImageStyle } from 'react-native';
 
 const Tab = createBottomTabNavigator();
 
@@ -26,69 +26,75 @@ const getTabIcon = (routeName: string): any => {
   }
 };
 
-const getIconStyle = (
-  routeName: string,
-  color: string,
-  focused: boolean
-): ImageStyle => {
-  if (routeName === 'Basket') {
-    return {
-      width: 53,
-      height: 56,
-      tintColor: focused ? '#fff' : '#000',
-      borderRadius: 50,
-      backgroundColor: focused ? '#EB3030' : '#fff',
-      marginTop: -20,
-      padding: 10,
-      alignSelf: 'center',
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 4 },
-      shadowOpacity: 0.2,
-      shadowRadius: 4,
-      //  elevation: 5,
-      resizeMode: 'contain',
-    };
-  }
+const basketIconContainer = (focused: boolean): ViewStyle => ({
+  width: 60,
+  height: 60,
+  borderRadius: 30,
+  backgroundColor: focused ? '#EB3030' : '#fff',
+  marginTop: -22,
+  justifyContent: 'center',
+  alignItems: 'center',
+  shadowColor: '#000',
+  shadowOffset: { width: 0, height: 4 },
+  shadowOpacity: 0.2,
+  shadowRadius: 4,
+  elevation: 5,
+});
+const basketIconImage = (focused: boolean): ImageStyle => ({
+  width: 26,
+  height: 26,
+  tintColor: focused ? '#fff' : '#000',
+  resizeMode: 'contain',
+});
 
-  return {
-    width: 24,
-    height: 24,
-    tintColor: color,
-    resizeMode: 'stretch',
-  };
-};
-
-export default function TabNavigator() {
+const TabNavigation = () => {
   return (
     <Tab.Navigator
-      screenOptions={({ route }) => {
-        return {
-          headerShown: false,
-          tabBarShowLabel: true,
-          tabBarActiveTintColor: '#EB3030',
-          tabBarInactiveTintColor: '#000',
-          tabBarStyle: {
-            height: 76,
-            paddingBottom: 8,
-            paddingTop: 8,
-          } as ViewStyle,
-          tabBarIcon: ({ color, focused }) => {
-            const icon = getTabIcon(route.name);
-            return icon ? (
-              <Image
-                source={icon}
-                style={getIconStyle(route.name, color, focused)}
-              />
-            ) : null;
+      screenOptions={({ route }) => ({
+        headerShown: false,
+        tabBarShowLabel: true,
+        tabBarActiveTintColor: '#EB3030',
+        tabBarInactiveTintColor: '#000',
+        tabBarStyle: {
+          height: 76,
+          paddingBottom: 8,
+          paddingTop: 8,
+        },
+        // eslint-disable-next-line react/no-unstable-nested-components
+        tabBarIcon: ({ color, focused }) => {
+          const icon = getTabIcon(route.name);
+
+          if (route.name === 'Basket') {
+            return (
+              <View style={basketIconContainer(focused)}>
+                <Image source={icon} style={basketIconImage(focused)} />
+              </View>
+            );
           }
-        };
-      }}
+
+          return <Image source={icon} style={[styles.tabIcon, { tintColor: color }]} />;
+        },
+      })}
     >
       <Tab.Screen name="Home" component={HomePage} />
       <Tab.Screen name="Search" component={SearchPage} />
-      <Tab.Screen name="Basket" component={BasketPage} options={{ tabBarLabel: () => null }} />
-      <Tab.Screen name="Wishlist" component={Wishlistpage} />
+      <Tab.Screen
+        name="Basket"
+        component={BasketPage}
+        options={{ tabBarLabel: () => null }}
+      />
+      <Tab.Screen name="Wishlist" component={WishlistPage} />
       <Tab.Screen name="Settings" component={SettingPage} />
     </Tab.Navigator>
   );
-}
+};
+
+export default TabNavigation;
+
+const styles = StyleSheet.create({
+  tabIcon: {
+    width: 24,
+    height: 24,
+    resizeMode: 'contain',
+  },
+});

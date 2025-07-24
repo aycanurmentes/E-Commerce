@@ -3,9 +3,9 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React from 'react';
 import { Image, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import PaginationDots from '../components/PaginationDots.tsx';
+import PaginationDots from '../components/PaginationDots';
 import ReusableButton from '../components/ReusableButton';
-import { StepIndicator } from '../components/StepIndicator.tsx';
+import { StepIndicator } from '../components/StepIndicator';
 import { RootStackParamList } from '../navigations/NavigationTypes.ts';
 import styles from './SplashStyles.ts';
 
@@ -20,7 +20,7 @@ export default function SecondSplash() {
           backgroundColor='clear'
           textColor="#000"
           fontSize={17}
-          onPress={() => navigation.replace('Main')} />
+          onPress={() => navigation.replace('TabNavigation')} />
       </View>
       <View style={styles.imageContainer}>
         <Image

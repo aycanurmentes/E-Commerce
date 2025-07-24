@@ -14,7 +14,7 @@ const AuthStyles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: 90
+    paddingTop: 40
   },
   header: {
     fontSize: 36,
@@ -51,7 +51,10 @@ const AuthStyles = StyleSheet.create({
     textDecorationLine: 'underline',
   },
   textToInput: {
-    gap: 36
+    gap: 30
+  },
+  headerWrapper: {
+    gap: 4,
   },
   inputImage: {
     width: 24,
@@ -64,6 +67,11 @@ const AuthStyles = StyleSheet.create({
   inputMailImage: {
     width: 20,
     height: 16
-  }
+  },
+  bottomTxt: {
+    marginTop:-20,
+    marginBottom: 0,
+    alignItems: 'flex-start',
+  },
 });
 export default AuthStyles;

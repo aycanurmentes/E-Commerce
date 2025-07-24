@@ -9,17 +9,17 @@ import {
   View
 } from 'react-native';
 import HeaderWithSortFilter from '../components/HeaderWithSortFilter';
-import ImageSlider from '../components/ImageSlider.tsx';
+import ImageSlider from '../components/ImageSlider';
 import ScrollingCategories from '../components/ScrollingCategories';
 import SearchBar from '../components/SearchBar';
 import TopBar from '../components/TopBar';
-import DealsTrendsContainer from '../components/DealsTrendsContainer.tsx';
-import ScrollingProductsWithoutRating from '../components/ScrollingProductsWithoutRating.tsx';
-import SpecialOfferComponent from '../components/SpecialOfferComponent.tsx';
-import FlatAndHeels from '../components/FlatAndHeels.tsx';
-import NewArrivalsContainer from '../components/NewArrivalsContainer.tsx';
-import SponsoredContainer from '../components/SponsoredContainer.tsx';
-import ScrollingProductsWithRating from '../components/ScrollingProductsWithRating.tsx';
+import DealsTrendsContainer from '../components/DealsTrendsContainer';
+import ScrollingProductsWithoutRating from '../components/ScrollingProductsWithoutRating';
+import SpecialOfferComponent from '../components/SpecialOfferComponent';
+import FlatAndHeels from '../components/FlatAndHeels';
+import NewArrivalsContainer from '../components/NewArrivalsContainer';
+import SponsoredContainer from '../components/SponsoredContainer';
+import ScrollingProductsWithRating from '../components/ScrollingProductsWithRating';
 import { homeSliderData } from '../data/sliders.ts';
 import { WithRatingProps } from '../data/homePageProducts.ts';
 import { WithoutRatingProps } from '../data/homePageProducts.ts';
@@ -83,7 +83,9 @@ const HomePage = () => {
     </SafeAreaView>
   );
 };
+
 export default HomePage;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

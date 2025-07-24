@@ -4,12 +4,10 @@ import CreditCardSection from '../components/CreditCardSection';
 import { creditCardProps } from '../data/creditCard';
 import ReusableButton from '../components/ReusableButton';
 import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../navigations/NavigationTypes';
 import PaymentComponent from '../components/PaymentComponent';
 
 export default function Shipping() {
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'Main'>>();
+  const navigation = useNavigation<any>();
   const [isModalVisible, setModalVisible] = useState(false);
 
   const handleContinue = () => {
@@ -18,7 +16,7 @@ export default function Shipping() {
 
   const handleClose = () => {
     setModalVisible(false);
-    navigation.replace('Main');
+    navigation.replace('TabNavigation');
   };
 //TODO: buton boyutu , card ların image boyutlarını hepsine özel olacak şekilde düzelt.
   return (

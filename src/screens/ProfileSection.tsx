@@ -56,7 +56,7 @@ export default function ProfileSection() {
         <ReusableButton
           title="Save"
           buttonStyle={styles.button}
-          onPress={() => navigation.navigate('HomePage')}
+          onPress={() => navigation.navigate('TabNavigation')}
         />
       </ScrollView>
     </SafeAreaView>

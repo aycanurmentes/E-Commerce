@@ -30,7 +30,6 @@ export default StarRating;
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-
   },
   starWrapper: {
     position: 'relative',

@@ -4,9 +4,10 @@ import React from 'react';
 import { ImageBackground, StyleSheet, Text, View } from 'react-native';
 import ReusableButton from '../components/ReusableButton';
 import { RootStackParamList } from '../navigations/NavigationTypes.ts';
-export default function GetStarted() {
 
+export default function GetStarted() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'SecondSplash'>>();
+
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -24,12 +25,13 @@ export default function GetStarted() {
             title="Get Started"
             titleStyle={styles.title}
             buttonStyle={styles.button}
-            onPress={() => navigation.replace('Main')} />
+            onPress={() => navigation.replace('TabNavigation')} />
         </View>
       </ImageBackground>
     </View>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
