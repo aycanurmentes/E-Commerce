@@ -10,4 +10,5 @@ export type RootStackParamList = {
   Details: { id: string };
   ProfileSection: undefined;
   Shipping: undefined;
+  BasketPage: undefined;
 };

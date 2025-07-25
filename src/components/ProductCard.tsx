@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, ViewStyle } from 'react-native';
+import { View, Text, StyleSheet, Image, ViewStyle, TouchableOpacity } from 'react-native';
 import StarRating from './StarRating';
 
 interface ProductCardProps {
@@ -11,7 +11,9 @@ interface ProductCardProps {
   ratio?: string;
   rating: number;
   voteCount?: number;
+  productDetails?: string;
   style?: ViewStyle;
+  onPress?: () => void;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
@@ -23,28 +25,32 @@ const ProductCard: React.FC<ProductCardProps> = ({
   ratio,
   rating,
   voteCount,
+  productDetails,
   style,
+  onPress,
 }) => {
   return (
-    <View style={[styles.card, style]}>
-      <Image source={image} style={styles.image} />
-      <View style={styles.infoContainer}>
-        <Text numberOfLines={1} style={styles.title}>{title}</Text>
-        <Text numberOfLines={2} style={styles.description}>{description}</Text>
-        <View style={styles.priceRow}>
-          <Text style={styles.price}>{price}</Text>
-          {discount && <Text style={styles.discount}>{discount}
-            <Text style={styles.ratio}>
-              {ratio}
-            </Text>
-          </Text>}
-        </View>
-        <View style={styles.ratingRow}>
-          <StarRating rating={rating} />
-          <Text style={styles.voteCount}>{voteCount}</Text>
+    <TouchableOpacity onPress={onPress}>
+      <View style={[styles.card, style]}>
+        <Image source={image} style={styles.image} />
+        <View style={styles.infoContainer}>
+          <Text numberOfLines={1} style={styles.title}>{title}</Text>
+          <Text numberOfLines={2} style={styles.description}>{description}</Text>
+          <View style={styles.priceRow}>
+            <Text style={styles.price}>{price}</Text>
+            {discount && <Text style={styles.discount}>{discount}
+              <Text style={styles.ratio}>
+                {ratio}
+              </Text>
+            </Text>}
+          </View>
+          <View style={styles.ratingRow}>
+            <StarRating rating={rating} />
+            <Text style={styles.voteCount}>{voteCount}</Text>
+          </View>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

@@ -15,13 +15,23 @@ import HeaderWithSortFilter from '../components/HeaderWithSortFilter';
 import { wishlistProducts } from '../data/products';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-//TODO:cardların alt kısmına gölge ekle  #BBB;
 
-export default function WishlistPage
-  () {
-  const leftColumn = wishlistProducts.filter((_, index) => index % 2 === 0);
-  const rightColumn = wishlistProducts.filter((_, index) => index % 2 !== 0);
+function getHeightForIndex(index: number): number {
+  const pattern = [245, 305, 305, 245]; 
+  return pattern[index % pattern.length];
+}
+
+export default function Wishlistpage() {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
+
+  // İndex bilgisini de tutarak iki kolona ayır
+  const leftColumn = wishlistProducts
+    .map((item, index) => ({ ...item, index }))
+    .filter((_, index) => index % 2 === 0);
+
+  const rightColumn = wishlistProducts
+    .map((item, index) => ({ ...item, index }))
+    .filter((_, index) => index % 2 !== 0);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -48,12 +58,14 @@ export default function WishlistPage
       />
       <SearchBar
         leftIcon={<Image source={require('../images/searchInput.png')} />}
-        rightIcon={<Image source={require('../images/voice.png')} />} />
+        rightIcon={<Image source={require('../images/voice.png')} />}
+      />
       <HeaderWithSortFilter
         title="52,082+ Items"
         onSortPress={() => console.log('Sort')}
         onFilterPress={() => console.log('Filter')}
       />
+
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.columnsWrapper}>
           <View style={styles.column}>
@@ -61,6 +73,10 @@ export default function WishlistPage
               <ProductCard
                 key={item.id}
                 {...item}
+                style={[styles.card, { height: getHeightForIndex(item.index) }]}
+                onPress={() =>
+                  navigation.navigate('Details', { id: String(item.id) })
+                }
               />
             ))}
           </View>
@@ -69,6 +85,10 @@ export default function WishlistPage
               <ProductCard
                 key={item.id}
                 {...item}
+                style={[styles.card, { height: getHeightForIndex(item.index) }]}
+                onPress={() =>
+                  navigation.navigate('Details', { id: String(item.id) })
+                }
               />
             ))}
           </View>
@@ -77,10 +97,10 @@ export default function WishlistPage
     </SafeAreaView>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     borderRadius: 12,
-    // overflow: 'hidden',
     margin: 8,
     backgroundColor: '#F9F9F9',
     flex: 1,
@@ -116,5 +136,10 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     backgroundColor: '#fff',
     borderRadius: 12,
+    shadowColor: '#BBB', // TODO: gölge eklendi
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 3, // Android için gölge
   },
 });
