@@ -15,42 +15,39 @@ export default function ForgotPassword() {
 
   const validate = (values: { email: string }) => {
     const errors: { email?: string } = {};
-    
-    // Turkish character check
+
     const turkishChars = /[çğıöşüÇĞIİÖŞÜ]/;
     if (turkishChars.test(values.email)) {
       errors.email = 'Do not use Turkish characters in email address!';
       return errors;
     }
 
-    // Email format check
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!emailRegex.test(values.email)) {
       errors.email = 'Please enter a valid email address.';
     }
-    
+
     return errors;
   };
 
   const handleResetPassword = async (values: { email: string }) => {
     if (isLoading) return;
-    
+
     setIsLoading(true);
     try {
       await FirebaseAuthService.resetPassword(values.email);
-      
+
       Toast.show({
         type: 'success',
         text1: 'Success!',
         text2: 'Password reset link has been sent to your email.',
         position: 'top',
       });
-      
-      // Redirect after successful operation
+
       setTimeout(() => {
         navigation.navigate('SignInPage');
       }, 2000);
-      
+
     } catch (error: any) {
       const authError = error as AuthError;
       Toast.show({
@@ -75,8 +72,8 @@ export default function ForgotPassword() {
             <View style={styles.base1}>
               <View style={styles.textToInput}>
                 <View style={styles.headerWrapper}>
-                <Text style={styles.header}>Forgot </Text>
-                <Text style={styles.header}>Password? </Text>
+                  <Text style={styles.header}>Forgot </Text>
+                  <Text style={styles.header}>Password? </Text>
                 </View>
                 <InputForms
                   placeholder="Enter your email address"
@@ -92,7 +89,7 @@ export default function ForgotPassword() {
                   leftIcon={
                     <Image
                       source={require('../images/mail.png')}
-                      style={styles.inputMailImage}  />
+                      style={styles.inputMailImage} />
                   }
                 />
                 <View style={localStyles.bottomTxt}>
