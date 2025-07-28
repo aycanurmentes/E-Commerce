@@ -20,6 +20,7 @@ interface InputFormsProps extends TextInputProps {
   isPassword?: boolean;
   showPassword?: boolean;
   onTogglePasswordVisibility?: () => void;
+  hasError?: boolean;
 }
 
 export const InputForms: React.FC<InputFormsProps> = ({
@@ -32,6 +33,7 @@ export const InputForms: React.FC<InputFormsProps> = ({
   isPassword = false,
   showPassword = false,
   onTogglePasswordVisibility,
+  hasError = false,
   ...textInputProps
 }) => {
   const hasLeftIcon = !!leftIcon;
@@ -45,6 +47,7 @@ export const InputForms: React.FC<InputFormsProps> = ({
             styles.input,
             hasLeftIcon ? styles.inputWithLeftIcon : null,
             rightIcon || isPassword ? styles.inputWithRightIcon : null,
+            hasError && styles.inputError,
           ]}
           secureTextEntry={isPassword && !showPassword}
           placeholderTextColor="#aaa"
@@ -86,6 +89,9 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '500',
     backgroundColor: '#F3F3F3',
+  },
+  inputError: {
+    borderColor: '#FF0000',
   },
   inputWithLeftIcon: {
     paddingLeft: 42,

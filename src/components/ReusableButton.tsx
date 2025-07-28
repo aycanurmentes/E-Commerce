@@ -11,6 +11,7 @@ type Props = {
   borderRadius?: number;
   buttonStyle?: ViewStyle;
   titleStyle?: TextStyle;
+  disabled?: boolean;
 };
 
 const ReusableButton = ({
@@ -22,11 +23,13 @@ const ReusableButton = ({
   borderRadius = 12,
   buttonStyle,
   titleStyle,
+  disabled = false,
 }: Props) => {
   return (
     <Button
       title={title}
       onPress={onPress}
+      disabled={disabled}
       buttonStyle={[
         styles.button,
         { backgroundColor, borderRadius },

@@ -1,19 +1,24 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View, TextInput } from 'react-native';
 import { InputForms } from '../components/InputForms';
 import ReusableButton from '../components/ReusableButton';
 import { SocialButtons } from '../components/SocialButtons';
 import { RootStackParamList } from '../navigations/NavigationTypes';
 import styles from './AuthStyles';
 import { Formik } from 'formik';
+import Toast from 'react-native-toast-message';
+import { FirebaseAuthService, AuthError } from '../services/firebaseAuth';
 
 export default function SignUpPage() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const passwordRef = useRef<TextInput>(null);
+  const confirmPasswordRef = useRef<TextInput>(null);
 
   const togglePasswordVisibility = () => setShowPassword(prev => !prev);
   const toggleConfirmPasswordVisibility = () => setShowConfirmPassword(prev => !prev);
@@ -26,16 +31,67 @@ export default function SignUpPage() {
 
   const validate = (values: { email: string; password: string; confirmPassword: string }) => {
     const errors: { email?: string; password?: string; confirmPassword?: string } = {};
-    if (!values.email.includes('@') || !values.email.includes('.com')) {
-      errors.email = 'Enter a valid email.';
+    
+    const turkishChars = /[çğıöşüÇĞIİÖŞÜ]/;
+    if (turkishChars.test(values.email)) {
+      errors.email = 'Do not use Turkish characters in email address!';
+      return errors;
     }
+
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(values.email)) {
+      errors.email = 'Please enter a valid email address.';
+    }
+
     if (values.password.length < 6) {
       errors.password = 'Password must be at least 6 characters.';
     }
+
     if (values.confirmPassword !== values.password) {
       errors.confirmPassword = 'Passwords do not match.';
     }
+
     return errors;
+  };
+
+  const handleSignUp = async (values: { email: string; password: string; confirmPassword: string }) => {
+    if (isLoading) return;
+    
+    setIsLoading(true);
+    try {
+      await FirebaseAuthService.signUpWithEmail(values.email, values.password);
+      
+      Toast.show({
+        type: 'success',
+        text1: 'Success!',
+        text2: 'Your account has been created.',
+        position: 'top',
+      });
+      
+      setTimeout(() => {
+        navigation.navigate('TabNavigation');
+      }, 1500);
+      
+    } catch (error: any) {
+      const authError = error as AuthError;
+      Toast.show({
+        type: 'error',
+        text1: 'Registration Error',
+        text2: authError.message,
+        position: 'top',
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleSocialSignUp = (platform: string) => {
+    Toast.show({
+      type: 'info',
+      text1: `Sign up with ${platform.charAt(0).toUpperCase() + platform.slice(1)}`,
+      text2: '.',
+      position: 'top',
+    });
   };
 
   return (
@@ -45,9 +101,7 @@ export default function SignUpPage() {
           <Formik
             initialValues={{ email: '', password: '', confirmPassword: '' }}
             validate={validate}
-            onSubmit={() => {
-              navigation.navigate('ForgotPassword');
-            }}
+            onSubmit={handleSignUp}
           >
             {({
               handleChange,
@@ -61,8 +115,8 @@ export default function SignUpPage() {
               <>
                 <View style={styles.textToInput}>
                   <View style={styles.headerWrapper}>
-                    <Text style={styles.header}>Create an</Text>
-                    <Text style={styles.header}>account</Text>
+                    <Text style={styles.header}>Create</Text>
+                    <Text style={styles.header}>Account</Text>
                   </View>
                   <InputForms
                     placeholder="Username or Email"
@@ -73,6 +127,10 @@ export default function SignUpPage() {
                       setFieldTouched('email');
                     }}
                     errorText={touched.email && errors.email ? errors.email : ''}
+                    hasError={touched.email && !!errors.email}
+                    returnKeyType="next"
+                    onSubmitEditing={() => passwordRef.current?.focus()}
+                    editable={!isLoading}
                     leftIcon={
                       <Image
                         source={require('../images/user.png')}
@@ -90,6 +148,10 @@ export default function SignUpPage() {
                       setFieldTouched('password');
                     }}
                     errorText={touched.password && errors.password ? errors.password : ''}
+                    hasError={touched.password && !!errors.password}
+                    returnKeyType="next"
+                    onSubmitEditing={() => confirmPasswordRef.current?.focus()}
+                    editable={!isLoading}
                     leftIcon={
                       <Image
                         source={require('../images/passwordLock.png')}
@@ -97,7 +159,7 @@ export default function SignUpPage() {
                       />
                     }
                     rightIcon={
-                      <TouchableOpacity onPress={togglePasswordVisibility}>
+                      <TouchableOpacity onPress={togglePasswordVisibility} disabled={isLoading}>
                         <Image
                           source={require('../images/eye.png')}
                           style={styles.inputImage}
@@ -119,6 +181,10 @@ export default function SignUpPage() {
                         ? errors.confirmPassword
                         : ''
                     }
+                    hasError={touched.confirmPassword && !!errors.confirmPassword}
+                    returnKeyType="done"
+                    onSubmitEditing={() => handleSubmit()}
+                    editable={!isLoading}
                     leftIcon={
                       <Image
                         source={require('../images/passwordLock.png')}
@@ -126,7 +192,7 @@ export default function SignUpPage() {
                       />
                     }
                     rightIcon={
-                      <TouchableOpacity onPress={toggleConfirmPasswordVisibility}>
+                      <TouchableOpacity onPress={toggleConfirmPasswordVisibility} disabled={isLoading}>
                         <Image
                           source={require('../images/eye.png')}
                           style={styles.inputImage}
@@ -137,14 +203,14 @@ export default function SignUpPage() {
                 </View>
                 <View style={styles.bottomTxt}>
                   <Text style={styless.info}>
-                    By clicking the <Text style={styles.link}>Register</Text> button, you agree
-                    to the public offer.
+                    By clicking the <Text style={styles.link}>Register</Text> button, you agree to the public offer
                   </Text>
                 </View>
                 <ReusableButton
-                  title="Create Account"
+                  title={isLoading ? "Creating Account..." : "Create Account"}
                   buttonStyle={styles.button}
                   onPress={handleSubmit}
+                  disabled={isLoading}
                 />
               </>
             )}
@@ -153,7 +219,10 @@ export default function SignUpPage() {
         <View style={styles.base2}>
           <View style={styles.social}>
             <Text style={styles.or}>- OR Continue with -</Text>
-            <SocialButtons icons={socialIcons} />
+            <SocialButtons 
+              icons={socialIcons} 
+              onSocialPress={handleSocialSignUp}
+            />
             <Text style={styles.footer}>
               Already have an account?{' '}
               <Text style={styles.link} onPress={() => navigation.navigate('SignInPage')}>
