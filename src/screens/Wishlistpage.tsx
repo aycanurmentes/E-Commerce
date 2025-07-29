@@ -1,71 +1,67 @@
-import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  SafeAreaView,
-  TouchableOpacity,
-  Image,
-  ScrollView,
-} from 'react-native';
-import ProductCard from '../components/ProductCard';
-import TopBar from '../components/TopBar';
-import SearchBar from '../components/SearchBar';
-import HeaderWithSortFilter from '../components/HeaderWithSortFilter';
-import { wishlistProducts } from '../data/products';
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import React, { useEffect, useState } from 'react'
+import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Image } from 'react-native'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { wishlistProducts } from '../data/products'
+import ProductCard from '../components/ProductCard'
+import { useNavigation, useFocusEffect } from '@react-navigation/native'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import TopBar from '../components/TopBar'
 
-function getHeightForIndex(index: number): number {
-  const pattern = [245, 305, 305, 245]; 
-  return pattern[index % pattern.length];
-}
+const SettingsPage = () => {
+  const [favorites, setFavorites] = useState<string[]>([])
+  const [leftColumn, setLeftColumn] = useState<any[]>([])
+  const [rightColumn, setRightColumn] = useState<any[]>([])
+  const navigation = useNavigation()
 
-export default function Wishlistpage() {
-  const navigation = useNavigation<NativeStackNavigationProp<any>>();
+  const fetchFavorites = async () => {
+    const token = await AsyncStorage.getItem('favorites')
+    const res = token ? JSON.parse(token) : []
+    setFavorites(res)
+  }
 
-  // İndex bilgisini de tutarak iki kolona ayır
-  const leftColumn = wishlistProducts
-    .map((item, index) => ({ ...item, index }))
-    .filter((_, index) => index % 2 === 0);
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchFavorites()
+    }, [])
+  )
 
-  const rightColumn = wishlistProducts
-    .map((item, index) => ({ ...item, index }))
-    .filter((_, index) => index % 2 !== 0);
+  useEffect(() => {
+    const favoriteProducts = wishlistProducts.filter(p => favorites.includes(p.id))
+
+    const left: any[] = []
+    const right: any[] = []
+
+    favoriteProducts.forEach((item, index) => {
+      const withIndex = { ...item, index }
+      if (index % 2 === 0) {
+        left.push(withIndex)
+      } else {
+        right.push(withIndex)
+      }
+    })
+
+    setLeftColumn(left)
+    setRightColumn(right)
+  }, [favorites])
+
+  const getHeightForIndex = (index: number) => {
+    return index % 3 === 0 ? 305 : 250
+  }
 
   return (
     <SafeAreaView style={styles.container}>
       <TopBar
-        left={
-          <TouchableOpacity onPress={() => { }}>
-            <Image source={require('../images/openup.png')} />
-          </TouchableOpacity>
-        }
+       left={
+                <TouchableOpacity onPress={() => navigation.goBack()}>
+                  <Image source={require('../images/openup.png')} />
+                </TouchableOpacity>
+              }
         center={
           <View style={styles.center}>
-            <Image source={require('../images/logoItem.png')} />
-            <Text style={styles.logoText}>Stylish</Text>
+            <Text style={styles.logoText}>Favorites</Text>
           </View>
         }
-        right={
-          <TouchableOpacity onPress={() => navigation.navigate('ProfileSection')}>
-            <Image
-              source={require('../images/profilePicture.png')}
-              style={styles.profilePic}
-            />
-          </TouchableOpacity>
-        }
       />
-      <SearchBar
-        leftIcon={<Image source={require('../images/searchInput.png')} />}
-        rightIcon={<Image source={require('../images/voice.png')} />}
-      />
-      <HeaderWithSortFilter
-        title="52,082+ Items"
-        onSortPress={() => console.log('Sort')}
-        onFilterPress={() => console.log('Filter')}
-      />
-
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.columnsWrapper}>
           <View style={styles.column}>
@@ -74,6 +70,7 @@ export default function Wishlistpage() {
                 key={item.id}
                 {...item}
                 style={[styles.card, { height: getHeightForIndex(item.index) }]}
+                cardHeight={getHeightForIndex(item.index)}
                 onPress={() =>
                   navigation.navigate('Details', { id: String(item.id) })
                 }
@@ -86,6 +83,7 @@ export default function Wishlistpage() {
                 key={item.id}
                 {...item}
                 style={[styles.card, { height: getHeightForIndex(item.index) }]}
+                cardHeight={getHeightForIndex(item.index)}
                 onPress={() =>
                   navigation.navigate('Details', { id: String(item.id) })
                 }
@@ -95,15 +93,39 @@ export default function Wishlistpage() {
         </View>
       </ScrollView>
     </SafeAreaView>
-  );
+  )
 }
 
+export default SettingsPage
 const styles = StyleSheet.create({
   container: {
-    borderRadius: 12,
-    margin: 8,
-    backgroundColor: '#F9F9F9',
     flex: 1,
+  },
+  containerTitle: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
+  },
+  headerText: {
+    fontSize: 25,
+    fontWeight: '600',
+    color: '#EB3030'
+  },
+  scrollContainer: {
+    paddingHorizontal: 10,
+    paddingTop: 16,
+    paddingBottom: 30,
+  },
+  columnsWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  column: {
+    flex: 1,
+    gap: 16,
+  },
+  card: {
+    marginHorizontal: 5,
   },
   center: {
     flexDirection: 'row',
@@ -112,34 +134,8 @@ const styles = StyleSheet.create({
   logoText: {
     fontWeight: '700',
     fontSize: 18,
-    color: '#4392F9',
+    color: '#000',
     fontFamily: 'Libre Caslon Text',
     marginLeft: 6,
   },
-  profilePic: {
-    width: 40,
-    height: 40,
-  },
-  scrollContainer: {
-    paddingHorizontal: 12,
-    paddingBottom: 24,
-  },
-  columnsWrapper: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    gap: 16,
-  },
-  column: {
-    flex: 1,
-  },
-  card: {
-    marginBottom: 16,
-    backgroundColor: '#fff',
-    borderRadius: 12,
-    shadowColor: '#BBB', // TODO: gölge eklendi
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 3, // Android için gölge
-  },
-});
+})

@@ -1,5 +1,5 @@
-import { StyleSheet, SafeAreaView, View, Text, ScrollView, TouchableOpacity, Image } from 'react-native'
-import React from 'react'
+import { StyleSheet, SafeAreaView, View, Text, ScrollView, TouchableOpacity, Image, Alert } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import SizeButtons from '../components/SizeButton'
 import SimilarAndCompareButtons from '../components/SimilarAndCompareButtons.tsx'
 import ImageSlider from '../components/ImageSlider'
@@ -13,11 +13,17 @@ import { RouteProp, useNavigation, useRoute } from '@react-navigation/native'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { wishlistProducts } from '../data/products.ts'
 import { RootStackParamList } from '../navigations/NavigationTypes.ts'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const Details = () => {
   const route = useRoute<RouteProp<RootStackParamList, 'Details'>>()
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>()
   const id = route?.params?.id
+  const [isFavorite, setIsFavorite] = useState(false)
+
+  useEffect(() => {
+    renderFavorites(product.id)
+  }, [])
 
   let product = wishlistProducts[0]
   if (id) {
@@ -31,6 +37,42 @@ const Details = () => {
   const similarProducts = wishlistProducts.filter(
     (item) => item.groupId === product.groupId && item.id !== product.id
   )
+
+  const saveFavorites = async (itemId: string) => {
+    try {
+      const token = await AsyncStorage.getItem('favorites')
+      const res = token ? JSON.parse(token) : []
+      if (!res.includes(itemId)) {
+        res.push(itemId)
+        await AsyncStorage.setItem('favorites', JSON.stringify(res))
+        setIsFavorite(true)
+        Alert.alert('Item saved to favorites!')
+      }
+    } catch (err) {
+      console.error('Save failed', err)
+    }
+  }
+  const removeFavorites = async (itemId: string) => {
+    try {
+      const token = await AsyncStorage.getItem('favorites')
+      const res = token ? JSON.parse(token) : []
+      const updated = res.filter((val: string) => val !== itemId)
+      await AsyncStorage.setItem('favorites', JSON.stringify(updated))
+      setIsFavorite(false)
+      Alert.alert('Item removed from favorites!')
+    } catch (err) {
+      console.error('Remove failed', err)
+    }
+  }
+  const renderFavorites = async (itemId: string) => {
+    try {
+      const token = await AsyncStorage.getItem('favorites')
+      const res = token ? JSON.parse(token) : []
+      setIsFavorite(res.includes(itemId))
+    } catch (err) {
+      console.error('Render failed', err)
+    }
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -62,6 +104,20 @@ const Details = () => {
           buttonTextStyle={styles.buttonTextStyle}
           showOverlay={false}
         />
+        <View style={styles.heartIconContainer}>
+          <TouchableOpacity onPress={() => {
+            isFavorite ? removeFavorites(product.id) : saveFavorites(product.id)
+          }}>
+            <Image
+              source={
+                isFavorite
+                  ? require('../images/heart-filled.png')
+                  : require('../images/heart-outlined.png')
+              }
+              style={styles.heartIcon}
+            />
+          </TouchableOpacity>
+        </View>
         <SizeButtons />
         <View style={styles.detailsContainer}>
           <View style={styles.topTitle}>
@@ -96,7 +152,7 @@ const Details = () => {
               onSortPress={() => console.log('Sort')}
               onFilterPress={() => console.log('Filter')}
             />
-            <ScrollingProductsWithRating products={similarProducts} fixedCardHeight={305}/>
+            <ScrollingProductsWithRating products={similarProducts} fixedCardHeight={305} />
           </View>
         </View>
       </ScrollView>
@@ -221,5 +277,16 @@ const styles = StyleSheet.create({
   backImage: {
     width: 9.5,
     height: 19,
+  },
+  heartIconContainer: {
+    position: 'absolute',
+    top: 60,
+    right: 20,
+    zIndex: 10,
+  },
+  heartIcon: {
+    width: 30,
+    height: 30,
+    tintColor: '#EB3030',
   },
 })

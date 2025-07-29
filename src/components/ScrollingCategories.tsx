@@ -1,5 +1,7 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, Image } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Image, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 const categories = ['beauty', 'fashion', 'kids', 'mens', 'womens', 'gift'];
 
@@ -13,21 +15,25 @@ const categoryImages: Record<string, any> = {
 };
 
 const ScrollingCategories = () => {
+  const navigation = useNavigation<NativeStackNavigationProp<any>>();
+
   return (
     <ScrollView
       horizontal
       showsHorizontalScrollIndicator={false}
       style={styles.categories}  >
       {categories.map((item, index) => (
-        <View style={styles.categoryItem} key={index}>
-          <Image
-            source={categoryImages[item]}
-            style={styles.categoryIcon}
-          />
-          <Text style={styles.categoryText}>
-            {item.charAt(0).toUpperCase() + item.slice(1)}
-          </Text>
-        </View>
+        <TouchableOpacity key={index} onPress={() => navigation.navigate('Search', { selectedCategory: item })}>
+          <View style={styles.categoryItem} >
+            <Image
+              source={categoryImages[item]}
+              style={styles.categoryIcon}
+            />
+            <Text style={styles.categoryText}>
+              {item.charAt(0).toUpperCase() + item.slice(1)}
+            </Text>
+          </View>
+        </TouchableOpacity>
       ))}
     </ScrollView>
   );

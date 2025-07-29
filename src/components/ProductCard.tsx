@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, ViewStyle, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, ViewStyle, TouchableOpacity, StyleProp } from 'react-native';
 import StarRating from './StarRating';
 
 interface ProductCardProps {
@@ -12,7 +12,8 @@ interface ProductCardProps {
   rating: number;
   voteCount?: number;
   productDetails?: string;
-  style?: ViewStyle;
+  style?: StyleProp<ViewStyle>;
+  cardHeight?: number;
   onPress?: () => void;
 }
 
@@ -25,14 +26,16 @@ const ProductCard: React.FC<ProductCardProps> = ({
   ratio,
   rating,
   voteCount,
-  productDetails,
   style,
   onPress,
+  cardHeight = 245, 
 }) => {
+  const imageHeight = cardHeight === 305 ? '62%' : '55%';
+
   return (
     <TouchableOpacity onPress={onPress}>
       <View style={[styles.card, style]}>
-        <Image source={image} style={styles.image} />
+        <Image source={image} style={[styles.image, { height: imageHeight }]} />
         <View style={styles.infoContainer}>
           <Text numberOfLines={1} style={styles.title}>{title}</Text>
           <Text numberOfLines={2} style={styles.description}>{description}</Text>
@@ -62,8 +65,6 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     overflow: 'hidden',
     flex: 1,
-    width: 170,
-    height: 241
   },
   image: {
     width: '100%',
