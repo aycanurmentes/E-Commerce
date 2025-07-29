@@ -284,7 +284,6 @@ const styles = StyleSheet.create({
     right: 20,
     zIndex: 10,
   },
-
   heartIcon: {
     width: 30,
     height: 30,
