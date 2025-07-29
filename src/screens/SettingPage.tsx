@@ -1,4 +1,4 @@
-import { Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
 export default function SettingPage() {
@@ -8,3 +8,5 @@ export default function SettingPage() {
     </View>
   )
 }
+
+const styles = StyleSheet.create({})
