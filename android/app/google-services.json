@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "433633667752",
+    "project_id": "rnecommerce-5bca1",
+    "storage_bucket": "rnecommerce-5bca1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:433633667752:android:a60784a2e24d25f584f09d",
+        "android_client_info": {
+          "package_name": "com.ecommerceapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBD73otrwjqb-30RD4TPjpmY4tkqjJCTqc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

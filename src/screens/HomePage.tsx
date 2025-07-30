@@ -4,9 +4,6 @@ import {
   SafeAreaView,
   ScrollView,
   StyleSheet,
-  Text,
-  TouchableOpacity,
-  View
 } from 'react-native';
 import HeaderWithSortFilter from '../components/HeaderWithSortFilter';
 import ImageSlider from '../components/ImageSlider';
@@ -33,19 +30,14 @@ const HomePage = () => {
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <TopBar
-          left={
-            <TouchableOpacity onPress={() => { }}>
-              <Image source={require('../images/openup.png')} />
-            </TouchableOpacity>}
-          center={
-            <View style={styles.center}>
-              <Image source={require('../images/logoItem.png')} />
-              <Text style={styles.logoText}>Stylish</Text>
-            </View>}
-          right={
-            <TouchableOpacity onPress={() => navigation.navigate('ProfileSection')}>
-              <Image source={require('../images/profilePicture.png')} style={styles.profilePic} />
-            </TouchableOpacity>} />
+          leftIcon={require('../images/openup.png')}
+          onLeftPress={() => { }}
+          centerImage={require('../images/logoItem.png')}
+          centerText="Stylish"
+          centerTextColor="#4392F9"
+          rightIcon={require('../images/profilePicture.png')}
+          onRightPress={() => navigation.navigate('ProfileSection')}
+        />
         <SearchBar
           leftIcon={<Image source={require('../images/searchInput.png')} />}
           rightIcon={<Image source={require('../images/voice.png')} />} />

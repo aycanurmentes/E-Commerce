@@ -5,6 +5,7 @@ import { creditCardProps } from '../data/creditCard';
 import ReusableButton from '../components/ReusableButton';
 import { useNavigation } from '@react-navigation/native';
 import PaymentComponent from '../components/PaymentComponent';
+import TopBar from '../components/TopBar';
 
 export default function Shipping() {
   const navigation = useNavigation<any>();
@@ -21,6 +22,11 @@ export default function Shipping() {
 //TODO: buton boyutu , card ların image boyutlarını hepsine özel olacak şekilde düzelt.
   return (
     <SafeAreaView style={styles.container}>
+      <TopBar
+          leftIcon={require('../images/back.png')}
+          onLeftPress={() => navigation.goBack()}
+          centerText="Checkout"
+        />
       <PaymentComponent price={7000} shipping={30} />
       <Text style={styles.title}>Payment</Text>
       <View style={styles.cardSection}>

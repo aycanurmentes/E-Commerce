@@ -1,16 +1,26 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Image } from 'react-native'
+import { View, Text, StyleSheet, FlatList } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { wishlistProducts } from '../data/products'
-import ProductCard from '../components/ProductCard'
+import WishlistItem from '../components/WishlistItem'
 import { useNavigation, useFocusEffect } from '@react-navigation/native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import TopBar from '../components/TopBar'
 
-const SettingsPage = () => {
+interface CartItem {
+  id: number;
+  title: string;
+  price: number | string;
+  image: any;
+  quantity: number;
+  rating: number;
+  oldPrice?: number;
+  variations?: string[];
+}
+
+const WishlistPage = () => {
   const [favorites, setFavorites] = useState<string[]>([])
-  const [leftColumn, setLeftColumn] = useState<any[]>([])
-  const [rightColumn, setRightColumn] = useState<any[]>([])
+  const [favoriteProducts, setFavoriteProducts] = useState<any[]>([])
   const navigation = useNavigation()
 
   const fetchFavorites = async () => {
@@ -26,116 +36,111 @@ const SettingsPage = () => {
   )
 
   useEffect(() => {
-    const favoriteProducts = wishlistProducts.filter(p => favorites.includes(p.id))
-
-    const left: any[] = []
-    const right: any[] = []
-
-    favoriteProducts.forEach((item, index) => {
-      const withIndex = { ...item, index }
-      if (index % 2 === 0) {
-        left.push(withIndex)
-      } else {
-        right.push(withIndex)
-      }
-    })
-
-    setLeftColumn(left)
-    setRightColumn(right)
+    const products = favorites
+      .map(favId => wishlistProducts.find(p => p.id === favId))
+      .filter(Boolean)
+    setFavoriteProducts(products)
   }, [favorites])
 
-  const getHeightForIndex = (index: number) => {
-    return index % 3 === 0 ? 305 : 250
+  const addToCart = async (product: any) => {
+    try {
+      console.log('🛒 Wishlist\'ten sepete ekleniyor:', product.title);
+      const token = await AsyncStorage.getItem('cart');
+      const cart: CartItem[] = token ? JSON.parse(token) : [];
+
+      const parsedPrice = parseFloat(String(product.price).replace(/[^\d.-]/g, '').replace(',', ''));
+
+      const existingIndex = cart.findIndex(item => item.id === parseInt(product.id));
+      if (existingIndex !== -1) {
+        cart[existingIndex].quantity += 1;
+        console.log('➕ Mevcut ürün miktarı artırıldı:', cart[existingIndex].quantity);
+      } else {
+        cart.push({
+          id: parseInt(product.id),
+          title: product.title,
+          price: parsedPrice,
+          image: product.images[0],
+          quantity: 1,
+          rating: product.rating,
+          oldPrice: parsedPrice * 1.5,
+          variations: ['Black', 'Red'],
+        });
+        console.log('🆕 Yeni ürün sepete eklendi');
+      }
+
+      await AsyncStorage.setItem('cart', JSON.stringify(cart));
+      console.log('💾 Sepet kaydedildi, toplam ürün sayısı:', cart.length);
+    } catch (error) {
+      console.error('❌ Cart add failed', error);
+    }
+  };
+
+  const removeFromWishlist = async (productId: string) => {
+    try {
+      const token = await AsyncStorage.getItem('favorites')
+      const res = token ? JSON.parse(token) : []
+      const updated = res.filter((val: string) => val !== productId)
+      await AsyncStorage.setItem('favorites', JSON.stringify(updated))
+      setFavorites(updated)
+      console.log('🗑️ Ürün wishlist\'ten kaldırıldı:', productId);
+    } catch (err) {
+      console.error('❌ Remove from wishlist failed', err)
+    }
   }
 
   return (
     <SafeAreaView style={styles.container}>
       <TopBar
-       left={
-                <TouchableOpacity onPress={() => navigation.goBack()}>
-                  <Image source={require('../images/openup.png')} />
-                </TouchableOpacity>
-              }
-        center={
-          <View style={styles.center}>
-            <Text style={styles.logoText}>Favorites</Text>
-          </View>
-        }
+        leftIcon={require('../images/openup.png')}
+        onLeftPress={() => navigation.goBack()}
+        centerText="Favorites"
       />
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <View style={styles.columnsWrapper}>
-          <View style={styles.column}>
-            {leftColumn.map((item) => (
-              <ProductCard
-                key={item.id}
-                {...item}
-                style={[styles.card, { height: getHeightForIndex(item.index) }]}
-                cardHeight={getHeightForIndex(item.index)}
-                onPress={() =>
-                  navigation.navigate('Details', { id: String(item.id) })
-                }
-              />
-            ))}
-          </View>
-          <View style={styles.column}>
-            {rightColumn.map((item) => (
-              <ProductCard
-                key={item.id}
-                {...item}
-                style={[styles.card, { height: getHeightForIndex(item.index) }]}
-                cardHeight={getHeightForIndex(item.index)}
-                onPress={() =>
-                  navigation.navigate('Details', { id: String(item.id) })
-                }
-              />
-            ))}
-          </View>
+      {favoriteProducts.length === 0 ? (
+        <View style={styles.emptyContainer}>
+          <Text style={styles.emptyText}>Wishlist'inizde ürün bulunmuyor</Text>
         </View>
-      </ScrollView>
+      ) : (
+        <FlatList
+          data={favoriteProducts}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={({ item }) => (
+            <WishlistItem
+              id={item.id}
+              title={item.title}
+              price={item.price}
+              image={item.images[0]}
+              rating={item.rating}
+              onAddToCart={() => addToCart(item)}
+              onRemoveFromWishlist={() => removeFromWishlist(item.id)}
+              onPress={() => (navigation as any).navigate('Details', { id: String(item.id) })}
+            />
+          )}
+          contentContainerStyle={styles.list}
+        />
+      )}
     </SafeAreaView>
   )
 }
 
-export default SettingsPage
+export default WishlistPage
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#F9F9F9',
   },
-  containerTitle: {
+  list: {
+    paddingHorizontal: 8,
+    paddingVertical: 8,
+  },
+  emptyContainer: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    flex: 1,
   },
-  headerText: {
-    fontSize: 25,
-    fontWeight: '600',
-    color: '#EB3030'
-  },
-  scrollContainer: {
-    paddingHorizontal: 10,
-    paddingTop: 16,
-    paddingBottom: 30,
-  },
-  columnsWrapper: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  column: {
-    flex: 1,
-    gap: 16,
-  },
-  card: {
-    marginHorizontal: 5,
-  },
-  center: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  logoText: {
-    fontWeight: '700',
-    fontSize: 18,
-    color: '#000',
-    fontFamily: 'Libre Caslon Text',
-    marginLeft: 6,
+  emptyText: {
+    fontSize: 16,
+    color: '#666',
+    textAlign: 'center',
   },
 })

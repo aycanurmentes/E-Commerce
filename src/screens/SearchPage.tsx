@@ -64,25 +64,13 @@ export default function WishlistPage() {
   return (
     <SafeAreaView style={styles.container}>
       <TopBar
-        left={
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Image source={require('../images/openup.png')} />
-          </TouchableOpacity>
-        }
-        center={
-          <View style={styles.center}>
-            <Image source={require('../images/logoItem.png')} />
-            <Text style={styles.logoText}>Stylish</Text>
-          </View>
-        }
-        right={
-          <TouchableOpacity onPress={() => navigation.navigate('ProfileSection')}>
-            <Image
-              source={require('../images/profilePicture.png')}
-              style={styles.profilePic}
-            />
-          </TouchableOpacity>
-        }
+        leftIcon={require('../images/openup.png')}
+        onLeftPress={() => { }}
+        centerImage={require('../images/logoItem.png')}
+        centerText="Stylish"
+        centerTextColor="#4392F9"
+        rightIcon={require('../images/profilePicture.png')}
+        onRightPress={() => navigation.navigate('ProfileSection')}
       />
       <SearchBar
         leftIcon={<Image source={require('../images/searchInput.png')} />}
@@ -138,21 +126,6 @@ const styles = StyleSheet.create({
     margin: 8,
     backgroundColor: '#F9F9F9',
     flex: 1,
-  },
-  center: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  logoText: {
-    fontWeight: '700',
-    fontSize: 18,
-    color: '#4392F9',
-    fontFamily: 'Libre Caslon Text',
-    marginLeft: 6,
-  },
-  profilePic: {
-    width: 40,
-    height: 40,
   },
   scrollContainer: {
     paddingHorizontal: 12,
