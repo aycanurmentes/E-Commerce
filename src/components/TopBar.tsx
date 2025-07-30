@@ -31,7 +31,6 @@ const TopBar: React.FC<TopBarProps> = ({
           </TouchableOpacity>
         )}
       </View>
-
       <View style={styles.center}>
         {centerImage && <Image source={centerImage} style={styles.centerImage} />}
         {centerText && (
@@ -40,7 +39,6 @@ const TopBar: React.FC<TopBarProps> = ({
           </Text>
         )}
       </View>
-
       <View style={styles.side}>
         {rightIcon && (
           <TouchableOpacity onPress={onRightPress}>
