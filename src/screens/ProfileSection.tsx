@@ -16,14 +16,9 @@ export default function ProfileSection() {
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <TopBar
-          left={
-            <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Image source={require('../images/back.png')} style={styles.backImage} />
-            </TouchableOpacity>}
-          center={
-            <View style={styles.center}>
-              <Text style={styles.logoText}>Checkout</Text>
-            </View>}
+          leftIcon={require('../images/back.png')}
+          onLeftPress={() => navigation.goBack()}
+          centerText="Checkout"
         />
         <View style={styles.profileWrapper}>
           <Image
