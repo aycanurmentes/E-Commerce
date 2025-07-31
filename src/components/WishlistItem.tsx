@@ -39,16 +39,18 @@ export default function WishlistItem({
           <StarRating rating={rating} />
           <Text style={styles.ratingText}>{rating.toFixed(1)}</Text>
         </View>
-        <Text style={styles.price}>${numericPrice.toFixed(2)}</Text>
-        <TouchableOpacity onPress={onAddToCart} style={styles.addToCartButton}>
-          <Text style={styles.addToCartText}>Add to Cart</Text>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <DropDownMenu
-            defaultValue='32'
-            data={Array.from({ length: 8 }, (_, i) => (32 + i * 2).toString())}
-            onSelect={(val) => console.log("Selected size:", val)} />
-        </TouchableOpacity>
+        <Text style={styles.price}>₹{numericPrice.toFixed(2)}</Text>
+        <View style={styles.buttons}>
+          <View style={styles.dropDown}>
+            <DropDownMenu
+              defaultValue='32'
+              data={Array.from({ length: 8 }, (_, i) => (32 + i * 2).toString())}
+              onSelect={(val) => console.log("Selected size:", val)} />
+          </View>
+          <TouchableOpacity onPress={onAddToCart} style={styles.addToCartButton}>
+            <Text style={styles.addToCartText}>Add to Cart</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </TouchableOpacity>
   );
@@ -108,7 +110,7 @@ const styles = StyleSheet.create({
   ratingText: {
     fontSize: 12,
     marginLeft: 6,
-    marginTop: 2,
+    marginTop: 1,
     color: '#666',
   },
   price: {
@@ -123,10 +125,24 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     borderRadius: 6,
     alignItems: 'center',
+    justifyContent: 'center',
+    marginLeft: 100,
   },
   addToCartText: {
     color: '#fff',
     fontSize: 12,
     fontWeight: '600',
   },
+  dropDown: {
+    zIndex: 10,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+  },
+  buttons: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    position: 'relative',
+  }
 }); 

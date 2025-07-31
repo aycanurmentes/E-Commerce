@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, StyleSheet, FlatList } from 'react-native'
+import { View, Text, StyleSheet, FlatList, Image } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { wishlistProducts } from '../data/products'
 import WishlistItem from '../components/WishlistItem'
 import { useNavigation, useFocusEffect } from '@react-navigation/native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import TopBar from '../components/TopBar'
+import SearchBar from '../components/SearchBar'
 
 interface CartItem {
   id: number;
@@ -21,6 +22,8 @@ interface CartItem {
 const WishlistPage = () => {
   const [favorites, setFavorites] = useState<string[]>([])
   const [favoriteProducts, setFavoriteProducts] = useState<any[]>([])
+  const [filteredProducts, setFilteredProducts] = useState<any[]>([])
+  const [search, setSearch] = useState('')
   const navigation = useNavigation()
 
   const fetchFavorites = async () => {
@@ -42,9 +45,15 @@ const WishlistPage = () => {
     setFavoriteProducts(products)
   }, [favorites])
 
+  useEffect(() => {
+    const filtered = favoriteProducts.filter(item =>
+      item.title.toLowerCase().includes(search.toLowerCase())
+    )
+    setFilteredProducts(filtered)
+  }, [search, favoriteProducts])
+
   const addToCart = async (product: any) => {
     try {
-      console.log('🛒 Wishlist\'ten sepete ekleniyor:', product.title);
       const token = await AsyncStorage.getItem('cart');
       const cart: CartItem[] = token ? JSON.parse(token) : [];
 
@@ -53,7 +62,6 @@ const WishlistPage = () => {
       const existingIndex = cart.findIndex(item => item.id === parseInt(product.id));
       if (existingIndex !== -1) {
         cart[existingIndex].quantity += 1;
-        console.log('➕ Mevcut ürün miktarı artırıldı:', cart[existingIndex].quantity);
       } else {
         cart.push({
           id: parseInt(product.id),
@@ -65,13 +73,10 @@ const WishlistPage = () => {
           oldPrice: parsedPrice * 1.5,
           variations: ['Black', 'Red'],
         });
-        console.log('🆕 Yeni ürün sepete eklendi');
       }
 
       await AsyncStorage.setItem('cart', JSON.stringify(cart));
-      console.log('💾 Sepet kaydedildi, toplam ürün sayısı:', cart.length);
     } catch (error) {
-      console.error('❌ Cart add failed', error);
     }
   };
 
@@ -82,7 +87,6 @@ const WishlistPage = () => {
       const updated = res.filter((val: string) => val !== productId)
       await AsyncStorage.setItem('favorites', JSON.stringify(updated))
       setFavorites(updated)
-      console.log('🗑️ Ürün wishlist\'ten kaldırıldı:', productId);
     } catch (err) {
       console.error('❌ Remove from wishlist failed', err)
     }
@@ -95,13 +99,19 @@ const WishlistPage = () => {
         onLeftPress={() => navigation.goBack()}
         centerText="Favorites"
       />
+      <SearchBar
+        leftIcon={<Image source={require('../images/searchInput.png')} />}
+        rightIcon={<Image source={require('../images/voice.png')} />}
+        value={search}
+        onChangeText={setSearch}
+      />
       {favoriteProducts.length === 0 ? (
         <View style={styles.emptyContainer}>
           <Text style={styles.emptyText}>Wishlist'inizde ürün bulunmuyor</Text>
         </View>
       ) : (
         <FlatList
-          data={favoriteProducts}
+          data={filteredProducts}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
             <WishlistItem
@@ -126,8 +136,10 @@ export default WishlistPage
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    borderRadius: 12,
+    margin: 8,
     backgroundColor: '#F9F9F9',
+    flex: 1,
   },
   list: {
     paddingHorizontal: 8,

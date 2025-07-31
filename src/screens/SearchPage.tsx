@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, Image, ScrollView } from 'react-native';
 import { useNavigation, useRoute, RouteProp, useIsFocused } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import TopBar from '../components/TopBar';
@@ -28,10 +28,8 @@ export default function WishlistPage() {
 
   useEffect(() => {
     if (isFocused) {
-      console.log('🔵 FOCUS OLDU: Search ekranı aktif');
       const currentCategoryParam = route.params?.selectedCategory;
       if (currentCategoryParam && currentCategoryParam !== lastCategoryParam) {
-        console.log('📂 Yeni kategori filtresi uygulandı:', currentCategoryParam);
         const filtered = wishlistProducts.filter(
           (item) => item.category === currentCategoryParam
         );
@@ -39,13 +37,11 @@ export default function WishlistPage() {
         setSelectedCategory(currentCategoryParam);
         setLastCategoryParam(currentCategoryParam);
       } else if (!currentCategoryParam) {
-        console.log('📋 Filtre sıfırlandı, tüm ürünler gösteriliyor');
         setVisibleProducts(wishlistProducts);
         setSelectedCategory(undefined);
         setLastCategoryParam(undefined);
       }
     } else {
-      console.log('🔴 FOCUS ÇIKTI: Filtre sıfırlandı ve parametreler temizlendi');
       setVisibleProducts(wishlistProducts);
       setSelectedCategory(undefined);
       setLastCategoryParam(undefined);
@@ -61,6 +57,23 @@ export default function WishlistPage() {
     .map((item, index) => ({ ...item, index }))
     .filter((_, index) => index % 2 !== 0);
 
+  const [search, setSearch] = useState('');
+  useEffect(() => {
+    let filtered = wishlistProducts;
+
+    if (selectedCategory) {
+      filtered = filtered.filter(item => item.category === selectedCategory);
+    }
+
+    if (search.trim() !== '') {
+      filtered = filtered.filter(item =>
+        item.title.toLowerCase().includes(search.toLowerCase())
+      );
+    }
+
+    setVisibleProducts(filtered);
+  }, [search, selectedCategory]);
+
   return (
     <SafeAreaView style={styles.container}>
       <TopBar
@@ -75,6 +88,8 @@ export default function WishlistPage() {
       <SearchBar
         leftIcon={<Image source={require('../images/searchInput.png')} />}
         rightIcon={<Image source={require('../images/voice.png')} />}
+        value={search}
+        onChangeText={setSearch}
       />
       <HeaderWithSortFilter
         title={`${visibleProducts.length}+ Items`}

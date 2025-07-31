@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Image,
   SafeAreaView,
@@ -25,7 +25,11 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 const HomePage = () => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
+  const [search, setSearch] = useState('');
 
+  const filteredProducts = WithRatingProps.filter(product =>
+    product.title.toLowerCase().includes(search.toLowerCase())
+  );
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -40,7 +44,9 @@ const HomePage = () => {
         />
         <SearchBar
           leftIcon={<Image source={require('../images/searchInput.png')} />}
-          rightIcon={<Image source={require('../images/voice.png')} />} />
+          rightIcon={<Image source={require('../images/voice.png')} />}
+          value={search}
+          onChangeText={setSearch} />
         <HeaderWithSortFilter
           title="All Featured"
           onSortPress={() => console.log('Sort')}
@@ -58,7 +64,7 @@ const HomePage = () => {
           onPress={() => console.log('View All ->')}
           backgroundColor="#4392F9"
           textColor="#fff" />
-        <ScrollingProductsWithRating products={WithRatingProps} />
+        <ScrollingProductsWithRating products={filteredProducts} fixedCardHeight={241}/>
         <SpecialOfferComponent />
         <FlatAndHeels />
         <DealsTrendsContainer
@@ -75,8 +81,6 @@ const HomePage = () => {
     </SafeAreaView>
   );
 };
-
-export default HomePage;
 
 const styles = StyleSheet.create({
   container: {
@@ -99,3 +103,4 @@ const styles = StyleSheet.create({
     height: 40,
   },
 });
+export default HomePage;
