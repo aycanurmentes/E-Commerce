@@ -1,169 +1,145 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import StarRating from './StarRating';
 
-//TODO:Price ortaya gelmedi onu ayarla, header navigation kısmı eksik.
-type ProductProps = {
-  title: string;
+interface ShoppingListProps {
+  id: number;
   image: any;
-  variations: string[];
-  rating: number;
-  price: number;
-  originalPrice: number;
-  discount: string;
-};
+  title: string;
+  price: number | string;
+  quantity: number;
+  rating?: number;
+  variations?: string[];
+  oldPrice?: number;
+  onIncrease?: () => void;
+  onDecrease?: () => void;
+  onDelete?: () => void;
+}
 
 export default function ShoppingList({
-  title,
   image,
-  variations,
-  rating,
+  title,
   price,
-  originalPrice,
-  discount,
-}: ProductProps) {
+  quantity,
+  rating = 4.5,
+  onIncrease,
+  onDecrease,
+  onDelete,
+}: ShoppingListProps) {
+  const numericPrice = typeof price === 'number' ? price : parseFloat(String(price).replace(/[^\d.-]/g, '')) || 0;
+  const total = (numericPrice * quantity).toFixed(2);
+
   return (
-    <View style={styles.container}>
-      <View style={styles.cardTop}>
-        <Image source={image} style={styles.image} />
-        <View style={styles.info}>
-          <Text style={styles.title}>{title}</Text>
-          <View style={styles.variations}>
-            <Text>Variations:</Text>
-            {variations.map((variation, index) => (
-              <Text key={index} style={styles.colorText}>{variation}</Text>
-            ))}
-          </View>
-          <View style={styles.starRating}>
-            <StarRating rating={rating} />
-          </View>
-          <View style={styles.priceRow}>
-            <Text style={styles.price}>${price.toFixed(2)}</Text>
-            <View style={styles.priceRight}>
-              <View style={styles.discountRow}>
-                <Text style={styles.discount}>{discount}</Text>
-                <Text style={styles.strike}>${originalPrice.toFixed(2)}</Text>
-              </View>
-            </View>
-          </View>
+    <View style={styles.card}>
+      <Image source={image} style={styles.image} />
+      <View style={styles.content}>
+        <View style={styles.headerRow}>
+          <Text numberOfLines={1} style={styles.title}>{title}</Text>
+          <TouchableOpacity onPress={onDelete} style={styles.deleteButton}>
+            <Image source={require('../images/basket.png')} style={styles.deleteIcon} />
+          </TouchableOpacity>
         </View>
-      </View>
-      <View style={styles.separator} />
-      <View style={styles.total}>
-        <Text style={styles.totalPrice}>Total Order (1):</Text>
-        <Text style={styles.totalPrice}>${price.toFixed(2)}</Text>
+
+        <View style={styles.ratingRow}>
+          <StarRating rating={rating} />
+          <Text style={styles.ratingText}>{rating.toFixed(1)}</Text>
+        </View>
+
+        <Text style={styles.price}>₹{numericPrice.toFixed(2)}</Text>
+        <Text style={styles.totalText}>Total Order ({quantity}) : ₹ {total}</Text>
+
+        <View style={styles.counterRow}>
+          <TouchableOpacity onPress={onDecrease} style={styles.counterButton}>
+            <Text style={styles.counterText}>-</Text>
+          </TouchableOpacity>
+          <Text style={styles.quantityText}>{quantity}</Text>
+          <TouchableOpacity onPress={onIncrease} style={styles.counterButton}>
+            <Text style={styles.counterText}>+</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'white',
-    borderRadius: 10,
-    margin: 22,
-    marginTop: 20,
-    marginBottom: 0,
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 5,
-    elevation: 3,
-  },
-  cardTop: {
-    flexDirection: 'row',
-    padding: 22,
-  },
   card: {
     flexDirection: 'row',
-    margin: 22,
+    padding: 10,
+    marginHorizontal: 16,
+    marginVertical: 8,
     backgroundColor: '#fff',
     borderRadius: 10,
-    marginBottom: 12,
+    elevation: 2,
   },
   image: {
-    width: 168,
-    height: 165,
-    borderRadius: 6,
-    marginRight: 12,
+    width: 90,
+    height: 90,
+    resizeMode: 'cover',
+    borderRadius: 8,
+    marginRight: 10,
   },
-  info: {
+  content: {
     flex: 1,
-    justifyContent: 'space-between',
   },
-  starRating: {
-    flexDirection: 'row'
+  headerRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    marginBottom: 4,
   },
   title: {
     fontSize: 14,
     fontWeight: '600',
+    flex: 1,
+    marginRight: 8,
   },
-  variations: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 6,
-    marginTop: 4,
-    alignItems: 'center',
+  deleteButton: {
+    padding: 4,
   },
-  colorText: {
-    fontSize: 10,
-    fontWeight: '500',
-    borderWidth: 1,
-    borderColor: '#0E0808',
-    paddingHorizontal: 6,
-    borderRadius: 2,
+  deleteIcon: {
+    width: 16,
+    height: 16,
+    tintColor: '#FF4444',
   },
-  priceRow: {
+  ratingRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
+    marginBottom: 4,
+  },
+  ratingText: {
+    fontSize: 12,
+    marginLeft: 6,
+    marginTop: 3,
   },
   price: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: '600',
-    borderWidth: 1,
-    borderRadius: 4,
-    borderColor: '#CACACA',
-    width: 84,
-    height: 29,
+    marginBottom: 2,
   },
-  discount: {
-    fontSize: 10,
-    color: '#EB3030',
-    fontWeight: '500'
-  },
-  discountRow: {
-    flexDirection: 'column'
-  },
-  strike: {
+  totalText: {
     fontSize: 12,
-    fontWeight: '500',
-    textDecorationLine: 'line-through',
-    color: '#A7A7A7',
+    color: '#666',
+    marginBottom: 6,
   },
-  priceRight: {
+  counterRow: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginTop: 4,
   },
-  line: {
-    borderBottomWidth: 1,
-    borderBottomColor: '#C4C4C4',
-    width: 360,
-    height: 0.5
+  counterButton: {
+    backgroundColor: '#eee',
+    paddingHorizontal: 10,
+    paddingVertical: 2,
+    borderRadius: 4,
   },
-  separator: {
-    height: 1,
-    backgroundColor: '#BBBBBB',
-    width: '90%',
-    marginLeft: 19
+  counterText: {
+    fontSize: 16,
+    fontWeight: '600',
   },
-  total: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    padding: 12,
+  quantityText: {
+    marginHorizontal: 8,
+    fontSize: 14,
+    fontWeight: '500',
   },
-  totalPrice: {
-    fontSize: 12,
-    fontWeight: '600'
-  }
 });

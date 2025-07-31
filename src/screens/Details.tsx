@@ -1,4 +1,4 @@
-import { StyleSheet, SafeAreaView, View, Text, ScrollView, TouchableOpacity, Image, Alert } from 'react-native'
+import { StyleSheet, SafeAreaView, View, Text, ScrollView, TouchableOpacity, Image } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import SizeButtons from '../components/SizeButton'
 import SimilarAndCompareButtons from '../components/SimilarAndCompareButtons.tsx'
@@ -15,15 +15,22 @@ import { wishlistProducts } from '../data/products.ts'
 import { RootStackParamList } from '../navigations/NavigationTypes.ts'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
+interface CartItem {
+  id: number;
+  title: string;
+  price: number | string;
+  image: any;
+  quantity: number;
+  rating: number;
+  oldPrice?: number;
+  variations?: string[];
+}
+
 const Details = () => {
   const route = useRoute<RouteProp<RootStackParamList, 'Details'>>()
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>()
   const id = route?.params?.id
   const [isFavorite, setIsFavorite] = useState(false)
-
-  useEffect(() => {
-    renderFavorites(product.id)
-  }, [])
 
   let product = wishlistProducts[0]
   if (id) {
@@ -34,6 +41,15 @@ const Details = () => {
     }
   }
 
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      if (product?.id) {
+        await renderFavorites(product.id)
+      }
+    }
+    fetchFavorites()
+  }, [product?.id])
+
   const similarProducts = wishlistProducts.filter(
     (item) => item.groupId === product.groupId && item.id !== product.id
   )
@@ -41,17 +57,16 @@ const Details = () => {
   const saveFavorites = async (itemId: string) => {
     try {
       const token = await AsyncStorage.getItem('favorites')
-      const res = token ? JSON.parse(token) : []
-      if (!res.includes(itemId)) {
-        res.push(itemId)
-        await AsyncStorage.setItem('favorites', JSON.stringify(res))
-        setIsFavorite(true)
-        Alert.alert('Item saved to favorites!')
-      }
+      let res = token ? JSON.parse(token) : []
+      res = res.filter((id: string) => id !== itemId)
+      res.unshift(itemId)
+      await AsyncStorage.setItem('favorites', JSON.stringify(res))
+      setIsFavorite(true)
     } catch (err) {
       console.error('Save failed', err)
     }
   }
+
   const removeFavorites = async (itemId: string) => {
     try {
       const token = await AsyncStorage.getItem('favorites')
@@ -59,7 +74,6 @@ const Details = () => {
       const updated = res.filter((val: string) => val !== itemId)
       await AsyncStorage.setItem('favorites', JSON.stringify(updated))
       setIsFavorite(false)
-      Alert.alert('Item removed from favorites!')
     } catch (err) {
       console.error('Remove failed', err)
     }
@@ -73,24 +87,52 @@ const Details = () => {
       console.error('Render failed', err)
     }
   }
+  const addToCart = async () => {
+    try {
+      console.log('🛒 Sepete ekleniyor:', product.title);
+      const token = await AsyncStorage.getItem('cart');
+      const cart: CartItem[] = token ? JSON.parse(token) : [];
+
+      const parsedPrice = parseFloat(String(product.price).replace(/[^\d.-]/g, '').replace(',', ''));
+      console.log('💰 Fiyat:', parsedPrice);
+
+      const existingIndex = cart.findIndex(item => item.id === parseInt(product.id));
+      if (existingIndex !== -1) {
+        cart[existingIndex].quantity += 1;
+        console.log('➕ Mevcut ürün miktarı artırıldı:', cart[existingIndex].quantity);
+      } else {
+        cart.push({
+          id: parseInt(product.id),
+          title: product.title,
+          price: parsedPrice,
+          image: product.images[0],
+          quantity: 1,
+          rating: product.rating,
+          oldPrice: parsedPrice * 1.5,
+          variations: ['Black', 'Red'],
+        });
+        console.log('🆕 Yeni ürün sepete eklendi');
+      }
+
+      await AsyncStorage.setItem('cart', JSON.stringify(cart));
+      console.log('💾 Sepet kaydedildi, toplam ürün sayısı:', cart.length);
+    } catch (error) {
+      console.error('❌ Cart add failed', error);
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <TopBar
-          left={
-            <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Image source={require('../images/back.png')} style={styles.backImage} />
-            </TouchableOpacity>
-          }
-          right={
-            <TouchableOpacity onPress={() => navigation.navigate('BasketPage')}>
-              <Image source={require('../images/baskett.png')} style={styles.basketImage} />
-            </TouchableOpacity>
-          }
+          leftIcon={require('../images/back.png')}
+          onLeftPress={() => navigation.goBack()}
+          rightIcon={require('../images/baskett.png')}
+          onRightPress={() => navigation.navigate('TabNavigation' as any, { screen: 'Basket' } as any)}
         />
         <ImageSlider
-          slides={product.images.map((image) => ({
+          slides={product.images.map((image, index) => ({
+            key: `${product.id}-${index}`, 
             image: image,
             title: '',
             subtitle: '',
@@ -104,6 +146,7 @@ const Details = () => {
           buttonTextStyle={styles.buttonTextStyle}
           showOverlay={false}
         />
+
         <View style={styles.heartIconContainer}>
           <TouchableOpacity onPress={() => {
             isFavorite ? removeFavorites(product.id) : saveFavorites(product.id)
@@ -140,7 +183,13 @@ const Details = () => {
               </Text>
             </View>
             <InfoButtons />
-            <CartAndBuyButtons />
+            <CartAndBuyButtons
+              onCartPress={addToCart}
+              onBuyPress={async () => {
+                await addToCart();
+                navigation.navigate('TabNavigation' as any, { screen: 'Basket' } as any);
+              }}
+            />
             <View style={styles.pinkContainer}>
               <Text style={styles.productTitle}>Delivery in </Text>
               <Text style={styles.title}>1 within Hour </Text>
@@ -280,8 +329,8 @@ const styles = StyleSheet.create({
   },
   heartIconContainer: {
     position: 'absolute',
-    top: 60,
-    right: 20,
+    top: 90,
+    right: 30,
     zIndex: 10,
   },
   heartIcon: {
