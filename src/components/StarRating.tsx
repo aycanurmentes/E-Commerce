@@ -36,7 +36,6 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
     marginRight: 0,
-    top: 5
   },
   star: {
     fontSize: 16,

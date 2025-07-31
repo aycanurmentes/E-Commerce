@@ -41,8 +41,9 @@ const styles = StyleSheet.create({
   },
   rowCont: {
     flexDirection: 'row',
-    gap: 8,
-    flexWrap: 'wrap',
+  flexWrap: 'wrap',
+  gap: 8,
+  justifyContent: 'flex-start',
   },
   button: {
     borderWidth: 2,

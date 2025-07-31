@@ -30,7 +30,6 @@ export default function DeliveryAddressSection() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     padding: 16,
     marginBottom: 24,
     marginTop: 18
