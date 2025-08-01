@@ -12,6 +12,9 @@ type RouteParams = {
   selectedCategory?: string;
 };
 
+type SortOption = 'name' | 'price-low' | 'price-high' | 'rating' | 'category';
+type FilterOption = 'all' | 'mens' | 'womens' | 'kids' | 'gift' | 'beauty' | 'fashion';
+
 function getHeightForIndex(index: number): number {
   const pattern = [245, 305, 305, 245];
   return pattern[index % pattern.length];
@@ -25,10 +28,14 @@ export default function WishlistPage() {
   const [visibleProducts, setVisibleProducts] = useState(wishlistProducts);
   const [selectedCategory, setSelectedCategory] = useState<string | undefined>(undefined);
   const [lastCategoryParam, setLastCategoryParam] = useState<string | undefined>(undefined);
+  const [currentSort, setCurrentSort] = useState<SortOption>('name');
+  const [currentFilter, setCurrentFilter] = useState<FilterOption>('all');
 
   useEffect(() => {
     if (isFocused) {
+
       const currentCategoryParam = route.params?.selectedCategory;
+
       if (currentCategoryParam && currentCategoryParam !== lastCategoryParam) {
         const filtered = wishlistProducts.filter(
           (item) => item.category === currentCategoryParam
@@ -36,18 +43,65 @@ export default function WishlistPage() {
         setVisibleProducts(filtered);
         setSelectedCategory(currentCategoryParam);
         setLastCategoryParam(currentCategoryParam);
+        setCurrentFilter(currentCategoryParam as FilterOption);
       } else if (!currentCategoryParam) {
         setVisibleProducts(wishlistProducts);
         setSelectedCategory(undefined);
         setLastCategoryParam(undefined);
+        setCurrentFilter('all');
       }
     } else {
       setVisibleProducts(wishlistProducts);
       setSelectedCategory(undefined);
       setLastCategoryParam(undefined);
+      setCurrentFilter('all');
       navigation.setParams({ selectedCategory: undefined });
     }
   }, [isFocused, route.params?.selectedCategory, lastCategoryParam, navigation]);
+
+  const handleSortChange = (sortOption: SortOption) => {
+    setCurrentSort(sortOption);
+    applySortAndFilter(sortOption, currentFilter);
+  };
+
+  const handleFilterChange = (filterOption: FilterOption) => {
+    setCurrentFilter(filterOption);
+    applySortAndFilter(currentSort, filterOption);
+  };
+
+  const applySortAndFilter = (sortOption: SortOption, filterOption: FilterOption) => {
+    let filtered = [...wishlistProducts];
+    if (filterOption !== 'all') {
+      filtered = filtered.filter(item => item.category === filterOption);
+    }
+
+    switch (sortOption) {
+      case 'name':
+        filtered.sort((a, b) => a.title.localeCompare(b.title));
+        break;
+      case 'price-low':
+        filtered.sort((a, b) => {
+          const priceA = parseFloat(String(a.price).replace(/[^\d.-]/g, ''));
+          const priceB = parseFloat(String(b.price).replace(/[^\d.-]/g, ''));
+          return priceA - priceB;
+        });
+        break;
+      case 'price-high':
+        filtered.sort((a, b) => {
+          const priceA = parseFloat(String(a.price).replace(/[^\d.-]/g, ''));
+          const priceB = parseFloat(String(b.price).replace(/[^\d.-]/g, ''));
+          return priceB - priceA;
+        });
+        break;
+      case 'rating':
+        filtered.sort((a, b) => b.rating - a.rating);
+        break;
+      case 'category':
+        filtered.sort((a, b) => a.category.localeCompare(b.category));
+        break;
+    }
+    setVisibleProducts(filtered);
+  };
 
   const leftColumn = visibleProducts
     .map((item, index) => ({ ...item, index }))
@@ -60,17 +114,14 @@ export default function WishlistPage() {
   const [search, setSearch] = useState('');
   useEffect(() => {
     let filtered = wishlistProducts;
-
     if (selectedCategory) {
       filtered = filtered.filter(item => item.category === selectedCategory);
     }
-
     if (search.trim() !== '') {
       filtered = filtered.filter(item =>
         item.title.toLowerCase().includes(search.toLowerCase())
       );
     }
-
     setVisibleProducts(filtered);
   }, [search, selectedCategory]);
 
@@ -78,7 +129,7 @@ export default function WishlistPage() {
     <SafeAreaView style={styles.container}>
       <TopBar
         leftIcon={require('../images/openup.png')}
-        onLeftPress={() => { }}
+        onLeftPress={() => navigation.goBack()}
         centerImage={require('../images/logoItem.png')}
         centerText="Stylish"
         centerTextColor="#4392F9"
@@ -93,8 +144,10 @@ export default function WishlistPage() {
       />
       <HeaderWithSortFilter
         title={`${visibleProducts.length}+ Items`}
-        onSortPress={() => console.log('Sort')}
-        onFilterPress={() => console.log('Filter')}
+        onSortChange={handleSortChange}
+        onFilterChange={handleFilterChange}
+        currentSort={currentSort}
+        currentFilter={currentFilter}
       />
       {selectedCategory && (
         <Text style={styles.categoryHeader}>

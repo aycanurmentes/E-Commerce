@@ -7,6 +7,7 @@ import { useNavigation, useFocusEffect } from '@react-navigation/native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import TopBar from '../components/TopBar'
 import SearchBar from '../components/SearchBar'
+import HeaderWithSortFilter from '../components/HeaderWithSortFilter'
 
 interface CartItem {
   id: number;
@@ -19,11 +20,16 @@ interface CartItem {
   variations?: string[];
 }
 
+type SortOption = 'name' | 'price-low' | 'price-high' | 'rating' | 'category';
+type FilterOption = 'all' | 'mens' | 'womens' | 'kids' | 'gift' | 'beauty' | 'fashion';
+
 const WishlistPage = () => {
   const [favorites, setFavorites] = useState<string[]>([])
   const [favoriteProducts, setFavoriteProducts] = useState<any[]>([])
   const [filteredProducts, setFilteredProducts] = useState<any[]>([])
   const [search, setSearch] = useState('')
+  const [currentSort, setCurrentSort] = useState<SortOption>('name');
+  const [currentFilter, setCurrentFilter] = useState<FilterOption>('all');
   const navigation = useNavigation()
 
   const fetchFavorites = async () => {
@@ -46,11 +52,42 @@ const WishlistPage = () => {
   }, [favorites])
 
   useEffect(() => {
-    const filtered = favoriteProducts.filter(item =>
+    let filtered = favoriteProducts.filter(item =>
       item.title.toLowerCase().includes(search.toLowerCase())
     )
+
+    if (currentFilter !== 'all') {
+      filtered = filtered.filter(item => item.category === currentFilter);
+    }
+
+    switch (currentSort) {
+      case 'name':
+        filtered.sort((a, b) => a.title.localeCompare(b.title));
+        break;
+      case 'price-low':
+        filtered.sort((a, b) => {
+          const priceA = parseFloat(String(a.price).replace(/[^\d.-]/g, ''));
+          const priceB = parseFloat(String(b.price).replace(/[^\d.-]/g, ''));
+          return priceA - priceB;
+        });
+        break;
+      case 'price-high':
+        filtered.sort((a, b) => {
+          const priceA = parseFloat(String(a.price).replace(/[^\d.-]/g, ''));
+          const priceB = parseFloat(String(b.price).replace(/[^\d.-]/g, ''));
+          return priceB - priceA;
+        });
+        break;
+      case 'rating':
+        filtered.sort((a, b) => b.rating - a.rating);
+        break;
+      case 'category':
+        filtered.sort((a, b) => a.category.localeCompare(b.category));
+        break;
+    }
+
     setFilteredProducts(filtered)
-  }, [search, favoriteProducts])
+  }, [search, favoriteProducts, currentSort, currentFilter])
 
   const addToCart = async (product: any) => {
     try {
@@ -74,9 +111,9 @@ const WishlistPage = () => {
           variations: ['Black', 'Red'],
         });
       }
-
       await AsyncStorage.setItem('cart', JSON.stringify(cart));
     } catch (error) {
+      console.error('Cart add failed', error);
     }
   };
 
@@ -88,9 +125,17 @@ const WishlistPage = () => {
       await AsyncStorage.setItem('favorites', JSON.stringify(updated))
       setFavorites(updated)
     } catch (err) {
-      console.error('❌ Remove from wishlist failed', err)
+      console.error('Remove from wishlist failed', err)
     }
   }
+
+  const handleSortChange = (sortOption: SortOption) => {
+    setCurrentSort(sortOption);
+  };
+
+  const handleFilterChange = (filterOption: FilterOption) => {
+    setCurrentFilter(filterOption);
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -105,9 +150,16 @@ const WishlistPage = () => {
         value={search}
         onChangeText={setSearch}
       />
-      {favoriteProducts.length === 0 ? (
+      <HeaderWithSortFilter
+        title={`${filteredProducts.length}+ Items`}
+        onSortChange={handleSortChange}
+        onFilterChange={handleFilterChange}
+        currentSort={currentSort}
+        currentFilter={currentFilter}
+      />
+      {filteredProducts.length === 0 ? (
         <View style={styles.emptyContainer}>
-          <Text style={styles.emptyText}>Wishlist'inizde ürün bulunmuyor</Text>
+          <Text style={styles.emptyText}>There is no product</Text>
         </View>
       ) : (
         <FlatList
