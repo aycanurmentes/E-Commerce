@@ -46,8 +46,6 @@ const HeaderWithSortFilter = ({
     { key: 'fashion', label: 'Fashion' },
   ];
 
-
-
   const handleSortSelect = (option: SortOption) => {
     onSortChange?.(option);
     setShowSortModal(false);

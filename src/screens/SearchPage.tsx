@@ -71,7 +71,6 @@ export default function WishlistPage() {
 
   const applySortAndFilter = (sortOption: SortOption, filterOption: FilterOption) => {
     let filtered = [...wishlistProducts];
-
     if (filterOption !== 'all') {
       filtered = filtered.filter(item => item.category === filterOption);
     }
@@ -101,7 +100,6 @@ export default function WishlistPage() {
         filtered.sort((a, b) => a.category.localeCompare(b.category));
         break;
     }
-
     setVisibleProducts(filtered);
   };
 
@@ -116,17 +114,14 @@ export default function WishlistPage() {
   const [search, setSearch] = useState('');
   useEffect(() => {
     let filtered = wishlistProducts;
-
     if (selectedCategory) {
       filtered = filtered.filter(item => item.category === selectedCategory);
     }
-
     if (search.trim() !== '') {
       filtered = filtered.filter(item =>
         item.title.toLowerCase().includes(search.toLowerCase())
       );
     }
-
     setVisibleProducts(filtered);
   }, [search, selectedCategory]);
 
