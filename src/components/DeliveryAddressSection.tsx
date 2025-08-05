@@ -58,7 +58,6 @@ const styles = StyleSheet.create({
     padding: 22
   },
   cardContainer: {
-    flex: 1,
     width: 241,
     height: 79,
     backgroundColor: '#fff',

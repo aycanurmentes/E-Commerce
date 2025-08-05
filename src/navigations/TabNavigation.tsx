@@ -77,13 +77,13 @@ const TabNavigation = () => {
       })}
     >
       <Tab.Screen name="Home" component={HomePage} />
-      <Tab.Screen name="Search" component={SearchPage} />
+      <Tab.Screen name="Wishlist" component={Wishlistpage} />
       <Tab.Screen
         name="Basket"
         component={BasketPage}
         options={{ tabBarLabel: () => null }}
       />
-      <Tab.Screen name="Wishlist" component={Wishlistpage} />
+      <Tab.Screen name="Search" component={SearchPage} />
       <Tab.Screen name="Settings" component={SettingPage} />
     </Tab.Navigator>
   );

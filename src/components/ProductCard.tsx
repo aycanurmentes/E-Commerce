@@ -48,7 +48,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
             </Text>}
           </View>
           <View style={styles.ratingRow}>
-            <StarRating rating={rating} />
+            <StarRating rating={rating} size={12} />
             <Text style={styles.voteCount}>{voteCount}</Text>
           </View>
         </View>
@@ -74,6 +74,7 @@ const styles = StyleSheet.create({
   infoContainer: {
     flex: 1,
     padding: 10,
+    justifyContent: 'space-between',
   },
   title: {
     fontSize: 12,
@@ -94,7 +95,7 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     gap: 2,
     alignItems: 'center',
-    flex: 1,
+    marginBottom: 4,
   },
   price: {
     fontSize: 12,
@@ -110,16 +111,16 @@ const styles = StyleSheet.create({
     fontFamily: 'Montserrat',
   },
   ratingRow: {
-    flex: 1,
     flexDirection: 'row',
-    alignItems: 'flex-end',
+    alignItems: 'center',
     justifyContent: 'flex-start',
+    marginTop: 4,
   },
   voteCount: {
     fontSize: 10,
     color: '#777',
     fontWeight: '400',
-    marginLeft: 2,
+    marginLeft: 4,
     fontFamily: 'Montserrat',
   },
   ratio: {

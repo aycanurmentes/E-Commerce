@@ -1,17 +1,11 @@
 import { Image, StyleSheet, Text, View } from 'react-native';
 import React from 'react';
-import ReusableButton from './ReusableButton';
-import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../navigations/NavigationTypes';
 
 type OrderProps = {
   price: string;
 };
 
 export default function OrderSection({ price }: OrderProps) {
-  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'Shipping'>>();
-
   return (
     <View>
       <View style={styles.container}>
@@ -49,31 +43,15 @@ export default function OrderSection({ price }: OrderProps) {
           <Text style={styles.redText}>Details</Text>
         </View>
       </View>
-      <View style={styles.bottom}>
-        <View style={styles.rowDirection}>
-          <View style={styles.columnDirection}>
-            <Text style={styles.title}>₹{price}</Text>
-            <Text style={styles.redText}>View Details</Text>
-          </View>
-          <ReusableButton
-            title="Proceed to Payment"
-            backgroundColor="#F83758"
-            textColor="#fff"
-            borderRadius={5}
-            fontSize={17}
-            onPress={() => navigation.navigate('Shipping')}
-          />
-        </View>
-      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    gap: 12,
-    margin: 22,
-    bottom: -60
+    gap: 8,
+    margin: 16,
+    marginBottom: 10,
   },
   rowDirection: {
     flexDirection: 'row',
@@ -86,16 +64,16 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   title: {
-    fontSize: 17,
+    fontSize: 15,
     fontWeight: '500',
   },
   text: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: '400',
   },
   redText: {
     color: '#F83758',
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: '600',
   },
   separator: {
@@ -103,17 +81,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#BBBBBB',
     width: '95%',
     alignSelf: 'center',
-    margin: 35
-  },
-  bottom: {
-    backgroundColor: '#F8F8F8',
-    width: '100%',
-    height: 146,
-    borderRadius: 20,
-    justifyContent: 'center',
-    padding: 22,
-    borderWidth: 1,
-    borderColor: '#B7B7B7',
-    bottom: -90
+    margin: 20
   }
 });

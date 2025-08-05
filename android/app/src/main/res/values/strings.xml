@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">ecommerceapp</string>
+  <string name="app_name">ECommerceApp</string>
+  <string name="facebook_app_id">2177765889359214</string> 
 </resources>

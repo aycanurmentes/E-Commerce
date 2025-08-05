@@ -2,17 +2,31 @@ import React from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Image } from '@rneui/base';
 
-export const SocialButtons = ({ icons }: any) => (
+interface IconButtonProps {
+  name: 'google' | 'facebook' | 'apple';
+  source: any;
+}
+
+interface SocialButtonsProps {
+  icons: IconButtonProps[];
+  onSocialPress: (platform: 'google' | 'facebook' | 'apple') => void;
+}
+
+export const SocialButtons: React.FC<SocialButtonsProps> = ({ icons, onSocialPress }) => (
   <View style={styles.iconContainer}>
-    {icons.map((icon: any, i: any) => (
-      <TouchableOpacity key={i} style={styles.iconWrapper}>
+    {icons.map((icon, i) => (
+      <TouchableOpacity
+        key={i}
+        style={styles.iconWrapper}
+        onPress={() => onSocialPress(icon.name)}
+      >
         <Image source={icon.source} style={styles.iconImage} resizeMode="contain" />
       </TouchableOpacity>
     ))}
   </View>
 );
 
-export const styles = StyleSheet.create({
+const styles = StyleSheet.create({
   iconContainer: {
     flexDirection: 'row',
     justifyContent: 'center',

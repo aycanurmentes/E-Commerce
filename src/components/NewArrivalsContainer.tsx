@@ -1,8 +1,11 @@
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Image } from '@rneui/base';
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 const NewArrivalsContainer = () => {
+    const navigation = useNavigation<NativeStackNavigationProp<any>>();
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
@@ -11,7 +14,7 @@ const NewArrivalsContainer = () => {
       <Text style={styles.title}>New Arrivals</Text>
       <View style={styles.bottom}>
         <Text style={styles.subtitle}>Summer’ 25 Collections</Text>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('TabNavigation' as any, { screen: 'Search' } as any)}>
           <Text style={styles.buttonText}>View All →</Text>
         </TouchableOpacity>
       </View>

@@ -12,8 +12,12 @@ import {
   ViewStyle,
   TextStyle
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../navigations/NavigationTypes';
 
 const { width } = Dimensions.get('window');
+
 
 interface SlideData {
   image: any;
@@ -48,7 +52,7 @@ const ImageSlider: React.FC<SliderProps> = ({
     const index = Math.round(event.nativeEvent.contentOffset.x / width);
     setActiveIndex(index);
   };
-
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>()
   return (
     <View style={styles.wrapper}>
       <ScrollView
@@ -74,8 +78,9 @@ const ImageSlider: React.FC<SliderProps> = ({
                 <Text style={styles.subtitle2}>{slide.subtitle2}</Text>
                 <TouchableOpacity
                   style={[styles.button, buttonStyle]}
-                  onPress={slide.onPress}
-                >
+                  onPress={() =>
+                    navigation.navigate('TabNavigation' as any, { screen: 'Search' } as any)
+                  }>
                   <Text style={[styles.buttonText, buttonTextStyle]}>
                     {slide.buttonText}
                   </Text>

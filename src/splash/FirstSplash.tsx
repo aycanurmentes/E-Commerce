@@ -20,7 +20,7 @@ export default function FirstSplash() {
           backgroundColor="clear"
           textColor="#000"
           fontSize={17}
-          onPress={() => navigation.replace('TabNavigation')} />
+          onPress={() => navigation.replace('SignInPage')} />
       </View>
       <View style={styles.imageContainer}>
         <Image

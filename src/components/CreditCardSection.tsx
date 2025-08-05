@@ -1,17 +1,31 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, ImageSourcePropType } from 'react-native';
+import { Text, Image, StyleSheet, ImageSourcePropType, TouchableOpacity } from 'react-native';
 
 interface creditCardProps {
   imageSource: ImageSourcePropType;
   text: string;
+  onPress?: () => void;
+  isSelected?: boolean;
 }
 
-const CreditCardSection: React.FC<creditCardProps> = ({ imageSource, text }) => {
+const CreditCardSection: React.FC<creditCardProps> = ({ 
+  imageSource, 
+  text, 
+  onPress, 
+  isSelected = false 
+}) => {
   return (
-    <View style={styles.container}>
+    <TouchableOpacity 
+      style={[
+        styles.container,
+        isSelected && styles.selectedContainer
+      ]} 
+      onPress={onPress}
+      activeOpacity={0.7}
+    >
       <Image source={imageSource} style={styles.image} />
       <Text style={styles.text}>{text}</Text>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -23,10 +37,16 @@ const styles = StyleSheet.create({
     justifyContent:'space-between',
     paddingVertical: 8,
     backgroundColor:'#F4F4F4',
-    marginHorizontal:25,
-    marginVertical:18,
+    marginHorizontal:0,
+    marginVertical:8,
     borderRadius:8,
-    padding:25,
+    padding:20,
+    borderWidth: 2,
+    borderColor: 'transparent',
+  },
+  selectedContainer: {
+    borderColor: '#F83758',
+    backgroundColor: '#FFF5F5',
   },
   image: {
     width: 45,
