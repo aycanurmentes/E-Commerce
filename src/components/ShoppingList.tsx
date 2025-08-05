@@ -39,15 +39,12 @@ export default function ShoppingList({
             <Image source={require('../images/basket.png')} style={styles.deleteIcon} />
           </TouchableOpacity>
         </View>
-
         <View style={styles.ratingRow}>
           <StarRating rating={rating} />
           <Text style={styles.ratingText}>{rating.toFixed(1)}</Text>
         </View>
-
         <Text style={styles.price}>₹{numericPrice.toFixed(2)}</Text>
         <Text style={styles.totalText}>Total Order ({quantity}) : ₹ {total}</Text>
-
         <View style={styles.counterRow}>
           <TouchableOpacity onPress={onDecrease} style={styles.counterButton}>
             <Text style={styles.counterText}>-</Text>

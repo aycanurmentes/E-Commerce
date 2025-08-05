@@ -6,6 +6,7 @@ import {
   FlatList,
   View,
   ActivityIndicator,
+  TouchableOpacity,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import DeliveryAddressSection from '../components/DeliveryAddressSection';
@@ -49,27 +50,6 @@ export default function BasketPage() {
     setCartItems(updatedCart);
     AsyncStorage.setItem('cart', JSON.stringify(updatedCart));
   };
-
-  useEffect(() => {
-    const fetchCart = async () => {
-      try {
-        const token = await AsyncStorage.getItem('cart');
-        const cart: CartItem[] = token ? JSON.parse(token) : [];
-        const parsed = cart.map(item => ({
-          ...item,
-          price: typeof item.price === 'number' ? item.price : parseFloat(String(item.price).replace(/[^\d.-]/g, '')) || 0,
-        }));
-        setCartItems(parsed);
-      } catch (error) {
-        console.error('Failed to load cart', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    const unsubscribe = navigation.addListener('focus', fetchCart);
-    return unsubscribe;
-  }, [navigation]);
 
   useEffect(() => {
     const fetchCart = async () => {
@@ -155,6 +135,14 @@ export default function BasketPage() {
             <Text style={styles.totalLabel}>Total:</Text>
             <Text style={styles.totalValue}>₹{getTotalPrice()}</Text>
           </View>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity 
+              style={styles.paymentButton}
+              onPress={() => navigation.navigate('PlaceOrder')}
+            >
+              <Text style={styles.paymentText}>Proceed to Payment</Text>
+            </TouchableOpacity>
+          </View>
         </>
       )}
     </SafeAreaView>
@@ -201,5 +189,51 @@ const styles = StyleSheet.create({
   },
   activityIndicator: {
     margin: 20
-  }
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    paddingHorizontal: 20,
+    paddingVertical: 15,
+    backgroundColor: '#fff',
+    borderTopWidth: 1,
+    borderTopColor: '#ddd',
+  },
+  continueShoppingButton: {
+    backgroundColor: '#007bff',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+  },
+  continueShoppingText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  checkoutButton: {
+    backgroundColor: '#F83758',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 6,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  checkoutText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  paymentButton: {
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
+    backgroundColor: '#F83758',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+  },
+  paymentText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '600',
+  },
 });

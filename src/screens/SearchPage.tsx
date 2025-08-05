@@ -20,7 +20,7 @@ function getHeightForIndex(index: number): number {
   return pattern[index % pattern.length];
 }
 
-export default function WishlistPage() {
+export default function SearchPage() {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const route = useRoute<RouteProp<{ params: RouteParams }, 'params'>>();
   const isFocused = useIsFocused();

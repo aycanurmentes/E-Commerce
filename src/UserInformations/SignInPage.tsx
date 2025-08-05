@@ -1,15 +1,26 @@
+import React, { useEffect, useRef, useState } from 'react';
+import {
+  SafeAreaView,
+  ScrollView,
+  Text,
+  View,
+  Image,
+  TextInput,
+  TouchableOpacity,
+} from 'react-native';
+import { Formik } from 'formik';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import React, { useState, useRef } from 'react';
-import { Image, SafeAreaView, ScrollView, Text, TouchableOpacity, View, TextInput } from 'react-native';
+import Toast from 'react-native-toast-message';
 import { InputForms } from '../components/InputForms';
 import ReusableButton from '../components/ReusableButton';
 import { SocialButtons } from '../components/SocialButtons';
-import { RootStackParamList } from '../navigations/NavigationTypes';
 import styles from './AuthStyles';
-import { Formik } from 'formik';
-import Toast from 'react-native-toast-message';
+import { RootStackParamList } from '../navigations/NavigationTypes';
 import { FirebaseAuthService, AuthError } from '../services/firebaseAuth';
+import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
+import { AccessToken, LoginManager } from 'react-native-fbsdk-next';
+import auth from '@react-native-firebase/auth';
 
 export default function SignInPage() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
@@ -19,6 +30,12 @@ export default function SignInPage() {
 
   const togglePasswordVisibility = () => setShowPassword(prev => !prev);
 
+  useEffect(() => {
+    GoogleSignin.configure({
+      webClientId: '433633667752-fsa7mj49b4iuu3b22pchmlc49u6q0sl6.apps.googleusercontent.com', //env içinde yaz
+    });
+  }, []);
+
   const socialIcons = [
     { name: 'google', source: require('../images/google.png') },
     { name: 'apple', source: require('../images/apple.png') },
@@ -27,18 +44,15 @@ export default function SignInPage() {
 
   const validate = (values: { email: string; password: string }) => {
     const errors: Partial<typeof values> = {};
- 
     const turkishChars = /[çğıöşüÇĞIİÖŞÜ]/;
     if (turkishChars.test(values.email)) {
       errors.email = 'Do not use Turkish characters in email address!';
       return errors;
     }
-
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!emailRegex.test(values.email)) {
       errors.email = 'Please enter a valid email address.';
     }
-
     if (values.password.length < 6) {
       errors.password = 'Password must be at least 6 characters.';
     }
@@ -47,11 +61,11 @@ export default function SignInPage() {
 
   const handleLogin = async (values: { email: string; password: string }) => {
     if (isLoading) return;
-    
+
     setIsLoading(true);
     try {
       await FirebaseAuthService.signInWithEmail(values.email, values.password);
-      
+
       Toast.show({
         type: 'success',
         text1: 'Success!',
@@ -60,9 +74,8 @@ export default function SignInPage() {
       });
 
       setTimeout(() => {
-        navigation.navigate('TabNavigation');
+        navigation.navigate('GetStarted');
       }, 500);
-      
     } catch (error: any) {
       const authError = error as AuthError;
       Toast.show({
@@ -76,14 +89,73 @@ export default function SignInPage() {
     }
   };
 
-  const handleSocialLogin = (platform: string) => {
+ const handleSocialLogin = async (platform: 'google' | 'facebook' | 'apple') => {
+  if (platform === 'google') {
+  try {
+    await GoogleSignin.hasPlayServices();
+    const { idToken } = await GoogleSignin.signIn();
+
+    if (!idToken) throw new Error('No ID token returned from Google');
+
+    const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+    await auth().signInWithCredential(googleCredential);
+
+    Toast.show({
+      type: 'success',
+      text1: 'Google Login Successful',
+      position: 'top',
+    });
+
+    navigation.navigate('TabNavigation');
+  } catch (error: any) {
+    Toast.show({
+      type: 'error',
+      text1: 'Google Sign-In Error',
+      text2: error.message || 'An error occurred during Google login.',
+      position: 'top',
+    });
+    }
+  } else if (platform === 'facebook') {
+    try {
+      const result = await LoginManager.logInWithPermissions(['public_profile', 'email']);
+
+      if (result.isCancelled) {
+        throw new Error('Facebook login was cancelled');
+      }
+
+      const data = await AccessToken.getCurrentAccessToken();
+
+      if (!data) {
+        throw new Error('Failed to get Facebook access token');
+      }
+
+      const facebookCredential = auth.FacebookAuthProvider.credential(data.accessToken);
+      await auth().signInWithCredential(facebookCredential);
+
+      Toast.show({
+        type: 'success',
+        text1: 'Facebook Login Successful',
+        position: 'top',
+      });
+
+      navigation.navigate('TabNavigation');
+    } catch (error: any) {
+      Toast.show({
+        type: 'error',
+        text1: 'Facebook Login Error',
+        text2: error.message,
+        position: 'top',
+      });
+    }
+  } else {
     Toast.show({
       type: 'info',
       text1: `Login with ${platform.charAt(0).toUpperCase() + platform.slice(1)}`,
-      text2: '.',
+      text2: 'Not implemented yet.',
       position: 'top',
     });
-  };
+  }
+};
 
   return (
     <SafeAreaView style={styles.container}>
@@ -100,7 +172,7 @@ export default function SignInPage() {
             values,
             errors,
             touched,
-            setFieldTouched
+            setFieldTouched,
           }) => (
             <>
               <View style={styles.base1}>
@@ -109,6 +181,7 @@ export default function SignInPage() {
                     <Text style={styles.header}>Welcome</Text>
                     <Text style={styles.header}>Back!</Text>
                   </View>
+
                   <InputForms
                     placeholder="Username or Email"
                     value={values.email}
@@ -123,10 +196,10 @@ export default function SignInPage() {
                     onSubmitEditing={() => passwordRef.current?.focus()}
                     editable={!isLoading}
                     leftIcon={
-                      <Image
-                        source={require('../images/user.png')}
-                        style={styles.inputImage} />
-                    } />
+                      <Image source={require('../images/user.png')} style={styles.inputImage} />
+                    }
+                  />
+
                   <InputForms
                     placeholder="Password"
                     secureTextEntry={!showPassword}
@@ -144,7 +217,8 @@ export default function SignInPage() {
                     leftIcon={
                       <Image
                         source={require('../images/passwordLock.png')}
-                        style={styles.inputPassImage} />
+                        style={styles.inputPassImage}
+                      />
                     }
                     rightIcon={
                       <TouchableOpacity onPress={togglePasswordVisibility} disabled={isLoading}>
@@ -155,25 +229,26 @@ export default function SignInPage() {
                       </TouchableOpacity>
                     }
                     bottomRightButtonText="Forgot Password?"
-                    onBottomRightPress={() => navigation.navigate('ForgotPassword')} />
+                    onBottomRightPress={() => navigation.navigate('ForgotPassword')}
+                  />
                 </View>
+
                 <ReusableButton
-                  title={isLoading ? "Signing In..." : "Sign In"}
+                  title={isLoading ? 'Signing In...' : 'Sign In'}
                   fontSize={20}
                   buttonStyle={styles.button}
                   onPress={handleSubmit}
-                  disabled={isLoading} />
+                  disabled={isLoading}
+                />
               </View>
             </>
           )}
         </Formik>
+
         <View style={styles.base2}>
           <View style={styles.social}>
             <Text style={styles.or}>- OR CONTINUE WITH -</Text>
-            <SocialButtons 
-              icons={socialIcons} 
-              onSocialPress={handleSocialLogin}
-            />
+            <SocialButtons icons={socialIcons} onSocialPress={handleSocialLogin} />
             <Text style={styles.footer}>
               Create an account{' '}
               <Text style={styles.link} onPress={() => navigation.navigate('SignUpPage')}>

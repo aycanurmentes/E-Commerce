@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { View, FlatList, StyleSheet } from 'react-native';
 import ProductCard from './ProductCard';
 
@@ -20,27 +20,36 @@ interface Props {
 }
 
 const ScrollingProductsWithRating: React.FC<Props> = ({ products, fixedCardHeight }) => {
+  const renderItem = useCallback(({ item }: { item: Product }) => (
+    <ProductCard
+      image={item.image}
+      title={item.title}
+      description={item.description}
+      price={item.price}
+      rating={item.rating}
+      voteCount={item.voteCount}
+      discount={item.discount}
+      ratio={item.ratio}
+      style={fixedCardHeight ? { height: fixedCardHeight } : undefined}
+    />
+  ), [fixedCardHeight]);
+
+  const keyExtractor = useCallback((item: Product) => item.id, []);
+
+  const ItemSeparator = useCallback(() => <View style={styles.item} />, []);
+
   return (
     <FlatList
       data={products}
-      keyExtractor={(item) => item.id}
-      renderItem={({ item }) => (
-        <ProductCard
-          image={item.image}
-          title={item.title}
-          description={item.description}
-          price={item.price}
-          rating={item.rating}
-          voteCount={item.voteCount}
-          discount={item.discount}
-          ratio={item.ratio}
-          style={fixedCardHeight ? { height: fixedCardHeight } : undefined}
-        />
-      )}
+      keyExtractor={keyExtractor}
+      renderItem={renderItem}
       horizontal
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={styles.listContainer}
-      ItemSeparatorComponent={() => <View style={styles.item} />}
+      ItemSeparatorComponent={ItemSeparator}
+      removeClippedSubviews={true}
+      maxToRenderPerBatch={5}
+      windowSize={5}
     />
   );
 };

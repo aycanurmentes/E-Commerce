@@ -48,7 +48,7 @@ export default function WishlistItem({
               onSelect={(val) => console.log("Selected size:", val)} />
           </View>
           <TouchableOpacity onPress={onAddToCart} style={styles.addToCartButton}>
-            <Text style={styles.addToCartText}>Add to Cart</Text>
+            <Text style={styles.addToCartText}>Go to Cart</Text>
           </TouchableOpacity>
         </View>
       </View>

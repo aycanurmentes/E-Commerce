@@ -108,7 +108,6 @@ const WishlistPage = () => {
           quantity: 1,
           rating: product.rating,
           oldPrice: parsedPrice * 1.5,
-          variations: ['Black', 'Red'],
         });
       }
       await AsyncStorage.setItem('cart', JSON.stringify(cart));

@@ -12,17 +12,17 @@ const CartAndBuyButtons: React.FC<Props> = ({ onCartPress, onBuyPress }) => {
     <View style={styles.container}>
       <View>
         <TouchableOpacity style={styles.blueButton} onPress={onCartPress}>
-          <TouchableOpacity style={styles.circleBlueButton}>
+          <View style={styles.circleBlueButton}>
             <Image source={require('../images/basketButton.png')} style={styles.image} />
-          </TouchableOpacity>
+          </View>
           <Text style={styles.buttonText}>Go to cart</Text>
         </TouchableOpacity>
       </View>
       <View>
         <TouchableOpacity style={styles.greenButton} onPress={onBuyPress}>
-          <TouchableOpacity style={styles.circleGreenButton}>
+          <View style={styles.circleGreenButton}>
             <Image source={require('../images/click.png')} style={styles.image} />
-          </TouchableOpacity>
+          </View>
           <Text style={styles.buttonText}>Buy Now</Text>
         </TouchableOpacity>
       </View>
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 5,
     width: 136,
-    height: 36
+    height: 44
   },
   greenButton: {
     backgroundColor: '#71F9A9',
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 5,
     width: 136,
-    height: 36
+    height: 44
   },
   buttonText: {
     color: '#fff',
@@ -75,9 +75,9 @@ const styles = StyleSheet.create({
   circleBlueButton: {
     //backgroundColor: '#0B3689',
     backgroundColor: '#3F92FF',
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: 50,
+    height: 50,
+    borderRadius: 25,
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',
@@ -86,9 +86,9 @@ const styles = StyleSheet.create({
   circleGreenButton: {
     // backgroundColor: '#31B769',
     backgroundColor: '#71F9A9',
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: 50,
+    height: 50,
+    borderRadius: 25,
     justifyContent: 'center',
     alignItems: 'center',
     position: 'absolute',

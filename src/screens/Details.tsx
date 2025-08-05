@@ -1,5 +1,5 @@
 import { StyleSheet, SafeAreaView, View, Text, ScrollView, TouchableOpacity, Image } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import SizeButtons from '../components/SizeButton'
 import SimilarAndCompareButtons from '../components/SimilarAndCompareButtons.tsx'
 import ImageSlider from '../components/ImageSlider'
@@ -26,11 +26,16 @@ interface CartItem {
   variations?: string[];
 }
 
+type SortOption = 'name' | 'price-low' | 'price-high' | 'rating' | 'category';
+type FilterOption = 'all' | 'mens' | 'womens' | 'kids' | 'gift' | 'beauty' | 'fashion';
+
 const Details = () => {
   const route = useRoute<RouteProp<RootStackParamList, 'Details'>>()
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>()
   const id = route?.params?.id
   const [isFavorite, setIsFavorite] = useState(false)
+  const [currentSort, setCurrentSort] = useState<SortOption>('name')
+  const [currentFilter, setCurrentFilter] = useState<FilterOption>('all')
 
   let product = wishlistProducts[0]
   if (id) {
@@ -41,6 +46,58 @@ const Details = () => {
     }
   }
 
+  const similarProducts = useMemo(() => {
+    return wishlistProducts.filter(
+      (item) => item.groupId === product.groupId && item.id !== product.id
+    )
+  }, [product.groupId, product.id])
+
+  const applySortAndFilter = (products: any[], sort: SortOption, filter: FilterOption) => {
+    let filtered = [...products];
+    if (filter !== 'all') {
+      filtered = filtered.filter(item => item.category?.toLowerCase() === filter);
+    }
+    switch (sort) {
+      case 'name':
+        filtered.sort((a, b) => a.title.localeCompare(b.title));
+        break;
+      case 'price-low':
+        filtered.sort((a, b) => {
+          const priceA = parseFloat(String(a.price).replace(/[^\d.-]/g, ''));
+          const priceB = parseFloat(String(b.price).replace(/[^\d.-]/g, ''));
+          return priceA - priceB;
+        });
+        break;
+      case 'price-high':
+        filtered.sort((a, b) => {
+          const priceA = parseFloat(String(a.price).replace(/[^\d.-]/g, ''));
+          const priceB = parseFloat(String(b.price).replace(/[^\d.-]/g, ''));
+          return priceB - priceA;
+        });
+        break;
+      case 'rating':
+        filtered.sort((a, b) => b.rating - a.rating);
+        break;
+      case 'category':
+        filtered.sort((a, b) => a.category?.localeCompare(b.category || ''));
+        break;
+    }
+
+    return filtered;
+  };
+
+  const handleSortChange = (sort: SortOption) => {
+    setCurrentSort(sort);
+  };
+
+  const handleFilterChange = (filter: FilterOption) => {
+    setCurrentFilter(filter);
+  };
+
+  const filteredSimilarProducts = useMemo(() => {
+    return applySortAndFilter(similarProducts, currentSort, currentFilter);
+  }, [similarProducts, currentSort, currentFilter]);
+
   useEffect(() => {
     const fetchFavorites = async () => {
       if (product?.id) {
@@ -49,10 +106,6 @@ const Details = () => {
     }
     fetchFavorites()
   }, [product?.id])
-
-  const similarProducts = wishlistProducts.filter(
-    (item) => item.groupId === product.groupId && item.id !== product.id
-  )
 
   const saveFavorites = async (itemId: string) => {
     try {
@@ -109,7 +162,6 @@ const Details = () => {
           quantity: 1,
           rating: product.rating,
           oldPrice: parsedPrice * 1.5,
-          variations: ['Black', 'Red'],
         });
         console.log('🆕 Yeni ürün sepete eklendi');
       }
@@ -132,7 +184,7 @@ const Details = () => {
         />
         <ImageSlider
           slides={product.images.map((image, index) => ({
-            key: `${product.id}-${index}`, 
+            key: `${product.id}-${index}`,
             image: image,
             title: '',
             subtitle: '',
@@ -169,7 +221,7 @@ const Details = () => {
           </View>
           <View style={styles.infoContainer}>
             <View style={styles.starComment}>
-              <StarRating rating={product.rating} />
+              <StarRating rating={product.rating} size={14} />
               <Text style={styles.comment}>{product.voteCount.toLocaleString()}</Text>
             </View>
             <View style={styles.priceRow}>
@@ -184,10 +236,13 @@ const Details = () => {
             </View>
             <InfoButtons />
             <CartAndBuyButtons
-              onCartPress={addToCart}
-              onBuyPress={async () => {
+              onCartPress={async () => {
                 await addToCart();
                 navigation.navigate('TabNavigation' as any, { screen: 'Basket' } as any);
+              }}
+              onBuyPress={async () => {
+                await addToCart();
+                navigation.navigate('PlaceOrder');
               }}
             />
             <View style={styles.pinkContainer}>
@@ -197,11 +252,15 @@ const Details = () => {
             <SimilarAndCompareButtons />
             <Text style={styles.title}>Similar To</Text>
             <HeaderWithSortFilter
-              title={`${similarProducts.length}+ Items`}
-              onSortPress={() => console.log('Sort')}
-              onFilterPress={() => console.log('Filter')}
+              title="Similar Products"
+              showItemCount={true}
+              itemCount={filteredSimilarProducts.length}
+              onSortChange={handleSortChange}
+              onFilterChange={handleFilterChange}
+              currentSort={currentSort}
+              currentFilter={currentFilter}
             />
-            <ScrollingProductsWithRating products={similarProducts} fixedCardHeight={305} />
+            <ScrollingProductsWithRating products={filteredSimilarProducts} fixedCardHeight={305} />
           </View>
         </View>
       </ScrollView>
@@ -251,12 +310,13 @@ const styles = StyleSheet.create({
   starComment: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginTop: 5,
   },
   comment: {
     color: '#828282',
     fontSize: 14,
     fontWeight: '500',
-    marginTop: 5
+    marginLeft: 4
   },
   priceRow: {
     flexDirection: 'column',
@@ -302,7 +362,7 @@ const styles = StyleSheet.create({
   pinkContainer: {
     backgroundColor: '#FFCCD5',
     width: 350,
-    height: 60,
+    height: 72,
     justifyContent: 'center',
     padding: 20,
     borderRadius: 5,

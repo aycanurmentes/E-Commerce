@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, Modal, ScrollView } from 'react-native';
 
 type SortOption = 'name' | 'price-low' | 'price-high' | 'rating' | 'category';
@@ -46,15 +46,31 @@ const HeaderWithSortFilter = ({
     { key: 'fashion', label: 'Fashion' },
   ];
 
-  const handleSortSelect = (option: SortOption) => {
+  const handleSortSelect = useCallback((option: SortOption) => {
     onSortChange?.(option);
     setShowSortModal(false);
-  };
+  }, [onSortChange]);
 
-  const handleFilterSelect = (option: FilterOption) => {
+  const handleFilterSelect = useCallback((option: FilterOption) => {
     onFilterChange?.(option);
     setShowFilterModal(false);
-  };
+  }, [onFilterChange]);
+
+  const openSortModal = useCallback(() => {
+    setShowSortModal(true);
+  }, []);
+
+  const closeSortModal = useCallback(() => {
+    setShowSortModal(false);
+  }, []);
+
+  const openFilterModal = useCallback(() => {
+    setShowFilterModal(true);
+  }, []);
+
+  const closeFilterModal = useCallback(() => {
+    setShowFilterModal(false);
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -62,11 +78,11 @@ const HeaderWithSortFilter = ({
         {showItemCount && itemCount ? `${itemCount.toLocaleString()}+ Items` : title}
       </Text>
       <View style={styles.buttons}>
-        <TouchableOpacity onPress={() => setShowSortModal(true)} style={styles.button}>
+        <TouchableOpacity onPress={openSortModal} style={styles.button}>
           <Text style={styles.btnText}>Sort</Text>
           <Image source={require('../images/sort.png')} style={styles.image} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => setShowFilterModal(true)} style={styles.button}>
+        <TouchableOpacity onPress={openFilterModal} style={styles.button}>
           <Text style={styles.btnText}>Filter</Text>
           <Image source={require('../images/filter.png')} style={styles.image} />
         </TouchableOpacity>
@@ -75,13 +91,13 @@ const HeaderWithSortFilter = ({
         visible={showSortModal}
         transparent={true}
         animationType="slide"
-        onRequestClose={() => setShowSortModal(false)}
+        onRequestClose={closeSortModal}
       >
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
             <View style={styles.modalHeader}>
               <Text style={styles.modalTitle}>Sort Options</Text>
-              <TouchableOpacity onPress={() => setShowSortModal(false)}>
+              <TouchableOpacity onPress={closeSortModal}>
                 <Text style={styles.closeButton}>✕</Text>
               </TouchableOpacity>
             </View>
@@ -114,13 +130,13 @@ const HeaderWithSortFilter = ({
         visible={showFilterModal}
         transparent={true}
         animationType="slide"
-        onRequestClose={() => setShowFilterModal(false)}
+        onRequestClose={closeFilterModal}
       >
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
             <View style={styles.modalHeader}>
               <Text style={styles.modalTitle}>Filter Options</Text>
-              <TouchableOpacity onPress={() => setShowFilterModal(false)}>
+              <TouchableOpacity onPress={closeFilterModal}>
                 <Text style={styles.closeButton}>✕</Text>
               </TouchableOpacity>
             </View>

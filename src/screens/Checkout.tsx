@@ -1,4 +1,4 @@
-import { StyleSheet, SafeAreaView, Text, FlatList, TouchableOpacity, View, Image } from 'react-native'
+import { StyleSheet, SafeAreaView, Text, FlatList, View } from 'react-native'
 import React from 'react'
 import DeliveryAddressSection from '../components/DeliveryAddressSection'
 import ShoppingList from '../components/ShoppingList'
@@ -14,16 +14,11 @@ export default function Checkout() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <TopBar
-        left={
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Image source={require('../images/back.png')} style={styles.backImage} />
-          </TouchableOpacity>}
-        center={
-          <View style={styles.center}>
-            <Text style={styles.logoText}>Checkout</Text>
-          </View>}
-      />
+     <TopBar
+          leftIcon={require('../images/back.png')}
+          onLeftPress={() => navigation.goBack()}
+          centerText="Checkout"
+        />
       <View style={styles.line} />
       <DeliveryAddressSection />
       <Text style={styles.header}>Shopping List</Text>

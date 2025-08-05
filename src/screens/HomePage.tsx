@@ -61,17 +61,17 @@ const HomePage = () => {
           title="Deal of the Day"
           subtitle="22h 55m 20s remaining "
           buttonText="View All -->"
-          onPress={() => console.log('View All ->')}
+          onPress={() => navigation.navigate('TabNavigation' as any, { screen: 'Search' } as any)}
           backgroundColor="#4392F9"
           textColor="#fff" />
-        <ScrollingProductsWithRating products={filteredProducts} fixedCardHeight={241}/>
+        <ScrollingProductsWithRating products={filteredProducts} fixedCardHeight={241} />
         <SpecialOfferComponent />
         <FlatAndHeels />
         <DealsTrendsContainer
           title="Trending Products "
           subtitle="Last Date 29/02/22"
           buttonText="View All -->"
-          onPress={() => console.log('View All ->')}
+onPress={() => navigation.navigate('TabNavigation' as any, { screen: 'Search' } as any)}
           backgroundColor="#FD6E87"
           textColor="#fff" />
         <ScrollingProductsWithoutRating products={WithoutRatingProps} />

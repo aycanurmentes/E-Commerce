@@ -1,22 +1,28 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Dimensions } from 'react-native';
 
 interface StarRatingProps {
   rating: number;
   maxStars?: number;
+  size?: number;
 }
 
-const StarRating: React.FC<StarRatingProps> = ({ rating, maxStars = 5 }) => {
+const { width: screenWidth } = Dimensions.get('window');
+
+const StarRating: React.FC<StarRatingProps> = ({ rating, maxStars = 5, size }) => {
+  const starSize = size || Math.max(12, Math.min(16, screenWidth * 0.04));
+  const starSpacing = Math.max(1, starSize * 0.1);
+
   const stars = [];
 
   for (let i = 0; i < maxStars; i++) {
     const fill = Math.min(Math.max(rating - i, 0), 1);
 
     stars.push(
-      <View key={i} style={styles.starWrapper}>
-        <Text style={[styles.star, styles.emptyStar]}>★</Text>
+      <View key={i} style={[styles.starWrapper, { width: starSize, height: starSize, marginRight: i < maxStars - 1 ? starSpacing : 0 }]}>
+        <Text style={[styles.star, styles.emptyStar, { fontSize: starSize, lineHeight: starSize }]}>★</Text>
         <View style={[styles.starOverlay, { width: `${fill * 100}%` }]}>
-          <Text style={[styles.star, styles.filledStar]}>★</Text>
+          <Text style={[styles.star, styles.filledStar, { fontSize: starSize, lineHeight: starSize }]}>★</Text>
         </View>
       </View>
     );
@@ -30,16 +36,14 @@ export default StarRating;
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
   },
   starWrapper: {
     position: 'relative',
-    width: 20,
-    height: 20,
-    marginRight: 0,
   },
   star: {
-    fontSize: 16,
-    lineHeight: 20,
+    textAlign: 'center',
   },
   emptyStar: {
     color: '#DDD',

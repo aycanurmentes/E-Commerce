@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View, TextInput } from 'react-native';
 import { InputForms } from '../components/InputForms';
@@ -10,10 +10,18 @@ import styles from './AuthStyles';
 import { Formik } from 'formik';
 import Toast from 'react-native-toast-message';
 import { FirebaseAuthService, AuthError } from '../services/firebaseAuth';
+import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
+import { AccessToken, LoginManager } from 'react-native-fbsdk-next';
+import auth from '@react-native-firebase/auth';
 
 export default function SignUpPage() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-
+useEffect(() => {
+    GoogleSignin.configure({
+      webClientId: '433633667752-fsa7mj49b4iuu3b22pchmlc49u6q0sl6.apps.googleusercontent.com', //env içinde yaz
+    });
+  }, []);
+  
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -69,7 +77,7 @@ export default function SignUpPage() {
       });
       
       setTimeout(() => {
-        navigation.navigate('TabNavigation');
+        navigation.navigate('SignInPage');
       }, 1500);
       
     } catch (error: any) {
@@ -85,15 +93,73 @@ export default function SignUpPage() {
     }
   };
 
-  const handleSocialSignUp = (platform: string) => {
+ const handleSocialLogin = async (platform: 'google' | 'facebook' | 'apple') => {
+  if (platform === 'google') {
+  try {
+    await GoogleSignin.hasPlayServices();
+    const { idToken } = await GoogleSignin.signIn();
+
+    if (!idToken) throw new Error('No ID token returned from Google');
+
+    const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+    await auth().signInWithCredential(googleCredential);
+
     Toast.show({
-      type: 'info',
-      text1: `Sign up with ${platform.charAt(0).toUpperCase() + platform.slice(1)}`,
-      text2: '.',
+      type: 'success',
+      text1: 'Google Login Successful',
       position: 'top',
     });
-  };
+    navigation.navigate('GetStarted');
+  } catch (error: any) {
+    console.log(error.message)
+    Toast.show({
+      type: 'error',
+      text1: 'Google Sign-In Error',
+      text2: error.message || 'An error occurred during Google login.',
+      position: 'top',
+    });
+    }
+  } else if (platform === 'facebook') {
+    try {
+      const result = await LoginManager.logInWithPermissions(['public_profile', 'email']);
 
+      if (result.isCancelled) {
+        throw new Error('Facebook login was cancelled');
+      }
+
+      const data = await AccessToken.getCurrentAccessToken();
+
+      if (!data) {
+        throw new Error('Failed to get Facebook access token');
+      }
+
+      const facebookCredential = auth.FacebookAuthProvider.credential(data.accessToken);
+      await auth().signInWithCredential(facebookCredential);
+
+      Toast.show({
+        type: 'success',
+        text1: 'Facebook Login Successful',
+        position: 'top',
+      });
+
+      navigation.navigate('TabNavigation');
+    } catch (error: any) {
+      Toast.show({
+        type: 'error',
+        text1: 'Facebook Login Error',
+        text2: error.message,
+        position: 'top',
+      });
+    }
+  } else {
+    Toast.show({
+      type: 'info',
+      text1: `Login with ${platform.charAt(0).toUpperCase() + platform.slice(1)}`,
+      text2: 'Not implemented yet.',
+      position: 'top',
+    });
+  }
+};
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -221,7 +287,7 @@ export default function SignUpPage() {
             <Text style={styles.or}>- OR Continue with -</Text>
             <SocialButtons 
               icons={socialIcons} 
-              onSocialPress={handleSocialSignUp}
+              onSocialPress={handleSocialLogin}
             />
             <Text style={styles.footer}>
               Already have an account?{' '}
